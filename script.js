@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Correct API endpoint with Carlow, Ireland
     const city = "Carlow";
     const country = "Ireland";
     const method = 2;  // You can adjust this if you want a different calculation method
@@ -12,11 +11,11 @@ document.addEventListener("DOMContentLoaded", function() {
             const timings = data.data.timings;
 
             // Fill the prayer times dynamically
-            document.getElementById("Fajr")?.textContent = timings.Fajr;
-            document.getElementById("Dhuhr")?.textContent = timings.Dhuhr;
-            document.getElementById("Asr")?.textContent = timings.Asr;
-            document.getElementById("Maghrib")?.textContent = timings.Maghrib;
-            document.getElementById("Isha")?.textContent = timings.Isha;
+            document.getElementById("Fajr").textContent = timings.Fajr;
+            document.getElementById("Dhuhr").textContent = timings.Dhuhr;
+            document.getElementById("Asr").textContent = timings.Asr;
+            document.getElementById("Maghrib").textContent = timings.Maghrib;
+            document.getElementById("Isha").textContent = timings.Isha;
 
             // Convert Sunrise time to Date object
             const sunriseTime = timings.Sunrise;
@@ -24,16 +23,21 @@ document.addEventListener("DOMContentLoaded", function() {
             const sunriseDate = new Date(`1970-01-01T${sunriseTime}:00Z`); // Sunrise in UTC
             const dhuhrDate = new Date(`1970-01-01T${dhuhrTime}:00Z`); // Dhuhr in UTC
 
+            // Correct the time zone by adding the local offset (Ireland is UTC+0 or UTC+1 during DST)
+            const irelandOffset = new Date().getTimezoneOffset() * 60000; // In milliseconds
+            const localSunriseDate = new Date(sunriseDate.getTime() - irelandOffset);
+            const localDhuhrDate = new Date(dhuhrDate.getTime() - irelandOffset);
+
             // Calculate Ishraq (15 minutes after sunrise)
-            const ishraqDate = new Date(sunriseDate.getTime() + 15 * 60 * 1000); // Add 15 minutes
+            const ishraqDate = new Date(localSunriseDate.getTime() + 15 * 60 * 1000); // Add 15 minutes
             const ishraqTime = ishraqDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
             // Calculate Chaasht (60 minutes after sunrise)
-            const chaashtDate = new Date(sunriseDate.getTime() + 60 * 60 * 1000); // Add 60 minutes
+            const chaashtDate = new Date(localSunriseDate.getTime() + 60 * 60 * 1000); // Add 60 minutes
             const chaashtTime = chaashtDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
             // Correct Zawal time calculation (10-15 minutes before Dhuhr)
-            const zawalDate = new Date(dhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes
+            const zawalDate = new Date(localDhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes
             const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
             // Calculate Second Third of Night
@@ -50,14 +54,14 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             // Fill additional timings dynamically
-            document.getElementById("sunrise")?.textContent = timings.Sunrise;
-            document.getElementById("ishraq")?.textContent = ishraqTime;
-            document.getElementById("chaasht")?.textContent = chaashtTime;
-            document.getElementById("zawal")?.textContent = zawalTime; // Updated Zawal time
+            document.getElementById("sunrise").textContent = timings.Sunrise;
+            document.getElementById("ishraq").textContent = ishraqTime;
+            document.getElementById("chaasht").textContent = chaashtTime;
+            document.getElementById("zawal").textContent = zawalTime; // Updated Zawal time
 
             // Fix for Jummah Khutbah (can be static or fetched dynamically)
-            document.getElementById("jummah-khutbah")?.textContent = "01:10 PM"; // Static or dynamic Jummah timing
-            document.getElementById("second-third")?.textContent = secondThirdTime;
+            document.getElementById("jummah-khutbah").textContent = "01:10 PM"; // Static or dynamic Jummah timing
+            document.getElementById("second-third").textContent = secondThirdTime;
 
             // Format and display Hijri date
             const hijriDate = data.data.date.hijri;
@@ -71,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
                            (day % 10 === 3 && day !== 13) ? "rd" : "th";
 
             const formattedHijriDate = `${day}${suffix} of ${month}, ${year} AH`;
-            document.getElementById("hijri-date")?.textContent = formattedHijriDate;
+            document.getElementById("hijri-date").textContent = formattedHijriDate;
         })
         .catch(error => {
             console.error("Error fetching prayer times:", error);
@@ -81,6 +85,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const currentDate = new Date().toLocaleDateString();
     const currentTime = new Date().toLocaleTimeString();
 
-    document.getElementById("current-date")?.textContent = currentDate;
-    document.getElementById("current-time")?.textContent = currentTime;
+    document.getElementById("current-date").textContent = currentDate;
+    document.getElementById("current-time").textContent = currentTime;
 });
