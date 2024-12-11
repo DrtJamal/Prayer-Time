@@ -11,12 +11,77 @@
             height: 70%;
             width: auto;  /* Maintain aspect ratio */
         }
+
         table {
             width: 70%;
             text-align: center;
+            margin-top: 20px;
         }
+
         td {
             vertical-align: middle; /* Center content vertically */
+        }
+
+        /* Background colors for different rows */
+        .row1 {
+            background-color: #f0f8ff; /* Light blue */
+            color: #000;
+        }
+        
+        .row2 {
+            background-color: #ffe4e1; /* Light pink */
+            color: #000;
+        }
+        
+        .row3 {
+            background-color: #f5fffa; /* Mint cream */
+            color: #000;
+        }
+
+        /* Different background colors for the prayer timings table */
+        .prayer-row1 {
+            background-color: #f0f8ff; /* Light blue */
+        }
+        
+        .prayer-row2 {
+            background-color: #ffe4e1; /* Light pink */
+        }
+        
+        .prayer-row3 {
+            background-color: #f5fffa; /* Mint cream */
+        }
+
+        .prayer-row4 {
+            background-color: #e0ffff; /* Light cyan */
+        }
+
+        .prayer-row5 {
+            background-color: #fff0f5; /* Lavender blush */
+        }
+
+        /* Additional timings table row colors */
+        .additional-row1 {
+            background-color: #f0f8ff; /* Light blue */
+        }
+        
+        .additional-row2 {
+            background-color: #ffe4e1; /* Light pink */
+        }
+        
+        .additional-row3 {
+            background-color: #f5fffa; /* Mint cream */
+        }
+
+        .additional-row4 {
+            background-color: #e0ffff; /* Light cyan */
+        }
+
+        .additional-row5 {
+            background-color: #fff0f5; /* Lavender blush */
+        }
+
+        .additional-row6 {
+            background-color: #f0e68c; /* Khaki */
         }
     </style>
 </head>
@@ -29,18 +94,18 @@
         <table style="width: 70%; text-align: center;">
             <tr>
                 <td rowspan="3"><img src="logo2.png" alt="Logo 2" class="logo"><img src="logo1.png" alt="Logo 1" class="logo"></td> <!-- Logo 1 in the first column, spanning 3 rows -->
-                <td>
-                 <h1>   <p id="current-time">Loading...</p>
-                </td>
-                   </tr>
-            <tr>
-                <td>
-                    <h1><p id="current-date">Loading...</p>
+                <td class="row1">
+                    <h1><p id="current-time">Loading...</p></h1>
                 </td>
             </tr>
             <tr>
-                <td>
-                    <h1><p id="hijri-date">Loading...</p>
+                <td class="row2">
+                    <h1><p id="current-date">Loading...</p></h1>
+                </td>
+            </tr>
+            <tr>
+                <td class="row3">
+                    <h1><p id="hijri-date">Loading...</p></h1>
                 </td>
             </tr>
         </table>
@@ -56,23 +121,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr class="prayer-row1">
                         <td>Fajr</td>
                         <td id="Fajr">Loading...</td>
                     </tr>
-                    <tr>
+                    <tr class="prayer-row2">
                         <td>Dhuhr</td>
                         <td id="Dhuhr">Loading...</td>
                     </tr>
-                    <tr>
+                    <tr class="prayer-row3">
                         <td>Asr</td>
                         <td id="Asr">Loading...</td>
                     </tr>
-                    <tr>
+                    <tr class="prayer-row4">
                         <td>Maghrib</td>
                         <td id="Maghrib">Loading...</td>
                     </tr>
-                    <tr>
+                    <tr class="prayer-row5">
                         <td>Isha</td>
                         <td id="Isha">Loading...</td>
                     </tr>
@@ -88,27 +153,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr class="additional-row1">
                         <td>Sunrise</td>
                         <td id="sunrise">Loading...</td>
                     </tr>
-                    <tr>
+                    <tr class="additional-row2">
                         <td>Ishraq</td>
                         <td id="ishraq">Loading...</td>
                     </tr>
-                    <tr>
+                    <tr class="additional-row3">
                         <td>Chaasht</td>
                         <td id="chaasht">Loading...</td>
                     </tr>
-                    <tr>
+                    <tr class="additional-row4">
                         <td>Zawal</td>
                         <td id="zawal">Loading...</td>
                     </tr>
-                    <tr>
+                    <tr class="additional-row5">
                         <td>Jummah Khutbah</td>
                         <td id="jummah-khutbah">Loading...</td>
                     </tr>
-                    <tr>
+                    <tr class="additional-row6">
                         <td>3rd Part of Night</td>
                         <td id="second-third">Loading...</td>
                     </tr>
