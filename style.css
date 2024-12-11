@@ -1,95 +1,82 @@
 /* Body styling */
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f5f5f5; /* Light grey background */
-  color: #333; /* Dark text color */
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  flex-direction: column;
 }
 
 /* Main container */
 .container {
   text-align: center;
-  margin-top: 20px;
   padding: 20px;
   border-radius: 10px;
-  background-color: #ffffff;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 80%;
-  max-width: 800px;
+  max-width: 1000px;
 }
 
 /* Heading */
 h1 {
   font-size: 36px;
   color: #333;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-/* Current date styling */
-#current-date {
-  font-size: 32px;
-  font-weight: bold;
-  color: #0077b6;
+/* Date and Hijri styling */
+#current-date, #hijri-date {
+  font-size: 20px;
   margin-bottom: 10px;
 }
 
-/* Hijri date styling */
-#hijri-date {
-  font-size: 24px;
-  color: #ff6f61;
-  margin-bottom: 30px;
-}
-
-/* Prayer times container */
-#prayer-times {
+/* Flexbox container for side-by-side tables */
+.table-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 20px;
 }
 
-/* Individual prayer time */
-.prayer-time {
-  background-color: #ffffff;
-  border-radius: 10px;
+/* Common table styling */
+table {
+  width: 48%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 18px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px 25px;
-  width: 250px;
-  font-size: 20px;
+  border-radius: 10px;
+}
+
+/* Table headers */
+th {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
   font-weight: bold;
-  color: #333;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Different colors for each prayer */
-#Fajr {
-  background-color: #ffeb3b; /* Yellow */
+/* Table rows */
+td {
+  background-color: #f9f9f9;
+  padding: 12px 20px;
+  border: 1px solid #ddd;
 }
 
-#Dhuhr {
-  background-color: #4caf50; /* Green */
-}
+/* Prayer time table colors */
+#Fajr { background-color: #ffeb3b; }
+#Dhuhr { background-color: #4caf50; }
+#Asr { background-color: #ff9800; }
+#Maghrib { background-color: #f44336; }
+#Isha { background-color: #9c27b0; }
 
-#Asr {
-  background-color: #ff9800; /* Orange */
-}
-
-#Maghrib {
-  background-color: #f44336; /* Red */
-}
-
-#Isha {
-  background-color: #9c27b0; /* Purple */
-}
-
-/* Hover effect */
-.prayer-time:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+/* Add hover effect to rows */
+tr:hover {
+  background-color: #f1f1f1;
 }
