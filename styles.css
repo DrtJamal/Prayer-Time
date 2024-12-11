@@ -12,7 +12,7 @@ body {
   height: 100vh;
 }
 
-/* Main container to center content */
+/* Main container */
 .container {
   text-align: center;
   margin-top: 20px;
@@ -24,7 +24,7 @@ body {
   max-width: 800px;
 }
 
-/* Heading for the title */
+/* Heading */
 h1 {
   font-size: 36px;
   color: #333;
@@ -54,11 +54,11 @@ h1 {
   gap: 20px;
 }
 
-/* Individual prayer time card */
+/* Individual prayer time */
 .prayer-time {
-  background-color: #ffffff; /* White background for the cards */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 15px 25px;
   width: 250px;
   font-size: 20px;
@@ -69,43 +69,27 @@ h1 {
 
 /* Different colors for each prayer */
 #Fajr {
-  background-color: #ffeb3b; /* Yellow for Fajr */
+  background-color: #ffeb3b; /* Yellow */
 }
 
 #Dhuhr {
-  background-color: #4caf50; /* Green for Dhuhr */
+  background-color: #4caf50; /* Green */
 }
 
 #Asr {
-  background-color: #ff9800; /* Orange for Asr */
+  background-color: #ff9800; /* Orange */
 }
 
 #Maghrib {
-  background-color: #f44336; /* Red for Maghrib */
+  background-color: #f44336; /* Red */
 }
 
 #Isha {
-  background-color: #9c27b0; /* Purple for Isha */
+  background-color: #9c27b0; /* Purple */
 }
 
-/* Hover effect for cards */
+/* Hover effect */
 .prayer-time:hover {
-  transform: translateY(-5px); /* Lift the card on hover */
+  transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsive design for smaller screens */
-@media (max-width: 600px) {
-  #current-date {
-    font-size: 24px;
-  }
-
-  #hijri-date {
-    font-size: 20px;
-  }
-
-  .prayer-time {
-    width: 200px;
-    font-size: 18px;
-  }
 }
