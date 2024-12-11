@@ -1,41 +1,59 @@
-// Define the coordinates for Carlow Town, Ireland
-const latitude = 52.835;
-const longitude = -6.9333;
+// Fetch prayer times based on location
+async function fetchPrayerTimes() {
+  const city = "Carlow";
+  const country = "Ireland";
+  const apiUrl = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`;
 
-// Set the date format (optional, but useful for getting correct times for the current day)
-const date = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
-
-// Fetch prayer times from Aladhan API using coordinates
-fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`)
-  .then(response => {
-    console.log('API Response Status:', response.status); // Log the response status
-    return response.json();
-  })
-  .then(data => {
-    console.log('API Response Data:', data); // Log the full API response
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
 
     if (data.code === 200) {
-      const prayerTimes = data.data.timings;
-
-      // Get the container to display prayer times
-      const prayerContainer = document.getElementById("prayer-times");
-
-      // Clear existing content
-      prayerContainer.innerHTML = "";
-
-      // Loop through prayer times and display them
-      for (const [prayerName, time] of Object.entries(prayerTimes)) {
-        const prayerElement = document.createElement("div");
-        prayerElement.className = "prayer-time";
-        prayerElement.innerHTML = `<strong>${prayerName}:</strong> ${time}`;
-        prayerContainer.appendChild(prayerElement);
-      }
+      const timings = data.data.timings;
+      displayPrayerTimes(timings);
     } else {
-      throw new Error("Error fetching prayer times");
+      console.error("Failed to fetch prayer times");
+      alert("Error fetching prayer times");
     }
-  })
-  .catch(error => {
+  } catch (error) {
     console.error("Error fetching prayer times:", error);
-    const prayerContainer = document.getElementById("prayer-times");
-    prayerContainer.innerHTML = "Failed to load prayer times.";
-  });
+  }
+}
+
+// Display the prayer times on the page
+function displayPrayerTimes(timings) {
+  const prayerContainer = document.getElementById("prayer-times");
+
+  // Clear any existing content
+  prayerContainer.innerHTML = '';
+
+  // Add prayer times
+  for (const [prayerName, time] of Object.entries(timings)) {
+    const prayerElement = document.createElement("div");
+    prayerElement.className = "prayer-time";
+    prayerElement.id = prayerName;  // Dynamically assign id for CSS styling
+    prayerElement.innerHTML = `<strong>${prayerName}:</strong> ${time}`;
+    prayerContainer.appendChild(prayerElement);
+  }
+}
+
+// Display current date and Hijri date
+function displayDate() {
+  const today = new Date();
+  const currentDateElement = document.getElementById("current-date");
+  const hijriDateElement = document.getElementById("hijri-date");
+
+  const currentDate = today.toLocaleDateString();
+  currentDateElement.textContent = `Today: ${currentDate}`;
+
+  // You can use an API to get the Hijri date if needed, here's an example for now:
+  hijriDateElement.textContent = `Hijri Date: 16 Jumada al-Awwal 1446`;  // Placeholder
+}
+
+// Initialize the page
+function init() {
+  fetchPrayerTimes();
+  displayDate();
+}
+
+init();  // Call init to load everything
