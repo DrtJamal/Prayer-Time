@@ -32,12 +32,17 @@ fetch(apiUrl)
         const chaashtDate = new Date(sunriseDate.getTime() + 60 * 60 * 1000); // Add 60 minutes
         const chaashtTime = chaashtDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-        
+
+
+        // Calculate Zawal (10 minutes before Dhuhr)
+        const zawalDate = new Date(dhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes
+        const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
         // Fill additional timings dynamically
         document.getElementById("sunrise").textContent = timings.Sunrise;
        document.getElementById("ishraq").textContent = ishraqTime;
         document.getElementById("chaasht").textContent = chaashtTime;
-        document.getElementById("prohibited").textContent = timings;
+        document.getElementById("zawal").textContent = zawalTime;
         document.getElementById("jummah-khutbah").textContent = timings;
         document.getElementById("second-third").textContent = timings["Secondthird"];
         
