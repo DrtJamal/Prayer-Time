@@ -33,9 +33,14 @@ document.addEventListener("DOMContentLoaded", function() {
             const chaashtDate = new Date(sunriseDate.getTime() + 60 * 60 * 1000); // Add 60 minutes
             const chaashtTime = chaashtDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-            // Calculate Zawal (10 minutes before Dhuhr)
-            const zawalDate = new Date(dhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes
-            const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+            // Correct Zawal time (10-15 minutes before Dhuhr)
+const dhuhrTime = timings.Dhuhr; // Get Dhuhr time
+const dhuhrDate = new Date(`1970-01-01T${dhuhrTime}:00Z`); // Convert Dhuhr to Date object
+
+// Calculate Zawal (subtract 10 minutes from Dhuhr)
+const zawalDate = new Date(dhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes
+const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
 
             // Calculate Second Third of Night
             const maghribTime = timings.Maghrib; // e.g., "18:00"
