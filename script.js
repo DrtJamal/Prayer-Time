@@ -20,8 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Convert Sunrise time to Date object
             const sunriseTime = timings.Sunrise;
-            const dhuhrTime = timings.Dhuhr;
-
+            const dhuhrTime = timings.Dhuhr; // Only declare once
             const sunriseDate = new Date(`1970-01-01T${sunriseTime}:00Z`); // Sunrise in UTC
             const dhuhrDate = new Date(`1970-01-01T${dhuhrTime}:00Z`); // Dhuhr in UTC
 
@@ -33,14 +32,9 @@ document.addEventListener("DOMContentLoaded", function() {
             const chaashtDate = new Date(sunriseDate.getTime() + 60 * 60 * 1000); // Add 60 minutes
             const chaashtTime = chaashtDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-            // Correct Zawal time (10-15 minutes before Dhuhr)
-const dhuhrTime = timings.Dhuhr; // Get Dhuhr time
-const dhuhrDate = new Date(`1970-01-01T${dhuhrTime}:00Z`); // Convert Dhuhr to Date object
-
-// Calculate Zawal (subtract 10 minutes from Dhuhr)
-const zawalDate = new Date(dhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes
-const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-
+            // Correct Zawal time (10–15 minutes before Dhuhr)
+            const zawalDate = new Date(dhuhrDate.getTime() - 15 * 60 * 1000); // Subtract 15 minutes (before Dhuhr)
+            const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
             // Calculate Second Third of Night
             const maghribTime = timings.Maghrib; // e.g., "18:00"
@@ -59,10 +53,8 @@ const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minut
             document.getElementById("sunrise").textContent = timings.Sunrise;
             document.getElementById("ishraq").textContent = ishraqTime;
             document.getElementById("chaasht").textContent = chaashtTime;
-            // Update the Zawal time dynamically
-document.getElementById("zawal").textContent = zawalTime;
+            document.getElementById("zawal").textContent = zawalTime; // Updated Zawal time
 
-            
             // Fix for Jummah Khutbah (can be static or fetched dynamically)
             document.getElementById("jummah-khutbah").textContent = "01:10 PM"; // Static or dynamic Jummah timing
             document.getElementById("second-third").textContent = secondThirdTime;
