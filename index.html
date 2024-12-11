@@ -3,18 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CICC Prayer Times</title>
+    <title>Prayer Times</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body style="background-color:powderblue;">
-
+<body>
     <div class="container">
-        <h1>CICC Prayer Times</h1>
+        <h1>Prayer Times</h1>
 
-        <div id="current-date"></div>
-        <div id="hijri-date"></div>
+        <div id="current-date">Today: December 11, 2024</div>
+        <div id="hijri-date">Hijri Date: 16 Jumada al-Awwal 1446</div>
 
-        <div id="prayer-times"></div>
+        <!-- Flexbox container for side-by-side tables -->
+        <div class="table-container">
+            <!-- Table for Daily Prayer Times -->
+            <table class="prayer-table">
+                <thead>
+                    <tr>
+                        <th>Prayer</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Fajr</td>
+                        <td id="Fajr">05:00 AM</td>
+                    </tr>
+                    <tr>
+                        <td>Dhuhr</td>
+                        <td id="Dhuhr">12:30 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Asr</td>
+                        <td id="Asr">03:45 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Maghrib</td>
+                        <td id="Maghrib">05:15 PM</td>
+                    </tr>
+                    <tr>
+                        <td>Isha</td>
+                        <td id="Isha">07:00 PM</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Table for Other Timings (Date, Time, etc.) -->
+            <table class="other-table">
+                <thead>
+                    <tr>
+                        <th>Timing</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Current Date</td>
+                        <td id="current-date">December 11, 2024</td>
+                    </tr>
+                    <tr>
+                        <td>Hijri Date</td>
+                        <td id="hijri-date">16 Jumada al-Awwal 1446</td>
+                    </tr>
+                    <tr>
+                        <td>Current Time</td>
+                        <td id="current-time">04:30 PM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="script.js"></script>
