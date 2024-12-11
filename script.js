@@ -34,9 +34,18 @@ fetch(apiUrl)
 
 
 
-        // Calculate Zawal (10 minutes before Dhuhr)
-        const zawalDate = new Date(dhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes
-        const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+          // Calculate Second Third of Night
+        const maghribTime = timings.Maghrib; // e.g., "18:00"
+        const fajrTime = timings.Fajr; // e.g., "05:00"
+        const maghribDate = new Date(`1970-01-01T${maghribTime}:00Z`);
+        const fajrDate = new Date(`1970-01-02T${fajrTime}:00Z`); // Next day Fajr
+        const totalNightMilliseconds = fajrDate - maghribDate; // Duration of the night
+        const secondThirdDate = new Date(maghribDate.getTime() + (2 / 3) * totalNightMilliseconds);
+        const secondThirdTime = secondThirdDate.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+        });
 
         // Fill additional timings dynamically
         document.getElementById("sunrise").textContent = timings.Sunrise;
