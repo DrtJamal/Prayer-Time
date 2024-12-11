@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const chaashtDate = new Date(localSunriseDate.getTime() + 60 * 60 * 1000); // Add 60 minutes
             const chaashtTime = chaashtDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-            // Correct Zawal time calculation (10 minutes before Dhuhr)
+            // Adjust Zawal time to be 10 minutes before Dhuhr
             const zawalDate = new Date(localDhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes for Zawal
             const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
