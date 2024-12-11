@@ -17,6 +17,22 @@ fetch(apiUrl)
         document.getElementById("Maghrib").textContent = timings.Maghrib;
         document.getElementById("Isha").textContent = timings.Isha;
 
+         // Convert Sunrise time to Date object
+        const sunriseTime = timings.Sunrise;
+        const dhuhrTime = timings.Dhuhr;
+
+        const sunriseDate = new Date(`1970-01-01T${sunriseTime}:00Z`); // Sunrise in UTC
+        const dhuhrDate = new Date(`1970-01-01T${dhuhrTime}:00Z`); // Dhuhr in UTC
+
+        // Calculate Ishraq (15 minutes after sunrise)
+        const ishraqDate = new Date(sunriseDate.getTime() + 15 * 60 * 1000); // Add 15 minutes
+        const ishraqTime = ishraqDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+        // Calculate Chaasht (60 minutes after sunrise)
+        const chaashtDate = new Date(sunriseDate.getTime() + 60 * 60 * 1000); // Add 60 minutes
+        const chaashtTime = chaashtDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+        
         // Fill additional timings dynamically
         document.getElementById("sunrise").textContent = timings.Sunrise;
         document.getElementById("ishraq").textContent = timings.Sunset;
