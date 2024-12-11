@@ -83,10 +83,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Live clock for current time
     function updateCurrentTime() {
-        const currentDate = new Date().toLocaleDateString();
-        const currentTime = new Date().toLocaleTimeString();
+        const now = new Date();
 
-        document.getElementById("current-date").textContent = currentDate;
+        // Get the day of the week
+        const weekday = now.toLocaleString('en-US', { weekday: 'long' });
+
+        // Get the day, adding the suffix (st, nd, rd, th)
+        const day = now.getDate();
+        const suffix = (day % 10 === 1 && day !== 11) ? "st" :
+                       (day % 10 === 2 && day !== 12) ? "nd" :
+                       (day % 10 === 3 && day !== 13) ? "rd" : "th";
+
+        // Get the month and year
+        const month = now.toLocaleString('en-US', { month: 'long' });
+        const year = now.getFullYear();
+
+        // Format the date as: "Wednesday, 11th of December 2024"
+        const formattedDate = `${weekday}, ${day}${suffix} of ${month} ${year}`;
+
+        // Get the current time (24-hour format)
+        const currentTime = now.toLocaleTimeString();
+
+        // Update the date and time on the webpage
+        document.getElementById("current-date").textContent = formattedDate;
         document.getElementById("current-time").textContent = currentTime;
     }
 
