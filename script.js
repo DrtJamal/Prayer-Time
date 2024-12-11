@@ -6,7 +6,7 @@ const longitude = -6.9333;
 const date = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
 
 // Fetch prayer times from Aladhan API using coordinates
-fetch(`http://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`)
+fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`)
   .then(response => {
     console.log('API Response Status:', response.status); // Log the response status
     return response.json();
