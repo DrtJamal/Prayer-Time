@@ -44,7 +44,7 @@ fetch(apiUrl)
         document.getElementById("chaasht").textContent = chaashtTime;
         document.getElementById("zawal").textContent = zawalTime;
         document.getElementById("jummah-khutbah").textContent = timings;
-        document.getElementById("second-third").textContent = timings["Secondthird"];
+        document.getElementById("second-third").textContent = timings["Secondthird"] || "Not Available";
         
 
        // Format and display Hijri date
