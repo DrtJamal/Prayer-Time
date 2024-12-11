@@ -1,6 +1,7 @@
+/* Body and overall page styling */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f4f8;
   color: #333;
   text-align: center;
   padding: 20px;
@@ -8,7 +9,40 @@ body {
 
 h1 {
   color: #007BFF;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+/* Styling for the date and time display */
+#current-date-time {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Styling for current time */
+.time {
+  font-size: 48px;
+  font-weight: bold;
+  color: #4CAF50;
+  margin-bottom: 10px;
+}
+
+/* Styling for the day of the week */
+.day {
+  font-size: 24px;
+  font-weight: 600;
+  color: #007BFF;
+  margin-bottom: 10px;
+}
+
+/* Styling for Hijri date */
+.hijri {
+  font-size: 22px;
+  font-weight: 500;
+  color: #FF5722;
 }
 
 #prayer-times {
@@ -18,6 +52,7 @@ h1 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
   width: 300px;
+  margin-top: 30px;
 }
 
 .prayer-time {
