@@ -1,67 +1,84 @@
-/* Body and overall page styling */
+/* Apply a nice background color */
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f0f4f8;
-  color: #333;
+  background-color: #f0f8ff; /* Light blue background */
+  color: #333; /* Dark text color */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Style for the main container */
+.container {
   text-align: center;
-  padding: 20px;
-}
-
-h1 {
-  color: #007BFF;
-  margin-bottom: 30px;
-}
-
-/* Styling for the date and time display */
-#current-date-time {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-/* Styling for current time */
-.time {
-  font-size: 48px;
-  font-weight: bold;
-  color: #4CAF50;
-  margin-bottom: 10px;
-}
-
-/* Styling for the day of the week */
-.day {
-  font-size: 24px;
-  font-weight: 600;
-  color: #007BFF;
-  margin-bottom: 10px;
-}
-
-/* Styling for Hijri date */
-.hijri {
-  font-size: 22px;
-  font-weight: 500;
-  color: #FF5722;
-}
-
-#prayer-times {
-  display: inline-block;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 300px;
   margin-top: 30px;
 }
 
-.prayer-time {
-  font-size: 18px;
-  margin: 10px 0;
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
+/* Style for the date display */
+#current-date {
+  font-size: 40px;
+  font-weight: bold;
+  color: #0077b6;
+  margin-bottom: 20px;
 }
 
-.prayer-time:last-child {
-  border-bottom: none;
+/* Style for the Hijri date */
+#hijri-date {
+  font-size: 24px;
+  color: #ff6f61;
+  margin-bottom: 30px;
+}
+
+/* Style for the prayer times display */
+#prayer-times {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Style for individual prayer time cards */
+.prayer-time {
+  background-color: #ffffff; /* White background for the cards */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 15px 25px;
+  width: 250px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect for cards */
+.prayer-time:hover {
+  transform: translateY(-5px); /* Lift the card on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the headings */
+h1 {
+  font-size: 48px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  #current-date {
+    font-size: 30px;
+  }
+
+  #hijri-date {
+    font-size: 18px;
+  }
+
+  .prayer-time {
+    width: 200px;
+    font-size: 18px;
+  }
 }
