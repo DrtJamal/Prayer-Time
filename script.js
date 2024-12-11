@@ -20,7 +20,7 @@ async function fetchPrayerTimes() {
   }
 }
 
-// Display the prayer times on the page
+// Display the prayer times
 function displayPrayerTimes(timings) {
   const prayerContainer = document.getElementById("prayer-times");
 
@@ -31,7 +31,7 @@ function displayPrayerTimes(timings) {
   for (const [prayerName, time] of Object.entries(timings)) {
     const prayerElement = document.createElement("div");
     prayerElement.className = "prayer-time";
-    prayerElement.id = prayerName;  // Dynamically assign id for CSS styling
+    prayerElement.id = prayerName;  // Set the id for CSS styling
     prayerElement.innerHTML = `<strong>${prayerName}:</strong> ${time}`;
     prayerContainer.appendChild(prayerElement);
   }
@@ -46,14 +46,14 @@ function displayDate() {
   const currentDate = today.toLocaleDateString();
   currentDateElement.textContent = `Today: ${currentDate}`;
 
-  // You can use an API to get the Hijri date if needed, here's an example for now:
+  // Hijri date can be an API or a static placeholder
   hijriDateElement.textContent = `Hijri Date: 16 Jumada al-Awwal 1446`;  // Placeholder
 }
 
-// Initialize the page
+// Initialize page
 function init() {
   fetchPrayerTimes();
   displayDate();
 }
 
-init();  // Call init to load everything
+init();
