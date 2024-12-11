@@ -20,9 +20,9 @@ fetch(apiUrl)
         // Fill additional timings dynamically
         document.getElementById("sunrise").textContent = timings.Sunrise;
         document.getElementById("ishraq").textContent = timings.Sunset;
-        document.getElementById("chaasht").textContent = timings.Imsak;
+        document.getElementById("chasht").textContent = timings.Imsak;
         document.getElementById("prohibited").textContent = timings["Firstthird"];
-        document.getElementById("").textContent = timings;
+        document.getElementById("jummah-khutbah").textContent = timings;
         document.getElementById("second-third").textContent = timings["Secondthird"];
         
 
