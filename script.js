@@ -59,7 +59,10 @@ const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minut
             document.getElementById("sunrise").textContent = timings.Sunrise;
             document.getElementById("ishraq").textContent = ishraqTime;
             document.getElementById("chaasht").textContent = chaashtTime;
-            document.getElementById("zawal").textContent = zawalTime;
+            // Update the Zawal time dynamically
+document.getElementById("zawal").textContent = zawalTime;
+
+            
             // Fix for Jummah Khutbah (can be static or fetched dynamically)
             document.getElementById("jummah-khutbah").textContent = "01:10 PM"; // Static or dynamic Jummah timing
             document.getElementById("second-third").textContent = secondThirdTime;
