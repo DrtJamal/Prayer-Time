@@ -12,11 +12,11 @@ document.addEventListener("DOMContentLoaded", function() {
             const timings = data.data.timings;
 
             // Fill the prayer times dynamically
-            document.getElementById("Fajr").textContent = timings.Fajr;
-            document.getElementById("Dhuhr").textContent = timings.Dhuhr;
-            document.getElementById("Asr").textContent = timings.Asr;
-            document.getElementById("Maghrib").textContent = timings.Maghrib;
-            document.getElementById("Isha").textContent = timings.Isha;
+            document.getElementById("Fajr")?.textContent = timings.Fajr;
+            document.getElementById("Dhuhr")?.textContent = timings.Dhuhr;
+            document.getElementById("Asr")?.textContent = timings.Asr;
+            document.getElementById("Maghrib")?.textContent = timings.Maghrib;
+            document.getElementById("Isha")?.textContent = timings.Isha;
 
             // Convert Sunrise time to Date object
             const sunriseTime = timings.Sunrise;
@@ -50,14 +50,14 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             // Fill additional timings dynamically
-            document.getElementById("sunrise").textContent = timings.Sunrise;
-            document.getElementById("ishraq").textContent = ishraqTime;
-            document.getElementById("chaasht").textContent = chaashtTime;
-            document.getElementById("zawal").textContent = zawalTime; // Updated Zawal time
+            document.getElementById("sunrise")?.textContent = timings.Sunrise;
+            document.getElementById("ishraq")?.textContent = ishraqTime;
+            document.getElementById("chaasht")?.textContent = chaashtTime;
+            document.getElementById("zawal")?.textContent = zawalTime; // Updated Zawal time
 
             // Fix for Jummah Khutbah (can be static or fetched dynamically)
-            document.getElementById("jummah-khutbah").textContent = "01:10 PM"; // Static or dynamic Jummah timing
-            document.getElementById("second-third").textContent = secondThirdTime;
+            document.getElementById("jummah-khutbah")?.textContent = "01:10 PM"; // Static or dynamic Jummah timing
+            document.getElementById("second-third")?.textContent = secondThirdTime;
 
             // Format and display Hijri date
             const hijriDate = data.data.date.hijri;
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
                            (day % 10 === 3 && day !== 13) ? "rd" : "th";
 
             const formattedHijriDate = `${day}${suffix} of ${month}, ${year} AH`;
-            document.getElementById("hijri-date").textContent = formattedHijriDate;
+            document.getElementById("hijri-date")?.textContent = formattedHijriDate;
         })
         .catch(error => {
             console.error("Error fetching prayer times:", error);
@@ -81,6 +81,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const currentDate = new Date().toLocaleDateString();
     const currentTime = new Date().toLocaleTimeString();
 
-    document.getElementById("current-date").textContent = currentDate;
-    document.getElementById("current-time").textContent = currentTime;
+    document.getElementById("current-date")?.textContent = currentDate;
+    document.getElementById("current-time")?.textContent = currentTime;
 });
