@@ -16,6 +16,10 @@ body {
 .container {
   text-align: center;
   margin-top: 30px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Style for the date display */
@@ -23,7 +27,7 @@ body {
   font-size: 40px;
   font-weight: bold;
   color: #0077b6;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 /* Style for the Hijri date */
@@ -38,7 +42,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 /* Style for individual prayer time cards */
@@ -52,6 +56,27 @@ body {
   font-weight: bold;
   color: #333;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Style for specific prayer times (e.g., Fajr, Dhuhr, etc.) */
+#Fajr {
+  background-color: #ffeb3b; /* Yellow for Fajr */
+}
+
+#Dhuhr {
+  background-color: #4caf50; /* Green for Dhuhr */
+}
+
+#Asr {
+  background-color: #ff9800; /* Orange for Asr */
+}
+
+#Maghrib {
+  background-color: #f44336; /* Red for Maghrib */
+}
+
+#Isha {
+  background-color: #9c27b0; /* Purple for Isha */
 }
 
 /* Hover effect for cards */
