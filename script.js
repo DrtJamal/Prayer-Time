@@ -24,8 +24,21 @@ fetch(apiUrl)
         document.getElementById("first-third").textContent = timings["Firstthird"];
         document.getElementById("second-third").textContent = timings["Secondthird"];
         document.getElementById("midnight").textContent = timings.Midnight;
-        const hijriDate = data.data.date.hijri.date;
-        document.getElementById("hijri-date").textContent = hijriDate;
+        
+
+        // Format and display the Hijri date
+        const hijriDate = data.data.date.hijri;
+        const day = parseInt(hijriDate.day, 10);
+        const month = hijriDate.month.en; // Hijri month in English
+        const year = hijriDate.year;
+
+        // Append "st", "nd", "rd", "th" to the day
+        const suffix = (day % 10 === 1 && day !== 11) ? "st" :
+                       (day % 10 === 2 && day !== 12) ? "nd" :
+                       (day % 10 === 3 && day !== 13) ? "rd" : "th";
+
+        const formattedHijriDate = `${day}${suffix} of ${month}, ${year} AH`;
+        document.getElementById("hijri-date").textContent = formattedHijriDate;
     })
     .catch(error => {
         console.error("Error fetching prayer times:", error);
