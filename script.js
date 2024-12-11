@@ -20,7 +20,7 @@ fetch(apiUrl)
         // Fill additional timings dynamically
         document.getElementById("sunrise").textContent = timings.Sunrise;
         document.getElementById("sunset").textContent = timings.Sunset;
-        document.getElementById("imsak").textContent = timings.Imsak;
+        document.getElementById("ishraq").textContent = timings.Imsak;
         document.getElementById("first-third").textContent = timings["Firstthird"];
         document.getElementById("second-third").textContent = timings["Secondthird"];
         document.getElementById("midnight").textContent = timings.Midnight;
