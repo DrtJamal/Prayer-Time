@@ -9,12 +9,21 @@ fetch(apiUrl)
     .then(response => response.json())
     .then(data => {
         const timings = data.data.timings;
+        
         // Fill the prayer times dynamically
         document.getElementById("Fajr").textContent = timings.Fajr;
         document.getElementById("Dhuhr").textContent = timings.Dhuhr;
         document.getElementById("Asr").textContent = timings.Asr;
         document.getElementById("Maghrib").textContent = timings.Maghrib;
         document.getElementById("Isha").textContent = timings.Isha;
+
+        // Fill additional timings dynamically
+        document.getElementById("sunrise").textContent = timings.Sunrise;
+        document.getElementById("sunset").textContent = timings.Sunset;
+        document.getElementById("imsak").textContent = timings.Imsak;
+        document.getElementById("first-third").textContent = timings["Firstthird"];
+        document.getElementById("second-third").textContent = timings["Secondthird"];
+        document.getElementById("midnight").textContent = timings.Midnight;
     })
     .catch(error => {
         console.error("Error fetching prayer times:", error);
