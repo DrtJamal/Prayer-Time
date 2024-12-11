@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const sunriseDate = new Date(`1970-01-01T${sunriseTime}:00Z`); // Sunrise in UTC
             const dhuhrDate = new Date(`1970-01-01T${dhuhrTime}:00Z`); // Dhuhr in UTC
 
-            // Correct the time zone by adding the local offset (Ireland is UTC+0 or UTC+1 during DST)
+            // Convert to local time zone (Ireland)
             const irelandOffset = new Date().getTimezoneOffset() * 60000; // In milliseconds
             const localSunriseDate = new Date(sunriseDate.getTime() - irelandOffset);
             const localDhuhrDate = new Date(dhuhrDate.getTime() - irelandOffset);
@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", function() {
             const chaashtDate = new Date(localSunriseDate.getTime() + 60 * 60 * 1000); // Add 60 minutes
             const chaashtTime = chaashtDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
-            // Correct Zawal time calculation (10-15 minutes before Dhuhr)
-            const zawalDate = new Date(localDhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes
+            // Correct Zawal time calculation (10 minutes before Dhuhr)
+            const zawalDate = new Date(localDhuhrDate.getTime() - 10 * 60 * 1000); // Subtract 10 minutes for Zawal
             const zawalTime = zawalDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
 
             // Calculate Second Third of Night
