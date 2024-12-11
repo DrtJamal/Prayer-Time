@@ -43,8 +43,10 @@ fetch(apiUrl)
        document.getElementById("ishraq").textContent = ishraqTime;
         document.getElementById("chaasht").textContent = chaashtTime;
         document.getElementById("zawal").textContent = zawalTime;
-        document.getElementById("jummah-khutbah").textContent = timings;
-        document.getElementById("second-third").textContent = timings["Secondthird"] || "Not Available";
+        // Fix for Jummah Khutbah
+document.getElementById("jummah-khutbah").textContent = "01:10 PM"; // Replace with static or API-based value
+
+document.getElementById("second-third").textContent = timings["Secondthird"] || "Not Available"; // Second third of the night
         
 
        // Format and display Hijri date
