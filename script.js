@@ -26,10 +26,10 @@ fetch(apiUrl)
         document.getElementById("midnight").textContent = timings.Midnight;
         
 
-        // Format and display the Hijri date
+       // Format and display Hijri date
         const hijriDate = data.data.date.hijri;
         const day = parseInt(hijriDate.day, 10);
-        const month = hijriDate.month.en; // Hijri month in English
+        const month = hijriDate.month.en; // Get Hijri month in English
         const year = hijriDate.year;
 
         // Append "st", "nd", "rd", "th" to the day
