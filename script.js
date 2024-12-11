@@ -76,15 +76,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const formattedHijriDate = `${day}${suffix} of ${month}, ${year} AH`;
             document.getElementById("hijri-date").textContent = formattedHijriDate;
+
+            // Current date and time
+            const currentDate = new Date().toLocaleDateString();
+            const currentTime = new Date().toLocaleTimeString();
+            
+            // If you want to dynamically insert the current date and time into your HTML
+            document.getElementById("current-date-time").textContent = `Current Date: ${currentDate} | Current Time: ${currentTime}`;
+
         })
         .catch(error => {
             console.error("Error fetching prayer times:", error);
         });
-
-    // Current date and time (can be dynamically fetched as well)
-    const currentDate = new Date().toLocaleDateString();
-    const currentTime = new Date().toLocaleTimeString();
-
-    document.getElementById("current-date").textContent = currentDate;
-    document.getElementById("current-time").textContent = currentTime;
 });
