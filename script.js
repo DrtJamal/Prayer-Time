@@ -24,6 +24,8 @@ fetch(apiUrl)
         document.getElementById("first-third").textContent = timings["Firstthird"];
         document.getElementById("second-third").textContent = timings["Secondthird"];
         document.getElementById("midnight").textContent = timings.Midnight;
+        const hijriDate = data.data.date.hijri.date;
+        document.getElementById("hijri-date").textContent = hijriDate;
     })
     .catch(error => {
         console.error("Error fetching prayer times:", error);
