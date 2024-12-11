@@ -21,9 +21,9 @@ fetch(apiUrl)
         document.getElementById("sunrise").textContent = timings.Sunrise;
         document.getElementById("ishraq").textContent = timings.Sunset;
         document.getElementById("chaasht").textContent = timings.Imsak;
-        document.getElementById("first-third").textContent = timings["Firstthird"];
+        document.getElementById("prohibited").textContent = timings["Firstthird"];
+        document.getElementById("").textContent = timings;
         document.getElementById("second-third").textContent = timings["Secondthird"];
-        document.getElementById("midnight").textContent = timings.Midnight;
         
 
        // Format and display Hijri date
