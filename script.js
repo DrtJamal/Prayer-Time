@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             const timings = data.data.timings;
-            
+
             // Fill the prayer times dynamically
             document.getElementById("Fajr").textContent = timings.Fajr;
             document.getElementById("Dhuhr").textContent = timings.Dhuhr;
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Convert Sunrise time to Date object
             const sunriseTime = timings.Sunrise;
-            const dhuhrTime = timings.Dhuhr; // Only declare once
+            const dhuhrTime = timings.Dhuhr; // Declare only once
             const sunriseDate = new Date(`1970-01-01T${sunriseTime}:00Z`); // Sunrise in UTC
             const dhuhrDate = new Date(`1970-01-01T${dhuhrTime}:00Z`); // Dhuhr in UTC
 
