@@ -57,7 +57,7 @@ fetch(apiUrl)
         document.getElementById("jummah-khutbah").textContent = "01:10 PM"; // Static or dynamic Jummah timing
         document.getElementById("second-third").textContent = secondThirdTime || "Not Available";
 
-        // Format and display Hijri date
+        // Format and display Hijri date dynamically
         const hijriDate = data.data.date.hijri;
         const day = parseInt(hijriDate.day, 10);
         const month = hijriDate.month.en; // Get Hijri month in English
@@ -81,6 +81,3 @@ const currentTime = new Date().toLocaleTimeString();
 
 document.getElementById("current-date").textContent = currentDate;
 document.getElementById("current-time").textContent = currentTime;
-
-// Hijri Date - You can use an API for Hijri Date if needed
-document.getElementById("hijri-date").textContent = "16 Jumada al-Awwal 1446"; // Hardcoded for now
