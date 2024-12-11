@@ -37,7 +37,7 @@ fetch(apiUrl)
         document.getElementById("sunrise").textContent = timings.Sunrise;
        document.getElementById("ishraq").textContent = ishraqTime;
         document.getElementById("chaasht").textContent = chaashtTime;
-        document.getElementById("prohibited").textContent = timings["Firstthird"];
+        document.getElementById("prohibited").textContent = timings;
         document.getElementById("jummah-khutbah").textContent = timings;
         document.getElementById("second-third").textContent = timings["Secondthird"];
         
