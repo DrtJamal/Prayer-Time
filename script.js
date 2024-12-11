@@ -1,26 +1,36 @@
-// Function to update the date and time
-function updateDateTime() {
-  // Get the current time
-  const currentTime = new Date();
+// Define the coordinates for Carlow Town, Ireland
+const latitude = 52.835;
+const longitude = -6.9333;
 
-  // Format the current date and time in Gregorian
-  const dateTime = currentTime.toLocaleString();
+// Set the date format (optional, but useful for getting correct times for the current day)
+const date = new Date().toISOString().slice(0, 10); // Format: YYYY-MM-DD
 
-  // Get the current Hijri date using moment-hijri
-  const hijriDate = moment(currentTime).format('iD iMMMM iYYYY'); // iD = Day, iMMMM = Month, iYYYY = Year in Hijri
+// Fetch prayer times from Aladhan API using coordinates
+fetch(`http://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`)
+  .then(response => response.json())
+  .then(data => {
+    if (data.code === 200) {
+      const prayerTimes = data.data.timings;
 
-  // Get the current day of the week (e.g., Monday, Tuesday)
-  const dayOfWeek = currentTime.toLocaleString('en-us', { weekday: 'long' });
+      // Get the container to display prayer times
+      const prayerContainer = document.getElementById("prayer-times");
 
-  // Display the current date and time
-  const dateTimeElement = document.getElementById("current-date-time");
-  dateTimeElement.innerHTML = `
-    <h2 class="time">${dateTime}</h2>
-    <p class="day">${dayOfWeek}</p>
-    <p class="hijri">${hijriDate}</p>
-  `;
-}
+      // Clear existing content
+      prayerContainer.innerHTML = "";
 
-// Call the function initially and update every second
-updateDateTime();
-setInterval(updateDateTime, 1000); // Update every 1000ms (1 second)
+      // Loop through prayer times and display them
+      for (const [prayerName, time] of Object.entries(prayerTimes)) {
+        const prayerElement = document.createElement("div");
+        prayerElement.className = "prayer-time";
+        prayerElement.innerHTML = `<strong>${prayerName}:</strong> ${time}`;
+        prayerContainer.appendChild(prayerElement);
+      }
+    } else {
+      throw new Error("Error fetching prayer times");
+    }
+  })
+  .catch(error => {
+    console.error("Error fetching prayer times:", error);
+    const prayerContainer = document.getElementById("prayer-times");
+    prayerContainer.innerHTML = "Failed to load prayer times.";
+  });
