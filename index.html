@@ -6,10 +6,9 @@
     <title>CICC Prayer Times</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Add styling to make images fill the full height of their rows */
         .logo {
             height: 70%;
-            width: auto;  /* Maintain aspect ratio */
+            width: auto;
         }
 
         table {
@@ -19,69 +18,32 @@
         }
 
         td {
-            vertical-align: middle; /* Center content vertically */
+            vertical-align: middle;
         }
 
         /* Background colors for different rows */
         .row1 {
-            background-color: #f0f8ff; /* Light blue */
+            background-color: #f0f8ff;
             color: #000;
         }
-        
+
         .row2 {
-            background-color: #ffe4e1; /* Light pink */
+            background-color: #ffe4e1;
             color: #000;
         }
-        
+
         .row3 {
-            background-color: #f5fffa; /* Mint cream */
+            background-color: #f5fffa;
             color: #000;
         }
 
-        /* Different background colors for the prayer timings table */
-        .prayer-row1 {
-            background-color: #f0f8ff; /* Light blue */
-        }
-        
-        .prayer-row2 {
-            background-color: #ffe4e1; /* Light pink */
-        }
-        
-        .prayer-row3 {
-            background-color: #f5fffa; /* Mint cream */
+        .right-column {
+            width: 50%;
         }
 
-        .prayer-row4 {
-            background-color: #e0ffff; /* Light cyan */
-        }
-
-        .prayer-row5 {
-            background-color: #fff0f5; /* Lavender blush */
-        }
-
-        /* Additional timings table row colors for second column */
-        .additional-row1 td:nth-child(2) {
-            background-color: #f0f8ff; /* Light blue */
-        }
-
-        .additional-row2 td:nth-child(2) {
-            background-color: #ffe4e1; /* Light pink */
-        }
-
-        .additional-row3 td:nth-child(2) {
-            background-color: #f5fffa; /* Mint cream */
-        }
-
-        .additional-row4 td:nth-child(2) {
-            background-color: #e0ffff; /* Light cyan */
-        }
-
-        .additional-row5 td:nth-child(2) {
-            background-color: #fff0f5; /* Lavender blush */
-        }
-
-        .additional-row6 td:nth-child(2) {
-            background-color: #f0e68c; /* Khaki */
+        .table-container {
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 </head>
@@ -90,21 +52,30 @@
     <div class="container">
         <h1>CICC Prayer Times</h1>
 
-        <!-- Date and Hijri Date Section first columns for next prayer time, second column for current time and dates -->
+        <!-- Main table with next prayer information -->
         <table style="width: 70%; text-align: center;">
             <tr>
-                    <td class="row1">
+                <td class="row1">
                     <h1><p id="current-time">Loading...</p></h1>
+                </td>
+                <td class="row1">
+                    <h1><p id="next-prayer">Next Prayer: Loading...</p></h1>
                 </td>
             </tr>
             <tr>
                 <td class="row2">
                     <h1><p id="current-date">Loading...</p></h1>
                 </td>
+                <td class="row2">
+                    <h1><p id="time-to-next">Time Remaining: Loading...</p></h1>
+                </td>
             </tr>
             <tr>
                 <td class="row3">
                     <h1><p id="hijri-date">Loading...</p></h1>
+                </td>
+                <td class="row3">
+                    <h1><p id="custom-message">Good luck!</p></h1>
                 </td>
             </tr>
         </table>
