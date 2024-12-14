@@ -205,6 +205,8 @@
                 const hours = Math.floor(timeRemaining / 3600);
                 const minutes = Math.floor((timeRemaining % 3600) / 60);
                 const seconds = timeRemaining % 60;
+
+                // Make sure we correctly format the hours, minutes, seconds
                 nextPrayerDisplay.textContent = `Next Prayer: ${prayer} in ${hours}h ${minutes}m ${seconds}s`;
                 timeRemaining--;
             }
