@@ -192,7 +192,14 @@
         if (nextPrayer) {
             displayNextPrayer(nextPrayer, timeRemaining);
         } else {
-            nextPrayerDisplay.textContent = "Next Prayer: Fajr Tomorrow";
+            // Calculate remaining time for Fajr the next day
+            const [fajrHours, fajrMinutes] = timings["Fajr"].split(":").map(Number);
+            const fajrTimeTomorrow = new Date();
+            fajrTimeTomorrow.setDate(now.getDate() + 1);
+            fajrTimeTomorrow.setHours(fajrHours, fajrMinutes, 0);
+
+            const remainingTime = Math.floor((fajrTimeTomorrow - now) / 1000); // Time in seconds
+            displayNextPrayer("Fajr", remainingTime);
         }
     }
 
