@@ -3,170 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prayer Times - Carlow</title>
+    <title>Prayer Timetable - Carlow</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            background-color: #e0d0b0;
             color: #333;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            height: 100vh;
         }
 
         .container {
             width: 100%;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
+            text-align: center;
+            background-color: #e0d0b0;
+        }
+
+        header {
+            background-color: #e87722;
+            color: black;
+            padding: 10px 0;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .date-section {
+            font-size: 1.2rem;
+            margin: 10px 0;
         }
 
         .clock {
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: bold;
-            color: #007bff;
             margin: 20px 0;
-            text-align: center;
-        }
-
-        .date {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            text-align: center;
+            color: black;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin-top: 20px;
         }
 
         table th, table td {
             padding: 15px;
             text-align: center;
-            border: 1px solid #dee2e6;
+            font-size: 1.3rem;
         }
 
         table th {
-            background-color: #007bff;
-            color: #fff;
+            background-color: #d7b899;
+            font-weight: normal;
+            color: gray;
         }
 
-        table tr:nth-child(even) {
-            background-color: #f8f9fa;
+        table td {
+            background-color: #e8c29b;
         }
 
-        .next-prayer {
-            font-size: 2rem;
-            margin-top: 20px;
-            color: #007bff;
-            text-align: center;
+        .highlight {
+            background-color: #e87722 !important;
+            font-weight: bold;
+            color: black !important;
         }
 
         .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #555;
+            background-color: #e87722;
+            padding: 10px 0;
+            color: black;
+            font-size: 1.2rem;
         }
 
-        .footer a {
-            color: #007bff;
-            text-decoration: none;
+        .footer span {
+            font-weight: bold;
+        }
+
+        #next-prayer {
+            margin: 20px 0;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <header>
+            <h1>Carlow Islamic Cultural Centre</h1>
+        </header>
+
+        <div class="date-section" id="date-display">
+            <!-- Date will be inserted here -->
+        </div>
+
         <div class="clock" id="digital-clock">00:00:00</div>
-        <div class="date" id="date-display">Friday, 1 Jumada Al-Awwal 1445 - 15 December 2024</div>
 
         <table>
             <thead>
                 <tr>
-                    <th>Prayer</th>
-                    <th>Athan</th>
-                    <th>Iqama</th>
+                    <th>PRAYER</th>
+                    <th>ADHAN</th>
+                    <th>IQAMAH</th>
                 </tr>
             </thead>
             <tbody id="prayer-times-body">
-                <!-- Times will be populated dynamically using JavaScript -->
+                <!-- Dynamic times will be inserted here -->
             </tbody>
         </table>
 
-        <div class="next-prayer" id="next-prayer-display">
-            Next Prayer: Fajr in 6h 45m
-        </div>
+        <div id="next-prayer">Next Prayer: Calculating...</div>
 
         <div class="footer">
-            &copy; 2024 Carlow Islamic Cultural Centre (CICC). <a href="#">Contact Us</a>
+            Jumuah prayer: <span id="jumuah-time">13:00</span>
         </div>
     </div>
 
     <script>
-        // Example prayer times data for Carlow
-        const prayerTimes = [
-            { prayer: "Fajr", athan: "06:00 AM", iqama: "06:15 AM" },
-            { prayer: "Dhuhr", athan: "12:30 PM", iqama: "12:45 PM" },
-            { prayer: "Asr", athan: "03:30 PM", iqama: "03:45 PM" },
-            { prayer: "Maghrib", athan: "05:45 PM", iqama: "06:00 PM" },
-            { prayer: "Isha", athan: "07:15 PM", iqama: "07:30 PM" }
-        ];
+        const prayerTimesAPI = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
+        const prayerNames = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
+        const iqamaOffsets = { Fajr: 15, Dhuhr: 15, Asr: 15, Maghrib: 10, Isha: 15 }; // in minutes
 
-        const prayerTimesBody = document.getElementById('prayer-times-body');
-        const nextPrayerDisplay = document.getElementById('next-prayer-display');
-        const clockDisplay = document.getElementById('digital-clock');
-        const dateDisplay = document.getElementById('date-display');
+        const prayerTimesBody = document.getElementById("prayer-times-body");
+        const nextPrayerDisplay = document.getElementById("next-prayer");
+        const clockDisplay = document.getElementById("digital-clock");
+        const dateDisplay = document.getElementById("date-display");
 
-        // Populate the table with prayer times
-        prayerTimes.forEach(prayer => {
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${prayer.prayer}</td><td>${prayer.athan}</td><td>${prayer.iqama}</td>`;
-            prayerTimesBody.appendChild(row);
-        });
+        async function fetchPrayerTimes() {
+            const response = await fetch(prayerTimesAPI);
+            const data = await response.json();
+            const timings = data.data.timings;
+            const hijriDate = `${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year}`;
+            const gregorianDate = `${data.data.date.gregorian.weekday.en}, ${data.data.date.gregorian.day} ${data.data.date.gregorian.month.en} ${data.data.date.gregorian.year}`;
+            dateDisplay.innerHTML = `${hijriDate} <br> ${gregorianDate}`;
 
-        // Update the clock every second
-        setInterval(() => {
+            populatePrayerTable(timings);
+        }
+
+        function populatePrayerTable(timings) {
+            prayerTimesBody.innerHTML = "";
+            prayerNames.forEach((prayer) => {
+                const iqamaTime = calculateIqamaTime(timings[prayer], iqamaOffsets[prayer]);
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${prayer}</td>
+                    <td>${timings[prayer]}</td>
+                    <td>${iqamaTime}</td>
+                `;
+                prayerTimesBody.appendChild(row);
+            });
+            highlightCurrentPrayer(timings);
+        }
+
+        function calculateIqamaTime(athanTime, offset) {
+            const [hours, minutes] = athanTime.split(":".map(Number));
+            const date = new Date();
+            date.setHours(hours, minutes + offset);
+            return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+        }
+
+        function highlightCurrentPrayer(timings) {
+            const now = new Date();
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            let nextPrayer = null;
+
+            prayerNames.forEach((prayer, index) => {
+                const [hours, minutes] = timings[prayer].split(":".map(Number));
+                const prayerMinutes = hours * 60 + minutes;
+
+                if (prayerMinutes <= currentMinutes) {
+                    prayerTimesBody.rows[index].classList.add("highlight");
+                } else if (!nextPrayer) {
+                    nextPrayer = prayer;
+                    const remainingTime = prayerMinutes - currentMinutes;
+                    nextPrayerDisplay.textContent = `Next Prayer: ${nextPrayer} in ${Math.floor(remainingTime / 60)}h ${remainingTime % 60}m`;
+                }
+            });
+        }
+
+        function updateClock() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
             clockDisplay.textContent = `${hours}:${minutes}:${seconds}`;
-        }, 1000);
-
-        // Calculate and display next prayer
-        function updateNextPrayer() {
-            const now = new Date();
-            const currentTime = now.getHours() * 60 + now.getMinutes();
-            let nextPrayer = null;
-            let timeRemaining = 0;
-
-            prayerTimes.forEach(prayer => {
-                const [hour, minute] = prayer.athan.split(/[:\s]/).map(Number);
-                const athanTime = hour * 60 + minute;
-                if (athanTime > currentTime && !nextPrayer) {
-                    nextPrayer = prayer.prayer;
-                    timeRemaining = athanTime - currentTime;
-                }
-            });
-
-            if (!nextPrayer) {
-                nextPrayer = prayerTimes[0].prayer;
-                const [hour, minute] = prayerTimes[0].athan.split(/[:\s]/).map(Number);
-                const athanTime = hour * 60 + minute + 1440; // Add 24 hours for next day
-                timeRemaining = athanTime - currentTime;
-            }
-
-            const hours = Math.floor(timeRemaining / 60);
-            const minutes = timeRemaining % 60;
-            nextPrayerDisplay.textContent = `Next Prayer: ${nextPrayer} in ${hours}h ${minutes}m`;
         }
 
-        updateNextPrayer();
-        setInterval(updateNextPrayer, 60000); // Update every minute
+        setInterval(updateClock, 1000);
+        fetchPrayerTimes();
     </script>
 </body>
 </html>
