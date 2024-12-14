@@ -125,77 +125,106 @@
     </div>
 
     <script>
-        const prayerTimesAPI = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
-        const prayerNames = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
-        const iqamaOffsets = { Fajr: 15, Dhuhr: 15, Asr: 15, Maghrib: 10, Isha: 15 }; // in minutes
+    const prayerTimesBody = document.getElementById('prayer-times-body');
+    const nextPrayerDisplay = document.getElementById('next-prayer-display');
+    const clockDisplay = document.getElementById('digital-clock');
+    const dateDisplay = document.getElementById('date-display');
 
-        const prayerTimesBody = document.getElementById("prayer-times-body");
-        const nextPrayerDisplay = document.getElementById("next-prayer");
-        const clockDisplay = document.getElementById("digital-clock");
-        const dateDisplay = document.getElementById("date-display");
+    // Function to fetch prayer times
+    async function fetchPrayerTimes() {
+        const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
 
-        async function fetchPrayerTimes() {
-            const response = await fetch(prayerTimesAPI);
+        try {
+            const response = await fetch(apiURL);
             const data = await response.json();
             const timings = data.data.timings;
-            const hijriDate = `${data.data.date.hijri.day} ${data.data.date.hijri.month.en} ${data.data.date.hijri.year}`;
-            const gregorianDate = `${data.data.date.gregorian.weekday.en}, ${data.data.date.gregorian.day} ${data.data.date.gregorian.month.en} ${data.data.date.gregorian.year}`;
-            dateDisplay.innerHTML = `${hijriDate} <br> ${gregorianDate}`;
 
             populatePrayerTable(timings);
+            calculateNextPrayer(timings);
+        } catch (error) {
+            console.error("Error fetching prayer times:", error);
+            nextPrayerDisplay.textContent = "Failed to load prayer times.";
         }
+    }
 
-        function populatePrayerTable(timings) {
-            prayerTimesBody.innerHTML = "";
-            prayerNames.forEach((prayer) => {
-                const iqamaTime = calculateIqamaTime(timings[prayer], iqamaOffsets[prayer]);
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${prayer}</td>
-                    <td>${timings[prayer]}</td>
-                    <td>${iqamaTime}</td>
-                `;
-                prayerTimesBody.appendChild(row);
-            });
-            highlightCurrentPrayer(timings);
+    // Function to populate prayer times table
+    function populatePrayerTable(timings) {
+        const prayers = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
+        prayerTimesBody.innerHTML = ""; // Clear existing rows
+
+        prayers.forEach(prayer => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${prayer}</td>
+                <td>${timings[prayer]}</td>
+                <td>${calculateIqamaTime(timings[prayer], 15)}</td>
+            `;
+            prayerTimesBody.appendChild(row);
+        });
+    }
+
+    // Function to add 15 minutes for Iqama time
+    function calculateIqamaTime(time, offset) {
+        const [hours, minutes] = time.split(":").map(Number);
+        const date = new Date();
+        date.setHours(hours, minutes + offset);
+        return date.toTimeString().split(" ")[0].slice(0, 5); // Return formatted time (HH:MM)
+    }
+
+    // Function to calculate the next prayer
+    function calculateNextPrayer(timings) {
+        const now = new Date();
+        const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+        let nextPrayer = null;
+        let timeRemaining = null;
+
+        prayers.forEach(prayer => {
+            const [hours, minutes] = timings[prayer].split(":").map(Number);
+            const prayerTime = new Date();
+            prayerTime.setHours(hours, minutes, 0);
+
+            if (prayerTime > now && !nextPrayer) {
+                nextPrayer = prayer;
+                timeRemaining = Math.floor((prayerTime - now) / 1000); // Time in seconds
+            }
+        });
+
+        if (nextPrayer) {
+            displayNextPrayer(nextPrayer, timeRemaining);
+        } else {
+            nextPrayerDisplay.textContent = "Next Prayer: Fajr Tomorrow";
         }
+    }
 
-        function calculateIqamaTime(athanTime, offset) {
-            const [hours, minutes] = athanTime.split(":".map(Number));
-            const date = new Date();
-            date.setHours(hours, minutes + offset);
-            return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-        }
+    // Function to display countdown for next prayer
+    function displayNextPrayer(prayer, timeRemaining) {
+        const interval = setInterval(() => {
+            if (timeRemaining <= 0) {
+                clearInterval(interval);
+                fetchPrayerTimes(); // Refresh times after countdown ends
+            } else {
+                const hours = Math.floor(timeRemaining / 3600);
+                const minutes = Math.floor((timeRemaining % 3600) / 60);
+                const seconds = timeRemaining % 60;
+                nextPrayerDisplay.textContent = `Next Prayer: ${prayer} in ${hours}h ${minutes}m ${seconds}s`;
+                timeRemaining--;
+            }
+        }, 1000);
+    }
 
-        function highlightCurrentPrayer(timings) {
-            const now = new Date();
-            const currentMinutes = now.getHours() * 60 + now.getMinutes();
-            let nextPrayer = null;
+    // Function to display digital clock
+    function updateClock() {
+        const now = new Date();
+        clockDisplay.textContent = now.toLocaleTimeString();
+        dateDisplay.textContent = now.toDateString();
+    }
 
-            prayerNames.forEach((prayer, index) => {
-                const [hours, minutes] = timings[prayer].split(":".map(Number));
-                const prayerMinutes = hours * 60 + minutes;
+    setInterval(updateClock, 1000);
+    updateClock();
 
-                if (prayerMinutes <= currentMinutes) {
-                    prayerTimesBody.rows[index].classList.add("highlight");
-                } else if (!nextPrayer) {
-                    nextPrayer = prayer;
-                    const remainingTime = prayerMinutes - currentMinutes;
-                    nextPrayerDisplay.textContent = `Next Prayer: ${nextPrayer} in ${Math.floor(remainingTime / 60)}h ${remainingTime % 60}m`;
-                }
-            });
-        }
+    // Fetch prayer times on page load
+    fetchPrayerTimes();
+</script>
 
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            clockDisplay.textContent = `${hours}:${minutes}:${seconds}`;
-        }
-
-        setInterval(updateClock, 1000);
-        fetchPrayerTimes();
-    </script>
 </body>
 </html>
