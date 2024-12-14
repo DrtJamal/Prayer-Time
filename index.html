@@ -25,16 +25,13 @@
 
         header {
             background-color: #e87722;
-            color: black;
-            padding: 10px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 0; /* Remove extra padding to ensure the image fits perfectly */
         }
 
         header img {
-            width: 120%; /* Increased width by 20% */
-            max-width: 200px; /* Ensure it doesn't stretch too far */
+            width: 100%; /* Full width of the header */
+            height: auto; /* Maintain the aspect ratio */
+            display: block; /* Remove any unwanted spacing */
         }
 
         .date-section {
