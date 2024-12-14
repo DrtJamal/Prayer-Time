@@ -27,12 +27,14 @@
             background-color: #e87722;
             color: black;
             padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         header img {
-            height: 80px; /* Adjust height as needed */
-            display: block;
-            margin: 0 auto;
+            width: 120%; /* Increased width by 20% */
+            max-width: 200px; /* Ensure it doesn't stretch too far */
         }
 
         .date-section {
@@ -189,23 +191,15 @@
             }
         });
 
-        if (!nextPrayer) {
-            const fajrTomorrow = timings['Fajr'];
-            const [fajrHours, fajrMinutes] = fajrTomorrow.split(":").map(Number);
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            tomorrow.setHours(fajrHours, fajrMinutes, 0);
-
-            timeRemaining = Math.floor((tomorrow - now) / 1000);
-            nextPrayer = 'Fajr';
+        if (nextPrayer) {
+            displayNextPrayer(nextPrayer, timeRemaining);
+        } else {
+            nextPrayerDisplay.textContent = "Next Prayer: Fajr in ...";
         }
-
-        displayNextPrayer(nextPrayer, timeRemaining);
     }
 
     // Function to display countdown for next prayer
     function displayNextPrayer(prayer, timeRemaining) {
-        const nextPrayerDisplay = document.getElementById('next-prayer');
         const interval = setInterval(() => {
             if (timeRemaining <= 0) {
                 clearInterval(interval);
