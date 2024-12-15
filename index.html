@@ -194,7 +194,7 @@
             if (nextPrayer) {
                 updateNextPrayerCountdown();
             } else {
-                nextPrayerDisplay.textContent = "Next Prayer: Fajr";
+                nextPrayerDisplay.textContent = "Next is: Fajr";
             }
         }
 
@@ -206,7 +206,7 @@
 
             if (timeDifference > 0) {
                 const remainingTime = formatTimeDifference(timeDifference);
-                nextPrayerDisplay.textContent = `Next Prayer: ${nextPrayer.name} in ${remainingTime}`;
+                nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} in ${remainingTime}`;
             } else {
                 nextPrayerDisplay.textContent = "Calculating next prayer...";
                 fetchPrayerTimes(); // Refresh prayer times if the countdown ends
