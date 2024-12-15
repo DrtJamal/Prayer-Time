@@ -64,11 +64,12 @@
             color: black;
         }
 
-        .fajr-row { background-color: #c8e6c9; }
-        .sunrise-row { background-color: #fff9c4; }
-        .dhuhr-row, .asr-row { background-color: #ffe0b2; }
-        .maghrib-row { background-color: #f8bbd0; }
-        .isha-row { background-color: #bbdefb; }
+        /* Row-specific colors */
+        .fajr-row { background-color: #c8e6c9; } /* Light green */
+        .sunrise-row { background-color: #fff9c4; } /* Light yellow */
+        .dhuhr-row, .asr-row { background-color: #ffe0b2; } /* Light orange */
+        .maghrib-row { background-color: #f8bbd0; } /* Light pink */
+        .isha-row { background-color: #bbdefb; } /* Light blue */
 
         .highlight {
             animation: blink 1s infinite;
@@ -134,8 +135,8 @@
         const nextPrayerDisplay = document.getElementById('next-prayer');
         const clockDisplay = document.getElementById('digital-clock');
         const dateDisplay = document.getElementById('date-display');
-        const beepShort = new Audio('https://www.soundjay.com/button/beep-07.wav'); // Short beep
-        const beepLong = new Audio('https://www.soundjay.com/button/beep-08b.wav'); // Long beep
+        let nextPrayer = null;
+        let nextAdhanElement = null;
 
         async function fetchPrayerTimes() {
             const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
@@ -146,6 +147,7 @@
                 const timings = data.data.timings;
 
                 populatePrayerTable(timings);
+                determineNextPrayer(timings);
             } catch (error) {
                 console.error("Error fetching prayer times:", error);
                 nextPrayerDisplay.textContent = "Failed to load prayer times.";
@@ -175,55 +177,84 @@
                 row.innerHTML = `
                     <td>${prayer.name}</td>
                     <td class="adhan-time">${adhanTime || "-"}</td>
-                    <td class="iqama-time">${iqamaTime}</td>
+                    <td>${iqamaTime}</td>
                 `;
                 prayerTimesBody.appendChild(row);
-
-                if (iqamaTime !== "-") {
-                    scheduleIqamaAlerts(prayer.name, iqamaTime);
-                }
             });
         }
 
         function addMinutes(time, minutes) {
             if (!time) return "-";
-            const [hours, mins] = time.split(":" ).map(Number);
+            const [hours, mins] = time.split(":").map(Number);
             const date = new Date();
             date.setHours(hours, mins + minutes);
             return date.toTimeString().slice(0, 5);
         }
 
-        function scheduleIqamaAlerts(prayerName, iqamaTime) {
-            const [hours, minutes] = iqamaTime.split(":" ).map(Number);
+        function determineNextPrayer(timings) {
             const now = new Date();
-            const iqamaDate = new Date();
-            iqamaDate.setHours(hours, minutes, 0, 0);
+            const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+            let minTimeDifference = Infinity;
 
-            const oneMinuteBefore = new Date(iqamaDate.getTime() - 60 * 1000);
+            prayers.forEach(prayer => {
+                const adhanTime = timings[prayer];
+                if (!adhanTime) return;
 
-            if (oneMinuteBefore > now) {
-                setTimeout(() => {
-                    beepShort.play();
-                    alert(`One minute to ${prayerName} Iqamah.`);
-                    highlightIqama(iqamaTime);
-                }, oneMinuteBefore - now);
-            }
+                const [hours, minutes] = adhanTime.split(":").map(Number);
+                const prayerTime = new Date();
+                prayerTime.setHours(hours, minutes, 0);
 
-            if (iqamaDate > now) {
-                setTimeout(() => {
-                    beepLong.play();
-                    alert(`${prayerName} Iqamah time!`);
-                }, iqamaDate - now);
+                const timeDifference = prayerTime - now;
+                if (timeDifference > 0 && timeDifference < minTimeDifference) {
+                    nextPrayer = { name: prayer, time: prayerTime, adhanTime };
+                    minTimeDifference = timeDifference;
+                }
+            });
+
+            if (nextPrayer) {
+                updateNextPrayerCountdown();
+                highlightNextAdhan(nextPrayer.adhanTime);
+            } else {
+                nextPrayerDisplay.textContent = "Next is: Fajr";
             }
         }
 
-        function highlightIqama(iqamaTime) {
-            const iqamaElements = document.querySelectorAll('.iqama-time');
-            iqamaElements.forEach(element => {
-                if (element.textContent === iqamaTime) {
+        function highlightNextAdhan(adhanTime) {
+            if (nextAdhanElement) {
+                nextAdhanElement.classList.remove('highlight');
+            }
+
+            const adhanElements = document.querySelectorAll('.adhan-time');
+            adhanElements.forEach(element => {
+                if (element.textContent === adhanTime) {
                     element.classList.add('highlight');
+                    nextAdhanElement = element;
                 }
             });
+        }
+
+        function updateNextPrayerCountdown() {
+            if (!nextPrayer) return;
+
+            const now = new Date();
+            const timeDifference = nextPrayer.time - now;
+
+            if (timeDifference > 0) {
+                const remainingTime = formatTimeDifference(timeDifference);
+                nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} in ${remainingTime}`;
+            } else {
+                nextPrayerDisplay.textContent = "Calculating next prayer...";
+                fetchPrayerTimes();
+            }
+        }
+
+        function formatTimeDifference(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            return `${hours}h ${minutes}m ${seconds}s`;
         }
 
         function updateClock() {
@@ -233,6 +264,7 @@
         }
 
         setInterval(updateClock, 1000);
+        setInterval(updateNextPrayerCountdown, 1000);
         fetchPrayerTimes();
     </script>
 </body>
