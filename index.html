@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prayer Timetable - Carlow</title>
+    <!-- Include Moment.js and Moment Hijri -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment-hijri@0.7.0/moment-hijri.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -114,6 +117,7 @@
             <img src="logo3.jpeg" alt="Carlow Islamic Cultural Centre Logo">
         </header>
 
+        <!-- Display both Gregorian and Islamic Dates -->
         <div class="date-section" id="date-display"></div>
         <div class="clock" id="digital-clock">00:00:00</div>
 
@@ -281,7 +285,11 @@
         function updateClock() {
             const now = new Date();
             clockDisplay.textContent = now.toLocaleTimeString();
-            dateDisplay.textContent = now.toDateString();
+            
+            // Display Gregorian and Islamic Date
+            const gregorianDate = now.toDateString();
+            const islamicDate = moment().format('iDD iMMMM iYYYY');
+            dateDisplay.textContent = `${gregorianDate}, Islamic Date: ${islamicDate}`;
         }
 
         setInterval(updateClock, 1000);
