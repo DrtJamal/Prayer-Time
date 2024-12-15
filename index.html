@@ -288,7 +288,7 @@
             
             // Display Gregorian and Islamic Date
             const gregorianDate = now.toDateString();
-            const islamicDate = moment().format('iDD iMMMM iYYYY');
+            const islamicDate = moment().format('iD [of] iMMMM iYYYY [AH]');
             dateDisplay.textContent = `${gregorianDate}, Islamic Date: ${islamicDate}`;
         }
 
