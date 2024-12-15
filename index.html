@@ -108,7 +108,7 @@
         <div id="next-prayer">Next Prayer: Calculating...</div>
 
         <div class="footer">
-            Jumuah Khutbah: <span id="jumuah-time">13:10 </span>
+            Jumuah Khutbah: <span id="jumuah-time">13:10</span>
         </div>
     </div>
 
@@ -186,16 +186,26 @@
 
                 const timeDifference = prayerTime - now;
                 if (timeDifference > 0 && timeDifference < minTimeDifference) {
-                    nextPrayer = prayer;
+                    nextPrayer = { name: prayer, timeDifference };
                     minTimeDifference = timeDifference;
                 }
             });
 
             if (nextPrayer) {
-                nextPrayerDisplay.textContent = `Next Prayer: ${nextPrayer}`;
+                const remainingTime = formatTimeDifference(nextPrayer.timeDifference);
+                nextPrayerDisplay.textContent = `Next Prayer: ${nextPrayer.name} in ${remainingTime}`;
             } else {
                 nextPrayerDisplay.textContent = "Next Prayer: Fajr";
             }
+        }
+
+        function formatTimeDifference(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            return `${hours}h ${minutes}m ${seconds}s`;
         }
 
         function updateClock() {
@@ -205,6 +215,7 @@
         }
 
         setInterval(updateClock, 1000);
+        setInterval(() => fetchPrayerTimes(), 60000); // Refresh prayer times every minute
         updateClock();
         fetchPrayerTimes();
     </script>
