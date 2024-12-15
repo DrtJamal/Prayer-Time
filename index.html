@@ -68,12 +68,6 @@
             background-color: #e8c29b;
         }
 
-        .highlight {
-            background-color: #e87722 !important;
-            font-weight: bold;
-            color: black !important;
-        }
-
         .footer {
             background-color: #e87722;
             padding: 10px 0;
@@ -97,10 +91,7 @@
             <img src="logo3.jpeg" alt="Carlow Islamic Cultural Centre Logo">
         </header>
 
-        <div class="date-section" id="date-display">
-            <!-- Date will be inserted here -->
-        </div>
-
+        <div class="date-section" id="date-display"></div>
         <div class="clock" id="digital-clock">00:00:00</div>
 
         <table>
@@ -111,9 +102,7 @@
                     <th>IQAMAH</th>
                 </tr>
             </thead>
-            <tbody id="prayer-times-body">
-                <!-- Dynamic times will be inserted here -->
-            </tbody>
+            <tbody id="prayer-times-body"></tbody>
         </table>
 
         <div id="next-prayer">Next Prayer: Calculating...</div>
@@ -125,7 +114,7 @@
 
     <script>
         const prayerTimesBody = document.getElementById('prayer-times-body');
-        const nextPrayerDisplay = document.getElementById('next-prayer');  
+        const nextPrayerDisplay = document.getElementById('next-prayer');
         const clockDisplay = document.getElementById('digital-clock');
         const dateDisplay = document.getElementById('date-display');
 
@@ -158,23 +147,24 @@
             prayerTimesBody.innerHTML = "";
 
             prayers.forEach(prayer => {
-                const row = document.createElement('tr');
+                const adhanTime = timings[prayer.name];
                 const iqamaTime = prayer.iqamaOffset
-                    ? addMinutes(timings[prayer.name], prayer.iqamaOffset)
-                    : prayer.iqama;
+                    ? addMinutes(adhanTime, prayer.iqamaOffset)
+                    : prayer.iqama || "-";
 
+                const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${prayer.name}</td>
-                    <td>${timings[prayer.name]}</td>
+                    <td>${adhanTime || "-"}</td>
                     <td>${iqamaTime}</td>
                 `;
-
                 prayerTimesBody.appendChild(row);
             });
         }
 
         function addMinutes(time, minutes) {
-            const [hours, mins] = time.split(":".map(Number));
+            if (!time) return "-";
+            const [hours, mins] = time.split(":").map(Number);
             const date = new Date();
             date.setHours(hours, mins + minutes);
             return date.toTimeString().slice(0, 5);
@@ -184,18 +174,28 @@
             const now = new Date();
             const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
             let nextPrayer = null;
+            let minTimeDifference = Infinity;
 
             prayers.forEach(prayer => {
-                const [hours, minutes] = timings[prayer].split(":".map(Number));
+                const adhanTime = timings[prayer];
+                if (!adhanTime) return;
+
+                const [hours, minutes] = adhanTime.split(":").map(Number);
                 const prayerTime = new Date();
                 prayerTime.setHours(hours, minutes, 0);
 
-                if (prayerTime > now && !nextPrayer) {
+                const timeDifference = prayerTime - now;
+                if (timeDifference > 0 && timeDifference < minTimeDifference) {
                     nextPrayer = prayer;
+                    minTimeDifference = timeDifference;
                 }
             });
 
-            nextPrayerDisplay.textContent = `Next Prayer: ${nextPrayer || "Fajr"}`;
+            if (nextPrayer) {
+                nextPrayerDisplay.textContent = `Next Prayer: ${nextPrayer}`;
+            } else {
+                nextPrayerDisplay.textContent = "Next Prayer: Fajr";
+            }
         }
 
         function updateClock() {
