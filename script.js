@@ -1,100 +1,264 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const city = "Carlow";
-    const country = "Ireland";
-    const method = 2; // Calculation method
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Timetable - Carlow</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e0d0b0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-    const apiUrl = `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=${method}`;
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            background-color: #e0d0b0;
+        }
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const timings = data.data.timings;
+        header {
+            background-color: #e87722;
+            padding: 0;
+        }
 
-            // Fill the prayer times dynamically
-            document.getElementById("Fajr").textContent = timings.Fajr;
-            document.getElementById("Dhuhr").textContent = timings.Dhuhr;
-            document.getElementById("Asr").textContent = timings.Asr;
-            document.getElementById("Maghrib").textContent = timings.Maghrib;
-            document.getElementById("Isha").textContent = timings.Isha;
+        header img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-            // Additional timings
-            document.getElementById("sunrise").textContent = timings.Sunrise;
+        .date-section {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
 
-            // Set the Hijri date
-            const hijriDate = data.data.date.hijri;
-            const day = parseInt(hijriDate.day, 10);
-            const month = hijriDate.month.en;
-            const year = hijriDate.year;
-            const suffix = (day % 10 === 1 && day !== 11) ? "st" :
-                           (day % 10 === 2 && day !== 12) ? "nd" :
-                           (day % 10 === 3 && day !== 13) ? "rd" : "th";
-            document.getElementById("hijri-date").textContent = `${day}${suffix} of ${month}, ${year} AH`;
+        .clock {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: black;
+        }
 
-            // Store prayer times for the next prayer calculation
-            const prayerOrder = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
-            const prayerTimes = prayerOrder.map(prayer => {
-                const time = timings[prayer];
-                const [hours, minutes] = time.split(":").map(Number);
-                return new Date().setHours(hours, minutes, 0, 0); // Convert to Date object
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        table th {
+            background-color: #e87722;
+            font-weight: bold;
+            color: white;
+        }
+
+        table tbody tr:nth-child(1) {
+            background-color: #ffe4b5; /* Fajr: Light orange-yellow */
+        }
+
+        table tbody tr:nth-child(2) {
+            background-color: #fffacd; /* Sunrise: Lemon chiffon */
+        }
+
+        table tbody tr:nth-child(3) {
+            background-color: #fff8dc; /* Dhuhr: Cornsilk */
+        }
+
+        table tbody tr:nth-child(4) {
+            background-color: #f5deb3; /* Asr: Wheat */
+        }
+
+        table tbody tr:nth-child(5) {
+            background-color: #87cefa; /* Maghrib: Light sky blue */
+        }
+
+        table tbody tr:nth-child(6) {
+            background-color: #4682b4; /* Isha: Steel blue */
+            color: white; /* Contrast for text */
+        }
+
+        .footer {
+            background-color: #e87722;
+            padding: 10px 0;
+            color: black;
+            font-size: 1.2rem;
+        }
+
+        .footer span {
+            font-weight: bold;
+        }
+
+        #next-prayer {
+            margin: 20px 0;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="logo3.jpeg" alt="Carlow Islamic Cultural Centre Logo">
+        </header>
+
+        <div class="date-section" id="date-display"></div>
+        <div class="clock" id="digital-clock">00:00:00</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>PRAYER</th>
+                    <th>ADHAN</th>
+                    <th>IQAMAH</th>
+                </tr>
+            </thead>
+            <tbody id="prayer-times-body"></tbody>
+        </table>
+
+        <div id="next-prayer">Next is: Calculating...</div>
+
+        <div class="footer">
+            Jummah Khutbah: <span id="jumuah-time">13:10</span>
+        </div>
+    </div>
+
+    <script>
+        const prayerTimesBody = document.getElementById('prayer-times-body');
+        const nextPrayerDisplay = document.getElementById('next-prayer');
+        const clockDisplay = document.getElementById('digital-clock');
+        const dateDisplay = document.getElementById('date-display');
+        let nextPrayer = null;
+
+        async function fetchPrayerTimes() {
+            const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
+
+            try {
+                const response = await fetch(apiURL);
+                const data = await response.json();
+                const timings = data.data.timings;
+                const hijriDate = data.data.date.hijri;
+
+                populatePrayerTable(timings);
+                updateDateDisplay(hijriDate);
+                determineNextPrayer(timings);
+            } catch (error) {
+                console.error("Error fetching prayer times:", error);
+                nextPrayerDisplay.textContent = "Failed to load prayer times.";
+            }
+        }
+
+        function populatePrayerTable(timings) {
+            const prayers = [
+                { name: "Fajr", iqama: "07:00" },
+                { name: "Sunrise", iqama: "-" },
+                { name: "Dhuhr", iqama: "12:45" },
+                { name: "Asr", iqama: "14:15" },
+                { name: "Maghrib", iqamaOffset: 10 },
+                { name: "Isha", iqama: "19:00" }
+            ];
+
+            prayerTimesBody.innerHTML = "";
+
+            prayers.forEach(prayer => {
+                const adhanTime = timings[prayer.name];
+                const iqamaTime = prayer.iqamaOffset
+                    ? addMinutes(adhanTime, prayer.iqamaOffset)
+                    : prayer.iqama || "-";
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${prayer.name}</td>
+                    <td>${adhanTime || "-"}</td>
+                    <td>${iqamaTime}</td>
+                `;
+                prayerTimesBody.appendChild(row);
+            });
+        }
+
+        function addMinutes(time, minutes) {
+            if (!time) return "-";
+            const [hours, mins] = time.split(":").map(Number);
+            const date = new Date();
+            date.setHours(hours, mins + minutes);
+            return date.toTimeString().slice(0, 5);
+        }
+
+        function updateDateDisplay(hijriDate) {
+            const now = new Date();
+            const gregorianDate = now.toDateString();
+            dateDisplay.innerHTML = `${gregorianDate} | ${hijriDate.day} ${hijriDate.month.en} ${hijriDate.year} AH`;
+        }
+
+        function determineNextPrayer(timings) {
+            const now = new Date();
+            const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+            let minTimeDifference = Infinity;
+
+            prayers.forEach(prayer => {
+                const adhanTime = timings[prayer];
+                if (!adhanTime) return;
+
+                const [hours, minutes] = adhanTime.split(":").map(Number);
+                const prayerTime = new Date();
+                prayerTime.setHours(hours, minutes, 0);
+
+                const timeDifference = prayerTime - now;
+                if (timeDifference > 0 && timeDifference < minTimeDifference) {
+                    nextPrayer = { name: prayer, time: prayerTime };
+                    minTimeDifference = timeDifference;
+                }
             });
 
-            function updateNextPrayer() {
-                const now = new Date().getTime();
-                let nextPrayerIndex = -1;
-
-                // Find the next prayer
-                for (let i = 0; i < prayerTimes.length; i++) {
-                    if (prayerTimes[i] > now) {
-                        nextPrayerIndex = i;
-                        break;
-                    }
-                }
-
-                // If no prayer remains for today, the next prayer is tomorrow's Fajr
-                if (nextPrayerIndex === -1) {
-                    nextPrayerIndex = 0;
-                    prayerTimes[0] += 24 * 60 * 60 * 1000; // Add 24 hours to Fajr time
-                }
-
-                const nextPrayer = prayerOrder[nextPrayerIndex];
-                const timeToNextPrayer = prayerTimes[nextPrayerIndex] - now;
-
-                // Convert timeToNextPrayer to hours, minutes, and seconds
-                const hours = Math.floor(timeToNextPrayer / (1000 * 60 * 60));
-                const minutes = Math.floor((timeToNextPrayer % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeToNextPrayer % (1000 * 60)) / 1000);
-
-                // Update the "Next Prayer" and "Time to Next Prayer" fields
-                document.getElementById("next-prayer").textContent = `Next Prayer: ${nextPrayer}`;
-                document.getElementById("time-to-next").textContent =
-                    `Time to ${nextPrayer}: ${hours}h ${minutes}m ${seconds}s`;
-
-                // Update the "Good Luck" message
-                document.getElementById("good-luck").textContent = "Good Luck!";
+            if (nextPrayer) {
+                updateNextPrayerCountdown();
+            } else {
+                nextPrayerDisplay.textContent = "Next Prayer: Fajr";
             }
+        }
 
-            // Update every second
-            setInterval(updateNextPrayer, 1000);
-        })
-        .catch(error => {
-            console.error("Error fetching prayer times:", error);
-        });
+        function updateNextPrayerCountdown() {
+            if (!nextPrayer) return;
 
-    // Live clock for current time
-    function updateCurrentTime() {
-        const now = new Date();
+            const now = new Date();
+            const timeDifference = nextPrayer.time - now;
 
-        const weekday = now.toLocaleString("en-US", { weekday: "long" });
-        const day = now.getDate();
-        const suffix = (day % 10 === 1 && day !== 11) ? "st" :
-                       (day % 10 === 2 && day !== 12) ? "nd" :
-                       (day % 10 === 3 && day !== 13) ? "rd" : "th";
-        const month = now.toLocaleString("en-US", { month: "long" });
-        const year = now.getFullYear();
+            if (timeDifference > 0) {
+                const remainingTime = formatTimeDifference(timeDifference);
+                nextPrayerDisplay.textContent = `Next Prayer: ${nextPrayer.name} in ${remainingTime}`;
+            } else {
+                nextPrayerDisplay.textContent = "Calculating next prayer...";
+                fetchPrayerTimes();
+            }
+        }
 
-        document.getElementById("current-date").textContent = `${weekday}, ${day}${suffix} of ${month} ${year}`;
-        document.getElementById("current-time").textContent = now.toLocaleTimeString();
-    }
+        function formatTimeDifference(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
 
-    setInterval(updateCurrentTime, 1000); // Update time every second
-});
+            return `${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        function updateClock() {
+            const now = new Date();
+            clockDisplay.textContent = now.toLocaleTimeString();
+        }
+
+        setInterval(updateClock, 1000);
+        setInterval(updateNextPrayerCountdown, 1000);
+        fetchPrayerTimes();
+    </script>
+</body>
+</html>
