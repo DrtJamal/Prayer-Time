@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Timetable - Carlow</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #e0d0b0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            background-color: #e0d0b0;
+        }
+
+        header {
+            background-color: #e87722;
+            padding: 0;
+        }
+
+        header img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .date-section {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .clock {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: black;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        table th {
+            background-color: #d7b899;
+            font-weight: normal;
+            color: black;
+        }
+
+        .fajr-row { background-color: #c8e6c9; }
+        .sunrise-row { background-color: #fff9c4; }
+        .dhuhr-row, .asr-row { background-color: #ffe0b2; }
+        .maghrib-row { background-color: #f8bbd0; }
+        .isha-row { background-color: #bbdefb; }
+
+        .highlight {
+            animation: blink 1s infinite;
+            font-weight: bold;
+            color: red;
+        }
+
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            25%, 75% {
+                opacity: 0.5;
+            }
+        }
+
+        .footer {
+            background-color: #e87722;
+            padding: 10px 0;
+            color: black;
+            font-size: 1.2rem;
+        }
+
+        .footer span {
+            font-weight: bold;
+        }
+
+        #next-prayer {
+            margin: 20px 0;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="logo3.jpeg" alt="Carlow Islamic Cultural Centre Logo">
+        </header>
+
+        <div class="date-section" id="date-display"></div>
+        <div class="clock" id="digital-clock">00:00:00</div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>PRAYER</th>
+                    <th>ADHAN</th>
+                    <th>IQAMAH</th>
+                </tr>
+            </thead>
+            <tbody id="prayer-times-body"></tbody>
+        </table>
+
+        <div id="next-prayer">Next is: Calculating...</div>
+
+        <div class="footer">
+            Jummah Khutbah: <span id="jumuah-time">13:10</span>
+        </div>
+    </div>
+
+    <script>
+        const prayerTimesBody = document.getElementById('prayer-times-body');
+        const nextPrayerDisplay = document.getElementById('next-prayer');
+        const clockDisplay = document.getElementById('digital-clock');
+        const dateDisplay = document.getElementById('date-display');
+        const beepShort = new Audio('https://www.soundjay.com/button/beep-07.wav'); // Short beep
+        const beepLong = new Audio('https://www.soundjay.com/button/beep-08b.wav'); // Long beep
+
+        async function fetchPrayerTimes() {
+            const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
+
+            try {
+                const response = await fetch(apiURL);
+                const data = await response.json();
+                const timings = data.data.timings;
+
+                populatePrayerTable(timings);
+            } catch (error) {
+                console.error("Error fetching prayer times:", error);
+                nextPrayerDisplay.textContent = "Failed to load prayer times.";
+            }
+        }
+
+        function populatePrayerTable(timings) {
+            const prayers = [
+                { name: "Fajr", iqama: "07:00", class: "fajr-row" },
+                { name: "Sunrise", iqama: "-", class: "sunrise-row" },
+                { name: "Dhuhr", iqama: "12:45", class: "dhuhr-row" },
+                { name: "Asr", iqama: "14:15", class: "asr-row" },
+                { name: "Maghrib", iqamaOffset: 10, class: "maghrib-row" },
+                { name: "Isha", iqama: "19:00", class: "isha-row" }
+            ];
+
+            prayerTimesBody.innerHTML = "";
+
+            prayers.forEach(prayer => {
+                const adhanTime = timings[prayer.name];
+                const iqamaTime = prayer.iqamaOffset
+                    ? addMinutes(adhanTime, prayer.iqamaOffset)
+                    : prayer.iqama || "-";
+
+                const row = document.createElement('tr');
+                row.classList.add(prayer.class);
+                row.innerHTML = `
+                    <td>${prayer.name}</td>
+                    <td class="adhan-time">${adhanTime || "-"}</td>
+                    <td class="iqama-time">${iqamaTime}</td>
+                `;
+                prayerTimesBody.appendChild(row);
+
+                if (iqamaTime !== "-") {
+                    scheduleIqamaAlerts(prayer.name, iqamaTime);
+                }
+            });
+        }
+
+        function addMinutes(time, minutes) {
+            if (!time) return "-";
+            const [hours, mins] = time.split(":" ).map(Number);
+            const date = new Date();
+            date.setHours(hours, mins + minutes);
+            return date.toTimeString().slice(0, 5);
+        }
+
+        function scheduleIqamaAlerts(prayerName, iqamaTime) {
+            const [hours, minutes] = iqamaTime.split(":" ).map(Number);
+            const now = new Date();
+            const iqamaDate = new Date();
+            iqamaDate.setHours(hours, minutes, 0, 0);
+
+            const oneMinuteBefore = new Date(iqamaDate.getTime() - 60 * 1000);
+
+            if (oneMinuteBefore > now) {
+                setTimeout(() => {
+                    beepShort.play();
+                    alert(`One minute to ${prayerName} Iqamah.`);
+                    highlightIqama(iqamaTime);
+                }, oneMinuteBefore - now);
+            }
+
+            if (iqamaDate > now) {
+                setTimeout(() => {
+                    beepLong.play();
+                    alert(`${prayerName} Iqamah time!`);
+                }, iqamaDate - now);
+            }
+        }
+
+        function highlightIqama(iqamaTime) {
+            const iqamaElements = document.querySelectorAll('.iqama-time');
+            iqamaElements.forEach(element => {
+                if (element.textContent === iqamaTime) {
+                    element.classList.add('highlight');
+                }
+            });
+        }
+
+        function updateClock() {
+            const now = new Date();
+            clockDisplay.textContent = now.toLocaleTimeString();
+            dateDisplay.textContent = now.toDateString();
+        }
+
+        setInterval(updateClock, 1000);
+        fetchPrayerTimes();
+    </script>
+</body>
+</html>
