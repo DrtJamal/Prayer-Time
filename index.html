@@ -86,6 +86,10 @@
             }
         }
 
+        .highlight-row {
+            background-color: #fff59d !important; /* Brighter yellow */
+        }
+
         .footer {
             background-color: #e87722;
             padding: 10px 0;
@@ -137,6 +141,7 @@
         const dateDisplay = document.getElementById('date-display');
         let nextPrayer = null;
         let nextAdhanElement = null;
+        let nextRowElement = null;
 
         async function fetchPrayerTimes() {
             const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
@@ -214,6 +219,7 @@
             if (nextPrayer) {
                 updateNextPrayerCountdown();
                 highlightNextAdhan(nextPrayer.adhanTime);
+                highlightNextRow(nextPrayer.name);
             } else {
                 nextPrayerDisplay.textContent = "Next is: Fajr";
             }
@@ -229,6 +235,20 @@
                 if (element.textContent === adhanTime) {
                     element.classList.add('highlight');
                     nextAdhanElement = element;
+                }
+            });
+        }
+
+        function highlightNextRow(prayerName) {
+            if (nextRowElement) {
+                nextRowElement.classList.remove('highlight-row');
+            }
+
+            const rowElements = document.querySelectorAll('tr');
+            rowElements.forEach(row => {
+                if (row.cells[0] && row.cells[0].textContent === prayerName) {
+                    row.classList.add('highlight-row');
+                    nextRowElement = row;
                 }
             });
         }
