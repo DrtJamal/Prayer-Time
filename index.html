@@ -184,11 +184,11 @@
 
                 const row = document.createElement('tr');
                 row.classList.add(prayer.class);
-                row.innerHTML = 
+                row.innerHTML = `
                     <td>${prayer.name}</td>
                     <td class="adhan-time">${adhanTime || "-"}</td>
                     <td>${iqamaTime}</td>
-                ;
+                `;
                 prayerTimesBody.appendChild(row);
             });
         }
@@ -277,7 +277,7 @@
 
             if (timeDifference > 0) {
                 const remainingTime = formatTimeDifference(timeDifference);
-                nextPrayerDisplay.textContent = Next is: ${nextPrayer.name} in ${remainingTime};
+                nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} in ${remainingTime}`;
             } else {
                 nextPrayerDisplay.textContent = "Calculating next prayer...";
                 fetchPrayerTimes();
@@ -290,7 +290,7 @@
             const minutes = Math.floor((totalSeconds % 3600) / 60);
             const seconds = totalSeconds % 60;
 
-            return ${hours}h ${minutes}m ${seconds}s;
+            return `${hours}h ${minutes}m ${seconds}s`;
         }
 
         function updateClock() {
@@ -300,12 +300,3 @@
             // Display Gregorian and Islamic Date
             const gregorianDate = now.toDateString();
             const islamicDate = moment().format('iD [of] iMMMM iYYYY [AH]');
-            dateDisplay.textContent = ${gregorianDate}, Islamic Date: ${islamicDate};
-        }
-
-        setInterval(updateClock, 1000);
-        setInterval(updateNextPrayerCountdown, 1000);
-        fetchPrayerTimes();
-    </script>
-</body>
-</html>
