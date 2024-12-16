@@ -67,28 +67,6 @@
             color: black;
         }
 
-        /* Row-specific colors */
-        .fajr-row { background-color: #c8e6c9; }
-        .sunrise-row { background-color: #fff9c4; }
-        .dhuhr-row, .asr-row { background-color: #ffe0b2; }
-        .maghrib-row { background-color: #f8bbd0; }
-        .isha-row { background-color: #bbdefb; }
-
-        .highlight {
-            animation: blink 1s infinite;
-            font-weight: bold;
-            color: red;
-        }
-
-        @keyframes blink {
-            0%, 50% {
-                opacity: 1;
-            }
-            25%, 75% {
-                opacity: 0.5;
-            }
-        }
-
         .footer {
             background-color: #e87722;
             padding: 10px 0;
@@ -196,12 +174,36 @@
             return date.toTimeString().slice(0, 5);
         }
 
+        function determineNextPrayer(timings) {
+            const now = new Date();
+            let closestTime = null;
+            let nextPrayerName = null;
+
+            for (const [name, time] of Object.entries(timings)) {
+                const [hours, minutes] = time.split(":").map(Number);
+                const prayerTime = new Date();
+                prayerTime.setHours(hours, minutes, 0);
+
+                if (prayerTime > now && (!closestTime || prayerTime < closestTime)) {
+                    closestTime = prayerTime;
+                    nextPrayerName = name;
+                }
+            }
+
+            if (closestTime) {
+                nextPrayer = { time: closestTime, name: nextPrayerName };
+                nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} at ${closestTime.toTimeString().slice(0, 5)}`;
+            } else {
+                nextPrayerDisplay.textContent = "No upcoming prayers for today.";
+            }
+        }
+
         function updateClock() {
             const now = new Date();
             clockDisplay.textContent = now.toLocaleTimeString();
 
             const gregorianDate = now.toDateString();
-            const islamicDate = moment().iFormat('iD iMMMM iYYYY');
+            const islamicDate = moment().format('iD iMMMM iYYYY');
             dateDisplay.textContent = `Gregorian Date: ${gregorianDate}, Islamic Date: ${islamicDate}`;
         }
 
