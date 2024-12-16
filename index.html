@@ -68,11 +68,11 @@
         }
 
         /* Row-specific colors */
-        .fajr-row { background-color: #c8e6c9; } /* Light green */
-        .sunrise-row { background-color: #fff9c4; } /* Light yellow */
-        .dhuhr-row, .asr-row { background-color: #ffe0b2; } /* Light orange */
-        .maghrib-row { background-color: #f8bbd0; } /* Light pink */
-        .isha-row { background-color: #bbdefb; } /* Light blue */
+        .fajr-row { background-color: #c8e6c9; }
+        .sunrise-row { background-color: #fff9c4; }
+        .dhuhr-row, .asr-row { background-color: #ffe0b2; }
+        .maghrib-row { background-color: #f8bbd0; }
+        .isha-row { background-color: #bbdefb; }
 
         .highlight {
             animation: blink 1s infinite;
@@ -87,11 +87,6 @@
             25%, 75% {
                 opacity: 0.5;
             }
-        }
-
-        .highlight-row {
-            background-color: #fff59d !important; /* Brighter yellow */
-            border: 3px solid red; /* Red border for the highlighted row */
         }
 
         .footer {
@@ -117,7 +112,6 @@
             <img src="logo4.jpg" alt="Carlow Islamic Cultural Centre Logo">
         </header>
 
-        <!-- Display both Gregorian and Islamic Dates -->
         <div class="date-section" id="date-display"></div>
         <div class="clock" id="digital-clock">00:00:00</div>
 
@@ -145,14 +139,15 @@
         const clockDisplay = document.getElementById('digital-clock');
         const dateDisplay = document.getElementById('date-display');
         let nextPrayer = null;
-        let nextAdhanElement = null;
-        let nextRowElement = null;
 
         async function fetchPrayerTimes() {
             const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
 
             try {
                 const response = await fetch(apiURL);
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
                 const data = await response.json();
                 const timings = data.data.timings;
 
@@ -204,28 +199,13 @@
         function updateClock() {
             const now = new Date();
             clockDisplay.textContent = now.toLocaleTimeString();
-            
-            // Display Gregorian and Islamic Date
-            const gregorianDate = now.toDateString();
-            const islamicDate = moment().format('iD [of] iMMMM iYYYY [AH]');
-            dateDisplay.textContent = `${gregorianDate}, Islamic Date: ${islamicDate}`;
-        }
 
-        function updateNextPrayerCountdown() {
-            if (!nextPrayer) return;
-            const now = new Date();
-            const timeDifference = nextPrayer.time - now;
-            if (timeDifference > 0) {
-                const remainingTime = formatTimeDifference(timeDifference);
-                nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} in ${remainingTime}`;
-            } else {
-                nextPrayerDisplay.textContent = "Calculating next prayer...";
-                fetchPrayerTimes();
-            }
+            const gregorianDate = now.toDateString();
+            const islamicDate = moment().iFormat('iD iMMMM iYYYY');
+            dateDisplay.textContent = `Gregorian Date: ${gregorianDate}, Islamic Date: ${islamicDate}`;
         }
 
         setInterval(updateClock, 1000);
-        setInterval(updateNextPrayerCountdown, 1000);
         fetchPrayerTimes();
     </script>
 </body>
