@@ -67,6 +67,33 @@
             color: black;
         }
 
+        /* Row-specific colors */
+        .fajr-row { background-color: #c8e6c9; } /* Light green */
+        .sunrise-row { background-color: #fff9c4; } /* Light yellow */
+        .dhuhr-row, .asr-row { background-color: #ffe0b2; } /* Light orange */
+        .maghrib-row { background-color: #f8bbd0; } /* Light pink */
+        .isha-row { background-color: #bbdefb; } /* Light blue */
+
+        .highlight {
+            animation: blink 1s infinite;
+            font-weight: bold;
+            color: red;
+        }
+
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            25%, 75% {
+                opacity: 0.5;
+            }
+        }
+
+        .highlight-row {
+            background-color: #fff59d !important; /* Brighter yellow */
+            border: 3px solid red; /* Red border for the highlighted row */
+        }
+
         .footer {
             background-color: #e87722;
             padding: 10px 0;
@@ -90,6 +117,7 @@
             <img src="logo4.jpg" alt="Carlow Islamic Cultural Centre Logo">
         </header>
 
+        <!-- Display both Gregorian and Islamic Dates -->
         <div class="date-section" id="date-display"></div>
         <div class="clock" id="digital-clock">00:00:00</div>
 
@@ -117,15 +145,14 @@
         const clockDisplay = document.getElementById('digital-clock');
         const dateDisplay = document.getElementById('date-display');
         let nextPrayer = null;
+        let nextAdhanElement = null;
+        let nextRowElement = null;
 
         async function fetchPrayerTimes() {
             const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
 
             try {
                 const response = await fetch(apiURL);
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
                 const data = await response.json();
                 const timings = data.data.timings;
 
@@ -157,11 +184,11 @@
 
                 const row = document.createElement('tr');
                 row.classList.add(prayer.class);
-                row.innerHTML = `
+                row.innerHTML = 
                     <td>${prayer.name}</td>
                     <td class="adhan-time">${adhanTime || "-"}</td>
                     <td>${iqamaTime}</td>
-                `;
+                ;
                 prayerTimesBody.appendChild(row);
             });
         }
@@ -176,38 +203,108 @@
 
         function determineNextPrayer(timings) {
             const now = new Date();
-            let closestTime = null;
-            let nextPrayerName = null;
+            const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha", "Fajr"];
+            let minTimeDifference = Infinity;
+            let firstPrayerTimeTomorrow = null;
 
-            for (const [name, time] of Object.entries(timings)) {
-                const [hours, minutes] = time.split(":").map(Number);
+            prayers.forEach((prayer, index) => {
+                const adhanTime = timings[prayer];
+                if (!adhanTime) return;
+
+                const [hours, minutes] = adhanTime.split(":").map(Number);
                 const prayerTime = new Date();
                 prayerTime.setHours(hours, minutes, 0);
 
-                if (prayerTime > now && (!closestTime || prayerTime < closestTime)) {
-                    closestTime = prayerTime;
-                    nextPrayerName = name;
+                if (index === 0 && now > prayerTime) {
+                    prayerTime.setDate(prayerTime.getDate() + 1);
+                    if (!firstPrayerTimeTomorrow) firstPrayerTimeTomorrow = prayerTime;
                 }
+
+                const timeDifference = prayerTime - now;
+                if (timeDifference > 0 && timeDifference < minTimeDifference) {
+                    nextPrayer = { name: prayer, time: prayerTime, adhanTime };
+                    minTimeDifference = timeDifference;
+                }
+            });
+
+            if (nextPrayer) {
+                updateNextPrayerCountdown();
+                highlightNextAdhan(nextPrayer.adhanTime);
+                highlightNextRow(nextPrayer.name);
+            } else if (firstPrayerTimeTomorrow) {
+                nextPrayer = { name: "Fajr", time: firstPrayerTimeTomorrow, adhanTime: firstPrayerTimeTomorrow.toTimeString().slice(0, 5) };
+                updateNextPrayerCountdown();
+                highlightNextAdhan(nextPrayer.adhanTime);
+                highlightNextRow(nextPrayer.name);
+            } else {
+                nextPrayerDisplay.textContent = "Calculating next prayer...";
+            }
+        }
+
+        function highlightNextAdhan(adhanTime) {
+            if (nextAdhanElement) {
+                nextAdhanElement.classList.remove('highlight');
             }
 
-            if (closestTime) {
-                nextPrayer = { time: closestTime, name: nextPrayerName };
-                nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} at ${closestTime.toTimeString().slice(0, 5)}`;
-            } else {
-                nextPrayerDisplay.textContent = "No upcoming prayers for today.";
+            const adhanElements = document.querySelectorAll('.adhan-time');
+            adhanElements.forEach(element => {
+                if (element.textContent === adhanTime) {
+                    element.classList.add('highlight');
+                    nextAdhanElement = element;
+                }
+            });
+        }
+
+        function highlightNextRow(prayerName) {
+            if (nextRowElement) {
+                nextRowElement.classList.remove('highlight-row');
             }
+
+            const rowElements = document.querySelectorAll('tr');
+            rowElements.forEach(row => {
+                if (row.cells[0] && row.cells[0].textContent === prayerName) {
+                    row.classList.add('highlight-row');
+                    nextRowElement = row;
+                }
+            });
+        }
+
+        function updateNextPrayerCountdown() {
+            if (!nextPrayer) return;
+
+            const now = new Date();
+            const timeDifference = nextPrayer.time - now;
+
+            if (timeDifference > 0) {
+                const remainingTime = formatTimeDifference(timeDifference);
+                nextPrayerDisplay.textContent = Next is: ${nextPrayer.name} in ${remainingTime};
+            } else {
+                nextPrayerDisplay.textContent = "Calculating next prayer...";
+                fetchPrayerTimes();
+            }
+        }
+
+        function formatTimeDifference(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            return ${hours}h ${minutes}m ${seconds}s;
         }
 
         function updateClock() {
             const now = new Date();
             clockDisplay.textContent = now.toLocaleTimeString();
-
+            
+            // Display Gregorian and Islamic Date
             const gregorianDate = now.toDateString();
-            const islamicDate = moment().format('iD iMMMM iYYYY');
-            dateDisplay.textContent = `Gregorian Date: ${gregorianDate}, Islamic Date: ${islamicDate}`;
+            const islamicDate = moment().format('iD [of] iMMMM iYYYY [AH]');
+            dateDisplay.textContent = ${gregorianDate}, Islamic Date: ${islamicDate};
         }
 
         setInterval(updateClock, 1000);
+        setInterval(updateNextPrayerCountdown, 1000);
         fetchPrayerTimes();
     </script>
 </body>
