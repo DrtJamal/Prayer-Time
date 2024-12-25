@@ -269,20 +269,25 @@
             });
         }
 
-        function updateNextPrayerCountdown() {
-            if (!nextPrayer) return;
+      //  let beepSound = new Audio('https://www.soundjay.com/button/beep-07.wav'); // Add your beep sound URL here
+let beepSound = new Audio('adhan.mp3');
 
-            const now = new Date();
-            const timeDifference = nextPrayer.time - now;
+    function updateNextPrayerCountdown() {
+        if (!nextPrayer) return;
 
-            if (timeDifference > 0) {
-                const remainingTime = formatTimeDifference(timeDifference);
-                nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} in ${remainingTime}`;
-            } else {
-                nextPrayerDisplay.textContent = "Calculating next prayer...";
-                fetchPrayerTimes();
-            }
+        const now = new Date();
+        const timeDifference = nextPrayer.time - now;
+
+        if (timeDifference > 0) {
+            const remainingTime = formatTimeDifference(timeDifference);
+            nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} in ${remainingTime}`;
+        } else {
+            // Play beep sound
+            beepSound.play();
+            nextPrayerDisplay.textContent = "Calculating next prayer...";
+            fetchPrayerTimes(); // Refresh prayer times
         }
+    }
 
         function formatTimeDifference(ms) {
             const totalSeconds = Math.floor(ms / 1000);
