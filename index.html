@@ -278,7 +278,7 @@ let beepSound = new Audio('adhan.mp3');
         const now = new Date();
         const timeDifference = nextPrayer.time - now;
 
-        if (timeDifference > 0) {
+        if (timeDifference > 5) {
             const remainingTime = formatTimeDifference(timeDifference);
             nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} in ${remainingTime}`;
         } else {
