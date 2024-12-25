@@ -278,7 +278,7 @@ let beepSound = new Audio('adhan.mp3');
         const now = new Date();
         const timeDifference = nextPrayer.time - now;
 
-        if (timeDifference > 0) {
+        if (timeDifference > 5) {
             const remainingTime = formatTimeDifference(timeDifference);
             nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} in ${remainingTime}`;
         } else {
@@ -308,6 +308,25 @@ let beepSound = new Audio('adhan.mp3');
             dateDisplay.textContent = `${gregorianDate}, Islamic Date: ${islamicDate}`;
         }
 
+        // Add the iqamaBeepSound functionality here
+    let iqamaBeepSound = new Audio('beep1.mp3'); // Change to your desired beep sound if different
+    let lastIqamaBeepTime = null; // To prevent repetitive beeping within the same minute
+
+    function checkIqamaTime() {
+        const now = new Date();
+        const currentTime = now.toTimeString().slice(0, 5); // Get current time in HH:MM format
+
+        const iqamaElements = document.querySelectorAll('.iqama-time');
+        iqamaElements.forEach(element => {
+            if (element.textContent === currentTime && lastIqamaBeepTime !== currentTime) {
+                iqamaBeepSound.play();
+                lastIqamaBeepTime = currentTime; // Prevent duplicate beeps
+            }
+        });
+    }
+// Call the function periodically
+    setInterval(checkIqamaTime, 1000);
+        
         setInterval(updateClock, 1000);
         setInterval(updateNextPrayerCountdown, 1000);
         fetchPrayerTimes();
