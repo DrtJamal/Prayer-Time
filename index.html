@@ -307,7 +307,9 @@ let beepSound = new Audio('adhan.mp3');
             const islamicDate = moment().format('iD [of] iMMMM iYYYY [AH]');
             dateDisplay.textContent = `${gregorianDate}, Islamic Date: ${islamicDate}`;
         }
-
+// Call the function periodically
+    setInterval(checkIqamaTime, 1000);
+        
         setInterval(updateClock, 1000);
         setInterval(updateNextPrayerCountdown, 1000);
         fetchPrayerTimes();
