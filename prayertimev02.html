@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Prayer Timetable - Carlow</title>
+  <!-- Include Moment.js and Moment Hijri -->
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment-hijri@0.7.0/moment-hijri.min.js"></script>
+  <style>
+
+      -webkit-scrollbar {
+      }
+
+      * {
+          user-select: none;
+          -moz-user-select: none;
+          -webkit-user-select: none;
+          -ms-user-select: none;
+          caret-color: #c9c9c9;
+      }
+
+      ::selection {
+          background-color: #4b00ffd9;
+          color: white;
+      }
+
+      .dot-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+      }
+
+      .dot {
+          position: absolute;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background-color: white;
+          z-index: 0;
+          opacity: 0;
+          transition: 4s, transform 45s linear;
+          transform: translate(0, 0)
+      }
+
+      .opacity03 {
+          opacity: 0.3;
+          transform: translate(100px, 100px)
+      }
+
+      .clock {
+          cursor: pointer;
+      }
+
+      .dot1 {
+          top: 38%;
+          left: 29%;
+      }
+
+      .dot2 {
+          top: 18%;
+          right: 90%;
+      }
+
+      .dot3 {
+          bottom: 19%;
+          left: 55%;
+      }
+
+      .dot4 {
+          bottom: 13%;
+          right: 80%;
+      }
+
+      .dot5 {
+          bottom: 30%;
+          right: 15%;
+      }
+
+      .dot6 {
+          bottom: 94%;
+          right: 25%;
+      }
+
+      .dot7 {
+          bottom: 80%;
+          right: 13%;
+      }
+
+      .dot8 {
+          bottom: 40%;
+          right: 50%;
+      }
+
+      .dot9 {
+          bottom: 87%;
+          right: 79%;
+      }
+
+      .dot10 {
+          bottom: 15%;
+          right: 92%;
+      }
+
+      .dot11 {
+          bottom: 50%;
+          right: 92%;
+      }
+
+      .dot12 {
+          bottom: 23%;
+          right: 56%;
+      }
+
+      body {
+          margin: 0;
+          font-family: Arial, sans-serif;
+      }
+
+      .grey-background {
+          color: rgba(201, 201, 201, 0.55);
+          font-size: 16px;
+      }
+
+      font {
+          color: #c9c9c9 !important;
+      }
+
+      .rotate-background {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: linear-gradient(-211deg, #19012f, #03031e 45%, #010114 73%);
+          z-index: -1;
+      }
+
+      .container {
+          width: 100%;
+          max-width: 745px;
+          text-align: center;
+          position: absolute;
+          z-index: 2;
+          color: #c9c9c9;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%) scale(1);
+          transition: all 1.5s
+
+      }
+
+      .opacity0 {
+          opacity: 0;
+          transform: translate(-50%, -40%) scale(1) !important;
+          /*width: 488px !important;*/
+          /*transform: translate(-50%, -50%) scale(1) !important;*/
+      }
+
+      tr {
+          color: #c9c9c987;
+          position: relative;
+          overflow: hidden;
+      }
+
+      .text-to-lowercase {
+          text-transform: lowercase;
+      }
+
+      header img {
+          width: 100%;
+          height: auto;
+          display: block;
+      }
+
+      .date-section {
+          font-size: 1.2rem;
+          margin: 10px 0;
+      }
+
+      .clock {
+          font-size: 5rem;
+          font-weight: bold;
+          margin: 20px 0;
+      }
+
+      table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 20px;
+      }
+
+      table th, table td {
+          padding: 15px;
+          text-align: center;
+          font-size: 1.3rem;
+          border: none;
+          outline: none;
+      }
+
+      table th {
+          font-weight: normal;
+          color: white;
+      }
+
+      .highlight-row td {
+          transition: color 0.5s;
+      }
+
+
+      .highlight-row transbackground {
+
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0%;
+          height: 0%;
+          transform: translate(-50%, -50%);
+          transition:  0.5s linear;
+          background-image: linear-gradient(to right, #9100ff0f 0%, #b400ff12 100%);
+          border-radius: 15px;
+      }
+
+      .highlight-row .transition-background {
+          height: 100%;
+          width: 100%;
+          top: 0;
+          left: 0;
+          transform: translate(0, 0);
+          position: absolute;
+          z-index: -1;
+      }
+
+
+      .highlight-row {
+          color: transparent;
+      }
+
+      .highlight-row td {
+          background-clip: text;
+          background-image: linear-gradient(-211deg, #9f00ff 35%, #3540a1 57%, #4b00ff 60%);
+          -webkit-background-clip: text;
+          color: transparent;
+      }
+
+      .adjust-cool-color {
+          background-clip: text;
+          background-image: linear-gradient(-211deg, #9f00ff 35%, #3540a1 57%, #4b00ff 60%);
+          -webkit-background-clip: text;
+          color: transparent;
+          transition: color 0.5s;
+      }
+
+      .grey-background {
+          transition: color 0.5s;
+      }
+
+      .highlight-row .grey-background {
+          color: transparent !important;
+          transition: color 0.5s;
+      }
+
+      .highlight-row + td[contenteditable="true"] .grey-background {
+          color: transparent !important;
+          transition: color 0.5s;
+      }
+
+      .footer {
+          padding: 10px 0;
+          font-size: 1.2rem;
+          color: #c9c9c9
+      }
+
+
+      #next-prayer {
+          margin: 20px 0;
+          font-size: 1.5rem;
+      }
+
+      .adhan-time {
+          cursor: pointer;
+      }
+
+  </style>
+</head>
+<body>
+<div class="dot-container">
+  <div class="dot dot-one dot1"></div>
+  <div class="dot dot-two  dot2"></div>
+  <div class="dot dot-one  dot3"></div>
+  <div class="dot dot-two dot4"></div>
+  <div class="dot dot-one dot5"></div>
+  <div class="dot dot-two dot6"></div>
+  <div class="dot dot-one dot7"></div>
+  <div class="dot dot-two dot8"></div>
+  <div class="dot dot-one dot9"></div>
+  <div class="dot dot-two dot10"></div>
+  <div class="dot dot-one dot11"></div>
+  <div class="dot dot-two dot12"></div>
+</div>
+<div class="rotate-background"></div>
+<div class="container opacity0">
+
+  <!-- Display both Gregorian and Islamic Dates -->
+  <div class="date-section" id="date-display"></div>
+  <div class="clock" id="digital-clock">00:00:00</div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>PRAYER</th>
+      <th>AZAN</th>
+      <th>IQAMAH</th>
+    </tr>
+    </thead>
+    <tbody id="prayer-times-body"></tbody>
+  </table>
+
+  <div id="next-prayer">Next is: Calculating...</div>
+
+  <div class="footer">
+    Jummah <span id="jumuah-time">1:10<span class="adjust-cool-color">pm</span></span>
+  </div>
+</div>
+
+<script>
+	function checkClock() {
+		let clockInterval = setInterval(function () {
+			if (document.querySelector(".clock").textContent.slice(0, 1) > 0) {
+				setTimeout(function () {
+					document.querySelector(".container").classList.remove("opacity0")
+				}, 500)
+				setTimeout(function () {
+					clearInterval(clockInterval)
+				}, 1)
+			}
+		}, 1)
+	}
+
+	window.onload = function () {
+		setTimeout(function () {
+			document.querySelectorAll("tr").forEach(function (element) {
+				element.append(document.createElement("transbackground"))
+			});
+		}, 500)
+		setInterval(function () {
+			document.querySelector(".dhuhr-row").children[0].textContent = "Duhr"
+		}, 1000)
+		let securityInterval = setInterval(function () {
+			if (window.localStorage.getItem("textTransformSecurity") === "upperCase") {
+				window.localStorage.setItem("textTransform", "upperCase")
+			} else {
+				window.localStorage.setItem("textTransform", "lowerCase")
+			}
+		}, 1)
+		setTimeout(function () {
+			clearInterval(securityInterval)
+		}, 2000)
+		setTimeout(convertToNormalClock, 1000)
+		if (!window.localStorage.textTransform) {
+			window.localStorage.textTransform = "lowerCase"
+		}
+		if (window.localStorage["asr-row" || "dhuhr-row" || "fajr-row" || "isha-row" || "maghrib-row"]) {
+			setTimeout(function () {
+				document.querySelectorAll(".adhan-time").forEach(function (el) {
+					if (window.localStorage[el.parentElement.classList[0]]) {
+						el.nextElementSibling.textContent = window.localStorage[el.parentElement.classList[0]];
+					}
+				})
+			}, 1000)
+		}
+		checkClock();
+		setTimeout(function () {
+			document.querySelectorAll(".adhan-time").forEach(function (el) {
+				if (el.previousElementSibling.textContent === "Sunrise") {
+					el.nextElementSibling.setAttribute("contenteditable", "false")
+				} else {
+					el.nextElementSibling.setAttribute("contenteditable", "true")
+				}
+				el.nextElementSibling.oninput = function () {
+					window.localStorage[this.parentElement.classList[0]] = this.textContent
+				}
+			})
+		}, 1000)
+		// clock onclick text transform happens
+		document.getElementById("digital-clock").onclick = function () {
+			this.classList.toggle("text-to-lowercase");
+			if (this.classList.contains("text-to-lowercase")) {
+				window.localStorage.setItem("headerTransform", "lowerCase")
+			} else {
+				window.localStorage.setItem("headerTransform", "upperCase")
+			}
+		}
+
+		if (window.localStorage["headerTransform"]) {
+			if (window.localStorage["headerTransform"] === "upperCase") {
+				document.getElementById("digital-clock").classList.remove("text-to-lowercase")
+			} else {
+				document.getElementById("digital-clock").classList.add("text-to-lowercase")
+			}
+		}
+
+	}
+	const prayerTimesBody = document.getElementById('prayer-times-body');
+	const nextPrayerDisplay = document.getElementById('next-prayer');
+	const clockDisplay = document.getElementById('digital-clock');
+	const dateDisplay = document.getElementById('date-display');
+	let nextPrayer = null;
+	let nextAdhanElement = null;
+	let nextRowElement = null;
+
+	async function fetchPrayerTimes() {
+		// right one --> 		const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
+		const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
+
+		try {
+			const response = await fetch(apiURL);
+			const data = await response.json();
+			const timings = data.data.timings;
+
+			populatePrayerTable(timings);
+			determineNextPrayer(timings);
+		} catch (error) {
+			console.error("Error fetching prayer times:", error);
+			document.querySelector(".container").innerHTML = "Failed to load prayer times <br> reloading in 5";
+			setInterval(function ()  {
+
+					document.querySelector(".container").innerHTML = `${document.querySelector(".container").innerHTML.slice(0,-2)} ${document.querySelector(".container").childNodes[2].nodeValue.charAt(14) - 1}`
+				if (document.querySelector(".container").childNodes[2].nodeValue.charAt(14) === "0") {
+					window.location.reload();
+				}
+
+			},1000)
+
+			document.querySelector(".container").style.cssText = "opacity:1"
+		}
+	}
+
+	function populatePrayerTable(timings) {
+		const prayers = [
+			{name: "Fajr", iqama: "07:00", class: "fajr-row"},
+			{name: "Sunrise", iqama: "", class: "sunrise-row"},
+			{name: "Dhuhr", iqama: "12:50", class: "dhuhr-row"},
+			{name: "Asr", iqama: "14:20", class: "asr-row"},
+			{name: "Maghrib", iqamaOffset: 10, class: "maghrib-row"},
+			{name: "Isha", iqama: "19:00", class: "isha-row"}
+		];
+
+		prayerTimesBody.innerHTML = "";
+
+		prayers.forEach(prayer => {
+			const adhanTime = timings[prayer.name];
+			const iqamaTime = prayer.iqamaOffset
+				? addMinutes(adhanTime, prayer.iqamaOffset)
+				: prayer.iqama || "";
+
+			const row = document.createElement('tr');
+			row.classList.add(prayer.class);
+			row.innerHTML = `
+                    <td>${prayer.name}</td>
+                    <td class="adhan-time">${adhanTime || "-"}</td>
+                    <td>${iqamaTime}</td>
+                `;
+			prayerTimesBody.appendChild(row);
+		});
+	}
+
+	function addMinutes(time, minutes) {
+		if (!time) return "-";
+		const [hours, mins] = time.split(":").map(Number);
+		const date = new Date();
+		date.setHours(hours, mins + minutes);
+		return date.toTimeString().slice(0, 5);
+	}
+
+	function determineNextPrayer(timings) {
+		const now = new Date();
+		const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha", "Fajr"];
+		let minTimeDifference = Infinity;
+		let firstPrayerTimeTomorrow = null;
+
+		prayers.forEach((prayer, index) => {
+			const adhanTime = timings[prayer];
+			if (!adhanTime) return;
+
+			const [hours, minutes] = adhanTime.split(":").map(Number);
+			const prayerTime = new Date();
+			prayerTime.setHours(hours, minutes, 0);
+
+			if (index === 0 && now > prayerTime) {
+				prayerTime.setDate(prayerTime.getDate() + 1);
+				if (!firstPrayerTimeTomorrow) firstPrayerTimeTomorrow = prayerTime;
+			}
+
+			const timeDifference = prayerTime - now;
+			if (timeDifference > 0 && timeDifference < minTimeDifference) {
+				nextPrayer = {name: prayer, time: prayerTime, adhanTime};
+				minTimeDifference = timeDifference;
+			}
+		});
+
+		if (nextPrayer) {
+			updateNextPrayerCountdown();
+			highlightNextAdhan(nextPrayer.adhanTime);
+			highlightNextRow(nextPrayer.name);
+		} else if (firstPrayerTimeTomorrow) {
+			nextPrayer = {
+				name: "Fajr",
+				time: firstPrayerTimeTomorrow,
+				adhanTime: firstPrayerTimeTomorrow.toTimeString().slice(0, 5)
+			};
+			updateNextPrayerCountdown();
+			highlightNextAdhan(nextPrayer.adhanTime);
+			highlightNextRow(nextPrayer.name);
+		} else {
+			nextPrayerDisplay.textContent = "Calculating next prayer...";
+		}
+	}
+
+	function highlightNextAdhan(adhanTime) {
+		if (nextAdhanElement) {
+			nextAdhanElement.classList.remove('highlight');
+		}
+
+		const adhanElements = document.querySelectorAll('.adhan-time');
+		adhanElements.forEach(element => {
+			if (element.textContent === adhanTime) {
+				element.classList.add('highlight');
+				nextAdhanElement = element;
+			}
+		});
+	}
+
+	function highlightNextRow(prayerName) {
+		if (nextRowElement) {
+				setTimeout(function () {
+					nextRowElement.classList.remove('highlight-row')
+        },10)
+		}
+
+		const rowElements = document.querySelectorAll('tr');
+		rowElements.forEach(row => {
+			if (row.cells[0] && row.cells[0].textContent === prayerName) {
+				row.classList.add('highlight-row');
+				nextRowElement = row;
+			}
+		});
+	}
+
+	function updateNextPrayerCountdown() {
+		if (!nextPrayer) return;
+
+		const now = new Date();
+		const timeDifference = nextPrayer.time - now;
+
+		if (timeDifference > 0) {
+			const remainingTime = formatTimeDifference(timeDifference);
+			nextPrayerDisplay.textContent = `${nextPrayer.name} ${remainingTime}`;
+		} else {
+			nextPrayerDisplay.textContent = "Calculating next prayer...";
+			fetchPrayerTimes();
+		}
+	}
+
+	function formatTimeDifference(ms) {
+		const totalSeconds = Math.floor(ms / 1000);
+		const hours = Math.floor(totalSeconds / 3600);
+		const minutes = Math.floor((totalSeconds % 3600) / 60);
+		const seconds = totalSeconds % 60;
+		if (hours <= 0 && minutes > 0) {
+			return `${minutes}m ${seconds}s`;
+		} else if (hours <= 0 && minutes <= 0) {
+			return `${seconds}s`;
+		} else {
+			return `${hours}h ${minutes}m ${seconds}s`;
+		}
+
+	}
+
+	function updateClock() {
+		const now = new Date();
+		clockDisplay.textContent = now.toLocaleTimeString();
+
+		// Display Gregorian and Islamic Date
+		const gregorianDate = now.toDateString().slice(0, -5);
+		let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		let d = new Date().getDay();
+		let day = weekdays[d];
+		let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+		let month = months[new Date().getMonth()];
+		dateDisplay.textContent = `${day} ${new Date().getDate()} ${month} ${new Date().getFullYear()}`;
+	}
+
+
+	let dots = document.querySelectorAll('.dot');
+
+	function myDotsApperance() {
+		setTimeout(() => dots[1].classList.add("opacity03"), 1);
+		setTimeout(() => dots[1].classList.remove("opacity03"), 4000);
+		setTimeout(() => dots[2].classList.add("opacity03"), 4000);
+		setTimeout(() => dots[2].classList.remove("opacity03"), 8000);
+		setTimeout(() => dots[3].classList.add("opacity03"), 8000);
+		setTimeout(() => dots[3].classList.remove("opacity03"), 12000);
+		setTimeout(() => dots[4].classList.add("opacity03"), 12000);
+		setTimeout(() => dots[4].classList.remove("opacity03"), 16000);
+		setTimeout(() => dots[5].classList.add("opacity03"), 16000);
+		setTimeout(() => dots[5].classList.remove("opacity03"), 20000);
+		setTimeout(() => dots[6].classList.add("opacity03"), 20000);
+		setTimeout(() => dots[6].classList.remove("opacity03"), 24000);
+		setTimeout(() => dots[7].classList.add("opacity03"), 24000);
+		setTimeout(() => dots[7].classList.remove("opacity03"), 28000);
+		setTimeout(() => dots[8].classList.add("opacity03"), 28000);
+		setTimeout(() => dots[8].classList.remove("opacity03"), 32000);
+		setTimeout(() => dots[9].classList.add("opacity03"), 32000);
+		setTimeout(() => dots[9].classList.remove("opacity03"), 36000);
+		setTimeout(() => dots[10].classList.add("opacity03"), 36000);
+		setTimeout(() => dots[10].classList.remove("opacity03"), 40000);
+		setTimeout(() => dots[11].classList.add("opacity03"), 40000);
+		setTimeout(() => dots[11].classList.remove("opacity03"), 44000);
+	}
+
+	myDotsApperance()
+	setInterval(myDotsApperance, 4000)
+
+	setTimeout(function () {
+	}, 2000);
+
+	setInterval(updateClock, 1000);
+	setInterval(updateNextPrayerCountdown, 1000);
+	fetchPrayerTimes();
+
+	function convertToNormalClock() {
+		if (window.localStorage.getItem("textTransform") === "upperCase") {
+			window.localStorage.setItem("textTransformSecurity", "upperCase")
+		} else {
+			window.localStorage.setItem("textTransformSecurity", "lowerCase")
+		}
+
+		if (document.querySelector(".adhan-time")) {
+			document.querySelectorAll(".adhan-time").forEach((el) => {
+					el.onclick = () => {
+						if (window.localStorage.textTransform == "lowerCase") {
+							window.localStorage.textTransform = "upperCase"
+						} else {
+							window.localStorage.textTransform = "lowerCase"
+						}
+					}
+
+					// if (!window.localStorage["fajr-row" || "isha-row" || "maghrib-row" || "asr-row" || "dhuhr-row"]) {
+					// 	if (el.nextElementSibling.textContent.slice(0, 2) >= 12 && !(el.nextElementSibling.innerHTML ===`${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+					// 		if (el.nextElementSibling.textContent.slice(-2) !== "pm" && el.nextElementSibling.textContent.slice(0, 2) > 12 && !(el.nextElementSibling.innerHTML == `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+					// 			el.nextElementSibling.textContent = (el.nextElementSibling.textContent.slice(0, 2) - 12) + el.nextElementSibling.textContent.slice(2) + "pm";
+					// 		} else if (el.nextElementSibling.textContent.slice(-2) !== "pm" && !(el.nextElementSibling.innerHTML === `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+					// 			el.nextElementSibling.textContent = el.nextElementSibling.textContent + "pm"
+					// 		}
+					// 	} else if (el.nextElementSibling.textContent.slice(0, 2) < 12 && el.nextElementSibling.textContent.slice(-2) !== "am" && !(el.nextElementSibling.innerHTML == `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+					// 		el.nextElementSibling.textContent += "am"
+					// 	}
+					// }
+					document.querySelector(".sunrise-row .adhan-time").nextElementSibling.textContent = ""
+					//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					if (el.textContent.slice(0, 2) >= 12 && !(el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`)) {
+						if (el.textContent.slice(-2) !== "pm" && el.textContent.slice(0, 2) > 12 && !(el.innerHTML == `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`)) {
+							el.textContent = (el.textContent.slice(0, 2) - 12) + el.textContent.slice(2) + "pm";
+						} else if (el.textContent.slice(-2) !== "pm" && !(el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`)) {
+							el.textContent = el.textContent + "pm"
+						}
+					} else if (el.textContent.slice(0, 2) < 12 && el.textContent.slice(-2) !== "am" && !(el.innerHTML == `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`)) {
+						el.textContent += "am"
+					}
+					if (el.textContent.slice(-2) === "pm" && !(el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) || (el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) && window.localStorage.textTransform === "lowerCase") {
+						el.innerHTML = `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`
+					}
+					if (el.textContent.slice(-2) === "am" && !(el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) || (el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) && window.localStorage.textTransform === "lowerCase") {
+						el.innerHTML = `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`
+					}
+					if (el.textContent.slice(-2) === "pm" && !(el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) || (el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) && window.localStorage.textTransform === "upperCase") {
+						el.innerHTML = `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2).toUpperCase()}</span>`
+					}
+					if (el.textContent.slice(-2) === "am" && !(el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) || (el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) && window.localStorage.textTransform === "upperCase") {
+						el.innerHTML = `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2).toUpperCase()}</span>`
+					}
+					if (el.textContent.slice(-2) === "PM" && !(el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) || (el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) && window.localStorage.textTransform === "lowerCase") {
+						el.innerHTML = `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2).toLowerCase()}</span>`
+					}
+					if (el.textContent.slice(-2) === "AM" && !(el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) || (el.innerHTML === `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2)}</span>`) && window.localStorage.textTransform === "lowerCase") {
+						el.innerHTML = `${el.textContent.slice(0, -2)}<span class="grey-background">${el.textContent.slice(-2).toLowerCase()}</span>`
+					}
+
+
+					if (el.nextElementSibling.textContent.slice(0, 2) >= 12 && !(el.nextElementSibling.innerHTML === `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+						if (el.nextElementSibling.textContent.slice(-2) !== "pm" && el.nextElementSibling.textContent.slice(0, 2) > 12 && !(el.nextElementSibling.innerHTML === `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+							el.nextElementSibling.textContent = (el.nextElementSibling.textContent.slice(0, 2) - 12) + el.nextElementSibling.textContent.slice(2);
+						}
+					}
+					if (el.nextElementSibling.textContent.slice(-2) === "pm" && !(el.nextElementSibling.innerHTML == `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`
+						window.localStorage.textTransform = "lowerCase"
+					} else if (el.nextElementSibling.textContent.slice(-2) === "AM" && !(el.nextElementSibling.innerHTML == `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`
+						window.localStorage.textTransform = "upperCase"
+					}
+					if (el.nextElementSibling.textContent.slice(-2) === "am" && !(el.nextElementSibling.innerHTML == `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`
+						window.localStorage.textTransform = "lowerCase"
+					} else if (el.nextElementSibling.textContent.slice(-2) === "AM" && !(el.nextElementSibling.innerHTML == `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`
+						window.localStorage.textTransform = "upperCase"
+					} else if (el.nextElementSibling.textContent.slice(-2) === "PM" && !(el.nextElementSibling.innerHTML == `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`
+						window.localStorage.textTransform = "upperCase"
+					} else if (el.nextElementSibling.textContent.slice(-2) === "pm" && !(el.nextElementSibling.innerHTML == `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`)) {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`
+						window.localStorage.textTransform = "lowerCase"
+					}
+					if (el.nextElementSibling.textContent.slice(-2) === "pm" && !(el.nextElementSibling.innerHTML === `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`) && window.localStorage.textTransform === "lowerCase") {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`
+					}
+					if (el.nextElementSibling.textContent.slice(-2) === "am" && !(el.nextElementSibling.innerHTML === `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`) && window.localStorage.textTransform === "lowerCase") {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2)}</span>`
+					}
+					if (el.nextElementSibling.textContent.slice(-2) === "PM" && window.localStorage.textTransform === "lowerCase") {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2).toLowerCase()}</span>`
+					}
+					if (el.nextElementSibling.textContent.slice(-2) === "AM" && window.localStorage.textTransform === "lowerCase") {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2).toLowerCase()}</span>`
+					}
+					if (el.nextElementSibling.textContent.slice(-2) === "pm" && window.localStorage.textTransform === "upperCase") {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2).toUpperCase()}</span>`
+					}
+					if (el.nextElementSibling.textContent.slice(-2) === "am" && window.localStorage.textTransform === "upperCase") {
+						el.nextElementSibling.innerHTML = `${el.nextElementSibling.textContent.slice(0, -2)}<span class="grey-background">${el.nextElementSibling.textContent.slice(-2).toUpperCase()}</span>`
+					}
+
+
+					if (el.nextElementSibling.textContent.length > 7) {
+						el.nextElementSibling.textContent = `${el.nextElementSibling.textContent.slice(0, 8)}`
+					}
+				}
+			)
+		}
+
+
+		// you need to see if there is more than one transition-background class available in the page. if so remove them all then do your function that adds the class to the element that its parent has the highlight-row class
+		setTimeout(function () {
+			document.querySelectorAll("transbackground").forEach(function (el) {
+				if (document.querySelectorAll(".transition-background").length > 1) {
+					document.querySelectorAll("transbackground").forEach(function (el) {
+
+						if (el.classList.contains("transition-background")) {
+							el.classList.remove("transition-background")
+						}
+					})
+				} else {
+					document.querySelector(".highlight-row transbackground").classList.add("transition-background")
+        }
+			})
+			//
+
+
+		}, 550)
+	}
+
+	setInterval(convertToNormalClock, 1);
+
+</script>
+</body>
+</html>
