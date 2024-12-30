@@ -132,7 +132,7 @@
             <tbody id="prayer-times-body"></tbody>
         </table>
 
-        <div id="next-prayer">Next is: Calculating...</div>
+        <div id="next-prayer">Next Adhan is: Calculating...</div>
 
         <div class="footer">
             Jummah Khutbah: <span id="jumuah-time">13:10</span>
@@ -149,7 +149,8 @@
         let nextRowElement = null;
 
         async function fetchPrayerTimes() {
-            const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=2";
+            const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=3";
+
 
             try {
                 const response = await fetch(apiURL);
