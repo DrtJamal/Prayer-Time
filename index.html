@@ -281,7 +281,7 @@ let beepSound = new Audio('adhan.mp3');
 
         if (timeDifference > 0) {
             const remainingTime = formatTimeDifference(timeDifference);
-            nextPrayerDisplay.textContent = `Next is: ${nextPrayer.name} in ${remainingTime}`;
+            nextPrayerDisplay.textContent = `Next Adhan is: ${nextPrayer.name} in ${remainingTime}`;
         } else {
             // Play beep sound
             beepSound.play();
