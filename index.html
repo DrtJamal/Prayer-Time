@@ -321,11 +321,19 @@ table th {
 
     const rows = document.querySelectorAll('tr');
 
+    // Flag to check if we've passed today's iqama times
+    let allIqamaPassed = true;
+
     rows.forEach(row => {
         const iqamaTimeObj = row.iqamaTimeObj;
         if (!iqamaTimeObj) return; // Skip if no iqama time available
 
         const timeDifference = iqamaTimeObj - now; // Get the difference between iqama time and current time
+
+        // If this iqama time is in the future, update nextIqama
+        if (timeDifference > 0) {
+            allIqamaPassed = false; // If we find any future iqama, set the flag to false
+        }
 
         // Check if the iqama time is in the future and the closest to the current time
         if (timeDifference > 0 && (!nextIqama || timeDifference < nextIqama.timeDifference)) {
@@ -333,16 +341,20 @@ table th {
         }
     });
 
+    // If all iqama times for today have passed, we need to show the first iqama for the next day (Fajr)
+    if (allIqamaPassed) {
+        // Get the first row, which should be Fajr for the next day
+        const firstIqamaRow = rows[1]; // Assuming rows[0] is Fajr of the next day
+        nextIqama = { row: firstIqamaRow, timeDifference: firstIqamaRow.iqamaTimeObj - now };
+    }
+
+    // Now update the next iqama div with the next iqama time
     if (nextIqama) {
-        console.log(`Next iqama: ${nextIqama.row.cells[0].textContent} at ${nextIqama.row.cells[2].textContent}`);
-        // Now update the next iqama div with the next iqama time
         nextIqamaDiv.textContent = `Next Iqama is for ${nextIqama.row.cells[0].textContent} at ${nextIqama.row.cells[2].textContent}`;
     } else {
-        console.log("No upcoming iqama times.");
         nextIqamaDiv.textContent = "No upcoming iqama times.";
     }
 }
-
 
     function addMinutes(time, minutes) {
         if (!time) return "-";
