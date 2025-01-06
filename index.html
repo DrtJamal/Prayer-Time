@@ -245,7 +245,7 @@ table th {
     const nextIqamaDiv = document.getElementById('next-iqama');
     const nextPrayerDisplay = document.getElementById('next-prayer');
     const clockDisplay = document.getElementById('current-time');
-    const beep = new Audio('beep1.mp3');
+    const iqamaBeep = new Audio('beep1.mp3'); // For Iqama
     let nextPrayer = null;
     let nextAdhanElement = null;
     let nextRowElement = null;
@@ -316,6 +316,7 @@ table th {
     }
     setInterval(findNextIqamaTime, 1000);  // Recheck every second
     // Function to find the next iqama time based on the current time
+    let iqamaBeepPlayed = false;
     function findNextIqamaTime() {
     const now = new Date();
     let nextIqama = null;
@@ -351,17 +352,21 @@ table th {
 
     // Now update the next iqama div with the next iqama time
     if (nextIqama) {
-        // Beep when iqama time is reached
-    const iqamaTime = new Date(nextIqama.row.iqamaTimeObj);
-    const currentTime = new Date();
-    if (iqamaTime.getTime() <= currentTime.getTime()) {
-       // beepSound.play(); // Play the beep sound
-    }
+        const iqamaTime = new Date(nextIqama.row.iqamaTimeObj);
+        const currentTime = new Date();
+        
+        // Check if the iqama time is about to be reached (within 5 seconds)
+        if (iqamaTime.getTime() - currentTime.getTime() <= 5000 && !iqamaBeepPlayed) {
+            iqamaBeep.play(); // Play the iqama beep sound
+            iqamaBeepPlayed = true; // Set the flag to true so it doesn't play again
+        }
+        
         nextIqamaDiv.textContent = `Next Iqama is for ${nextIqama.row.cells[0].textContent} at ${nextIqama.row.cells[2].textContent}`;
     } else {
         nextIqamaDiv.textContent = "No upcoming iqama times.";
     }
 }
+
 
     function addMinutes(time, minutes) {
         if (!time) return "-";
