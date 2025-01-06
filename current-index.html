@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times</title>
+    <style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #4CAF50;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+}
+
+main {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%; /* Stretch to full height of the viewport */
+}
+
+.table-container {
+    width: 50%; /* Takes up half of the screen horizontally */
+    height: 100%; /* Stretch vertically */
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table-container table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: 0;
+    height: 90%; /* Stretch to near full height */
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: center;
+    font-size: 4rem; /* Adjusted font size */
+    font-weight: bold;
+}
+table td:nth-child(3) {
+            font-weight: bold; /* Makes the text bold */
+            color: #007bff; /* Change this to your desired color */
+        }
+table th {
+    background-color: #d7b899;
+    color: black;
+}
+
+/* Restoring original row colors */
+.fajr-row {
+    background-color: #c8e6c9; /* Light green */
+}
+
+.sunrise-row {
+    background-color: #fff9c4; /* Light yellow */
+}
+
+.dhuhr-row, .asr-row {
+    background-color: #ffe0b2; /* Light orange */
+}
+
+.maghrib-row {
+    background-color: #f8bbd0; /* Light pink */
+}
+
+.isha-row {
+    background-color: #bbdefb; /* Light blue */
+}
+
+/* Highlight styles */
+.highlight {
+    animation: blink 1s infinite;
+    font-weight: bold;
+    color: red;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    25%, 75% {
+        opacity: 0.5;
+    }
+}
+
+#right-container {
+    width: 50%; /* Takes up the other half of the screen */
+    height: 100%; /* Stretch vertically */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center; /* Center items */
+    align-items: center;
+}
+
+#current-time {
+    font-size: 9rem; /* Increased size for clock */
+    margin: 20px 0;
+    font-weight: bold;
+    color: #ffcc00; /* Bright color for clock text */
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8); /* Glow effect */
+    word-wrap: break-word;
+}
+
+#sunrise-time {
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #ffcc00; /* Bright yellow color */
+    text-align: center;
+    margin-top: 20px;
+}
+
+#date-display {
+    font-size: 1.8rem; /* Adjust the font size */
+    font-weight: bold;
+    color: #ffffff; /* White color for better contrast */
+    text-align: center;
+    margin-bottom: 20px; /* Space below the date */
+}
+
+#next-prayer {
+    width: auto; /* Allow the width to adapt naturally */
+    padding: 10px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffcc00;
+    text-align: center;
+    margin-top: 10px;
+    word-wrap: break-word; /* Prevent text overflow */
+}
+
+#next-iqama {
+    font-size: 80px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 3.5s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    padding: 10px;  /* Add some space around the text */
+    background-color: yellow;  /* Add a background color to make it stand out more */
+    border-radius: 5px;  /* Round the corners */
+}
+
+@keyframes colorChange {
+    0% {
+        color: red;
+    }
+    20% {
+        color: black;
+    }
+    40% {
+        color: blue;
+    }
+    60% {
+        color: purple;
+    }
+    80% {
+        color: green;
+    }
+    100% {
+        color: red;
+    }
+}
+
+/* Mobile responsiveness */
+@media only screen and (max-width: 768px) {
+    main {
+        flex-direction: column; /* Stack the table and next prayer vertically */
+    }
+
+    .table-container, #right-container {
+        width: 100%; /* Take full width on mobile */
+        height: auto; /* Allow height to adapt naturally */
+    }
+
+    table th, table td {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+        padding: 8px; /* Adjust padding */
+    }
+
+    #current-time {
+        font-size: 2rem; /* Reduce clock font size on mobile */
+    }
+
+    #next-prayer, #next-iqama {
+        font-size: 1rem; /* Adjust font size for smaller screens */
+        margin-top: 10px; /* Add spacing for clarity */
+    }
+
+    #sunrise-time, #date-display {
+        font-size: 1.5rem; /* Adjust size for sunrise and date display */
+        margin-top: 10px; /* Add spacing */
+    }
+}
+
+
+    </style>
+    
+</head>
+<body>
+
+
+
+<main class="container">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Prayer</th>
+                    <th>Adhan</th>
+                    <th>Iqama</th>
+                </tr>
+            </thead>
+            <tbody id="prayer-times-body"></tbody>
+        </table>
+    </div>
+    <div id="right-container">
+        <div id="date-display"></div>
+        <div id="sunrise-time"></div>
+        <div id="current-time"></div> <!-- Digital clock moved here -->
+        <div id="next-iqama"></div>  <!-- The next iqama time will be displayed here -->
+        <div id="next-prayer"></div> <!-- Next Adhan section -->
+        <h2>Jummah Khutbah at 1310</h2>
+    </div>
+</main>
+
+<script>
+    const prayerTimesBody = document.getElementById('prayer-times-body');
+    const nextIqamaDiv = document.getElementById('next-iqama');
+    const nextPrayerDisplay = document.getElementById('next-prayer');
+    const clockDisplay = document.getElementById('current-time');
+    let nextPrayer = null;
+    let nextAdhanElement = null;
+    let nextRowElement = null;
+
+    async function fetchPrayerTimes() {
+        const apiURL = "https://api.aladhan.com/v1/timingsByCity?city=Carlow&country=Ireland&method=3";
+        try {
+            const response = await fetch(apiURL);
+            const data = await response.json();
+            const timings = data.data.timings;
+            const sunriseTime = timings.Sunrise; // Get the Sunrise time
+            document.getElementById("sunrise-time").textContent = `Sunrise: ${sunriseTime}`;
+
+            populatePrayerTable(timings);
+            determineNextPrayer(timings);
+        } catch (error) {
+            console.error("Error fetching prayer times:", error);
+            nextPrayerDisplay.textContent = "Failed to load prayer times.";
+        }
+    }
+
+    function populatePrayerTable(timings) {
+        const prayers = [
+            { name: "Fajr", iqama: "07:00", class: "fajr-row" },
+            { name: "Dhuhr", iqama: "12:50", class: "dhuhr-row" },
+            { name: "Asr", iqama: "14:30", class: "asr-row" },
+            { name: "Maghrib", iqamaOffset: 12, class: "maghrib-row" },  // Maghrib has offset
+            { name: "Isha", iqama: "19:00", class: "isha-row" }
+        ];
+
+        prayerTimesBody.innerHTML = "";
+
+        // Convert iqama times into Date objects
+        prayers.forEach(prayer => {
+            const adhanTime = timings[prayer.name];
+            const iqamaTime = prayer.iqamaOffset
+                ? addMinutes(adhanTime, prayer.iqamaOffset) // Add offset to iqama time for Maghrib
+                : prayer.iqama || "-";
+
+            // Creating a new row in the table
+            const row = document.createElement('tr');
+            row.classList.add(prayer.class);
+            row.innerHTML = `
+                <td>${prayer.name}</td>
+                <td class="adhan-time">${adhanTime || "-"}</td>
+                <td>${iqamaTime}</td>
+            `;
+            prayerTimesBody.appendChild(row);
+
+            // Convert iqama time to Date object for comparison
+            row.iqamaTimeObj = convertToDate(iqamaTime);  // Store iqama time as Date object
+        });
+
+        // Find the next iqama time
+        findNextIqamaTime();
+    }
+
+    // Function to convert time string (HH:MM) into Date object for comparison
+    function convertToDate(timeString) {
+        if (timeString === "-") return null;
+
+        const [hours, minutes] = timeString.split(':').map(Number);
+        const date = new Date();
+        date.setHours(hours);
+        date.setMinutes(minutes);
+        date.setSeconds(0);
+        return date;
+    }
+
+    // Function to find the next iqama time based on the current time
+    function findNextIqamaTime() {
+    const now = new Date();
+    let nextIqama = null;
+
+    const rows = document.querySelectorAll('tr');
+
+    rows.forEach(row => {
+        const iqamaTimeObj = row.iqamaTimeObj;
+        if (!iqamaTimeObj) return; // Skip if no iqama time available
+
+        const timeDifference = iqamaTimeObj - now; // Get the difference between iqama time and current time
+
+        // Check if the iqama time is in the future and the closest to the current time
+        if (timeDifference > 0 && (!nextIqama || timeDifference < nextIqama.timeDifference)) {
+            nextIqama = { row, timeDifference };
+        }
+    });
+
+    if (nextIqama) {
+        console.log(`Next iqama: ${nextIqama.row.cells[0].textContent} at ${nextIqama.row.cells[2].textContent}`);
+        // Now update the next iqama div with the next iqama time
+        nextIqamaDiv.textContent = `Next Iqama is for ${nextIqama.row.cells[0].textContent} at ${nextIqama.row.cells[2].textContent}`;
+    } else {
+        console.log("No upcoming iqama times.");
+        nextIqamaDiv.textContent = "No upcoming iqama times.";
+    }
+}
+
+
+    function addMinutes(time, minutes) {
+        if (!time) return "-";
+        const [hours, mins] = time.split(":").map(Number);
+        const date = new Date();
+        date.setHours(hours, mins + minutes);
+        return date.toTimeString().slice(0, 5);
+    }
+
+    function determineNextPrayer(timings) {
+        const now = new Date();
+        const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha", "Fajr"];
+        let minTimeDifference = Infinity;
+        let firstPrayerTimeTomorrow = null;
+
+        prayers.forEach((prayer, index) => {
+            const adhanTime = timings[prayer];
+            if (!adhanTime) return;
+
+            const [hours, minutes] = adhanTime.split(":").map(Number);
+            const prayerTime = new Date();
+            prayerTime.setHours(hours, minutes, 0);
+
+            if (index === 0 && now > prayerTime) {
+                prayerTime.setDate(prayerTime.getDate() + 1);
+                if (!firstPrayerTimeTomorrow) firstPrayerTimeTomorrow = prayerTime;
+            }
+
+            const timeDifference = prayerTime - now;
+            if (timeDifference > 0 && timeDifference < minTimeDifference) {
+                nextPrayer = { name: prayer, time: prayerTime, adhanTime };
+                minTimeDifference = timeDifference;
+            }
+        });
+
+        if (nextPrayer) {
+            updateNextPrayerCountdown();
+            highlightNextAdhan(nextPrayer.adhanTime);
+            highlightNextRow(nextPrayer.name);
+        } else if (firstPrayerTimeTomorrow) {
+            nextPrayer = { name: "Fajr", time: firstPrayerTimeTomorrow, adhanTime: firstPrayerTimeTomorrow.toTimeString().slice(0, 5) };
+            updateNextPrayerCountdown();
+            highlightNextAdhan(nextPrayer.adhanTime);
+            highlightNextRow(nextPrayer.name);
+        } else {
+            nextPrayerDisplay.textContent = "Calculating next prayer...";
+        }
+    }
+
+    function highlightNextAdhan(adhanTime) {
+        if (nextAdhanElement) {
+            nextAdhanElement.classList.remove('highlight');
+        }
+
+        const adhanElements = document.querySelectorAll('.adhan-time');
+        adhanElements.forEach(element => {
+            if (element.textContent === adhanTime) {
+                element.classList.add('highlight');
+                nextAdhanElement = element;
+            }
+        });
+    }
+
+    function highlightNextRow(prayerName) {
+        if (nextRowElement) {
+            nextRowElement.classList.remove('highlight-row');
+        }
+
+        const rowElements = document.querySelectorAll('tr');
+        rowElements.forEach(row => {
+            if (row.cells[0] && row.cells[0].textContent === prayerName) {
+                row.classList.add('highlight-row');
+                nextRowElement = row;
+            }
+        });
+    }
+
+    let beepSound = new Audio('adhan.mp3');
+
+    function updateNextPrayerCountdown() {
+        if (!nextPrayer) return;
+
+        const now = new Date();
+        const timeDifference = nextPrayer.time - now;
+
+        if (timeDifference > 0) {
+            const remainingTime = formatTimeDifference(timeDifference);
+            nextPrayerDisplay.textContent = `Next Adhan is: ${nextPrayer.name} in ${remainingTime}`;
+        } else {
+            beepSound.play();
+            nextPrayerDisplay.textContent = "Calculating next prayer...";
+            fetchPrayerTimes(); // Refresh prayer times
+        }
+    }
+
+    function formatTimeDifference(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        return `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function updateClock() {
+        const now = new Date();
+        clockDisplay.textContent = now.toLocaleTimeString();
+    }
+
+    setInterval(updateClock, 1000);
+    setInterval(updateNextPrayerCountdown, 1000);
+    fetchPrayerTimes();
+
+    function updateDate() {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = now.toLocaleDateString(undefined, options); // Automatically adapts to locale
+        document.getElementById("date-display").textContent = formattedDate;
+    }
+
+    // Call the function to set the initial date
+    updateDate();
+
+    // Helper function to convert time (HH:MM) to a Date object
+    function getDateFromTime(time) {
+        const [hours, minutes] = time.split(":").map(Number);
+        const now = new Date();
+        now.setHours(hours, minutes, 0, 0);
+        return now;
+    }
+
+    // Helper function to add minutes to a time
+    function addMinutes(time, minutes) {
+        const [hours, mins] = time.split(":").map(Number);
+        const date = new Date();
+        date.setHours(hours, mins + minutes);
+        return date.toTimeString().slice(0, 5);
+    }
+
+    // Helper function to format the time difference
+    function formatTimeDifference(ms) {
+        const totalSeconds = Math.floor(ms / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        return `${hours}h ${minutes}m ${seconds}s`;
+    }
+</script>
+
+</body>
+</html>
