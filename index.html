@@ -325,7 +325,7 @@ table th {
     });
 
     if (nextIqama) {
-        console.log(`Next iqama is for ${nextIqama.row.cells[0].textContent} at ${nextIqama.row.cells[2].textContent}`);
+        console.log(`Next iqama: ${nextIqama.row.cells[0].textContent} at ${nextIqama.row.cells[2].textContent}`);
         // Now update the next iqama div with the next iqama time
         nextIqamaDiv.textContent = `Next Iqama is for ${nextIqama.row.cells[0].textContent} at ${nextIqama.row.cells[2].textContent}`;
     } else {
