@@ -145,10 +145,10 @@ table th {
 }
 
 #next-iqama {
-    font-size: 80px;  /* Keep the text larger */
+    font-size: 80px;  /* Make the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
-    animation: colorChange 3.5s infinite;  /* Extended duration for smoother transitions */
+    animation: colorChange 2s infinite;  /* Color-changing animation */
     text-align: center;  /* Center the text */
     padding: 10px;  /* Add some space around the text */
     background-color: yellow;  /* Add a background color to make it stand out more */
@@ -159,17 +159,11 @@ table th {
     0% {
         color: red;
     }
-    20% {
+    33% {
         color: black;
     }
-    40% {
+    66% {
         color: blue;
-    }
-    60% {
-        color: purple;
-    }
-    80% {
-        color: green;
     }
     100% {
         color: red;
@@ -234,7 +228,6 @@ table th {
         <div id="current-time"></div> <!-- Digital clock moved here -->
         <div id="next-iqama"></div>  <!-- The next iqama time will be displayed here -->
         <div id="next-prayer"></div> <!-- Next Adhan section -->
-        <h2>Jummah Khutbah at 1310</h2>
     </div>
 </main>
 
