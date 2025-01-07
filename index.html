@@ -362,7 +362,7 @@ table th {
         
         // Check if the iqama time is about to be reached (within 5 seconds)
         if (iqamaTime.getTime() - currentTime.getTime() <= 5000 && !iqamaBeepPlayed) {
-            iqamaBeep.play(); // Play the iqama beep sound
+           // iqamaBeep.play(); // Play the iqama beep sound
             iqamaBeepPlayed = true; // Set the flag to true so it doesn't play again
         }
         
