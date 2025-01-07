@@ -356,7 +356,7 @@ table th {
                 const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
                 nextIqamaElement.innerText = `Next Iqama is: ${prayers[currentIqamaIndex].name} at (${prayers[currentIqamaIndex].iqama})`;
-                nextPrayerElement.innerText = `Time Remaining to Jamat-e-${prayers[currentIqamaIndex].name}: ${hours}:${minutes}:${seconds}`;
+                nextPrayerElement.innerText = `Time to Jamat-e-${prayers[currentIqamaIndex].name}: ${hours}:${minutes}:${seconds}`;
             }
         }, 1000);
     }
