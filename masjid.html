@@ -67,7 +67,6 @@ table th {
     background-color: greenyellow; /* Light green */
 }
 
-
 .dhuhr-row, .asr-row {
     background-color: #ffe0b2; /* Light orange */
 }
@@ -106,7 +105,7 @@ table th {
 }
 
  #current-time {
-    font-size: 8rem; /* Increased size for clock */
+    font-size: 10rem; /* Increased size for clock */
     margin-top: 3px;
     font-weight: bold;
     color: #ffcc00; /* Bright color for clock text */
@@ -118,16 +117,17 @@ table th {
     font-size: 3rem; /* Increased size for clock */
     margin-top: 10px;
     font-weight: bold;
-    color: white; /* Bright color for clock text */
+    color:green; /* Bright color for clock text */
     word-wrap: break-word;
  }
+
 
 #time-container {
     display: flex;
     align-items: center; /* Aligns both texts vertically in the center */
 }
 #nextiqama {
-    font-size: 120px;  /* Keep the text larger */
+    font-size: 100px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
     animation: colorChange 3.5s infinite;  /* Extended duration for smoother transitions */
@@ -139,7 +139,7 @@ table th {
 }
 
 #nextprayer{
-    font-size: 90px;  /* Keep the text larger */
+    font-size: 70px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
     animation: colorChange 7s infinite;  /* Extended duration for smoother transitions */
@@ -148,7 +148,6 @@ table th {
     border-radius: 3px;  /* Round the corners */
     line-height: 1; 
 }
-    
 
 @keyframes colorChange {
     0% {
@@ -205,8 +204,6 @@ table th {
 </head>
 <body>
 
-
-
 <main class="container">
     <div class="table-container">
         <table>
@@ -221,20 +218,11 @@ table th {
         </table>
     </div>
     <div id="right-container">
-        <div id="date-sunrise-display">
-            <div id="date-display"></div>
-                   </div>
-        <div>
-            <p id="time-container">
-                            <p id="nextiqama" style="margin-top: 0;margin-bottom: 0;">Weekly Masjid Project Updates:</p>
-                             <p id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Euros 1,97,000.23 Alhumdulillah</p>
-            <p id="nextiqama" style="margin-top: 0;margin-bottom: 0;">Weekly Maintenance:</p>
-                             <p id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Euros 414, Last Friday Collection</p>
-        </div>
+               <div id="current-time"> </div>
+            <div id="nextiqama" style="margin-bottom: 0;margin-top: 0;">Weekly Masjid Project Updates:</div>
+            <div id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Euros 1,97,000.23 Alhumdulillah</div>
+                       <div id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Euros 1,97,000.23 Alhumdulillah</div>
 
-
-              
-                
         <h2 style="margin-bottom: 0;">Jummah Khutbah at 1310</h2>
         <p style="margin-top: 0;">
             CICC is a charity organization, Charity No. RCN 20200211.
