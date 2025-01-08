@@ -138,6 +138,7 @@ table th {
     line-height: 1; 
 }
 
+
 #nextprayer{
     font-size: 70px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
@@ -148,7 +149,16 @@ table th {
     border-radius: 3px;  /* Round the corners */
     line-height: 1; 
 }
-
+#fridaycoll{
+    font-size: 40px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 7s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    background-color: orange;  /* Add a background color to make it stand out more */
+    border-radius: 3px;  /* Round the corners */
+    line-height: 1; 
+}
 @keyframes colorChange {
     0% {
         color: red;
@@ -190,7 +200,7 @@ table th {
         font-size: 2rem; /* Reduce clock font size on mobile */
     }
 
-    #nextprayer, #nextiqama {
+    #nextprayer, #nextiqama, #fridaycoll {
         font-size: 1rem; /* Adjust font size for smaller screens */
         margin-top: 5px; /* Add spacing for clarity */
     }
@@ -219,9 +229,12 @@ table th {
     </div>
     <div id="right-container">
                <div id="current-time"> </div>
-            <div id="nextiqama" style="margin-bottom: 0;margin-top: 0;">Weekly Masjid Project Updates:</div>
-            <div id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Euros 1,97,000.23 Alhumdulillah</div>
-                       <div id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Weekly Friday Collections 414 euros</div>
+            <div id="nextiqama" style="margin-bottom: 0;margin-top: 0;">Weekly Updates:</div>
+        <div id="nextiqama" style="margin-bottom: 0;margin-top: 0;">Project: Euros 1,96,342.39</div>
+            <div id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Friday Collections</div>
+            <div id="fridaycoll" style="margin-top: 0; margin-bottom: 0;">03 Jan2025: Euros 414</div>
+            <div id="fridaycoll" style="margin-top: 0; margin-bottom: 0;">27 Dec2024: Euros 787</div>
+            <div id="fridaycoll" style="margin-top: 0; margin-bottom: 0;">20 Dec2024: Euros 270</div>
 
         <h2 style="margin-bottom: 0;">Jummah Khutbah at 1310</h2>
         <p style="margin-top: 0;">
