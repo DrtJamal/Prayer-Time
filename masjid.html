@@ -67,9 +67,6 @@ table th {
     background-color: greenyellow; /* Light green */
 }
 
-.sunrise-row {
-    background-color: #fff9c4; /* Light yellow */
-}
 
 .dhuhr-row, .asr-row {
     background-color: #ffe0b2; /* Light orange */
@@ -109,8 +106,8 @@ table th {
 }
 
  #current-time {
-    font-size: 9rem; /* Increased size for clock */
-    margin-top: 10px;
+    font-size: 8rem; /* Increased size for clock */
+    margin-top: 3px;
     font-weight: bold;
     color: #ffcc00; /* Bright color for clock text */
     text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8); /* Glow effect */
@@ -125,12 +122,6 @@ table th {
     word-wrap: break-word;
  }
 
-#date-display {
-    font-size: 1.8rem; /* Adjust the font size */
-    font-weight: bold;
-    color: #ffffff; /* White color for better contrast */
-    text-align: center;
-    }
 #time-container {
     display: flex;
     align-items: center; /* Aligns both texts vertically in the center */
@@ -147,8 +138,8 @@ table th {
     line-height: 1; 
 }
 
-#next-prayer{
-    font-size: 70px;  /* Keep the text larger */
+#nextprayer{
+    font-size: 60px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
     animation: colorChange 7s infinite;  /* Extended duration for smoother transitions */
@@ -157,6 +148,7 @@ table th {
     border-radius: 3px;  /* Round the corners */
     line-height: 1; 
 }
+    
 
 @keyframes colorChange {
     0% {
@@ -228,16 +220,22 @@ table th {
             <tbody id="prayer-times-body"></tbody>
         </table>
     </div>
-    <div id="right-container" style="display: block; margin: 0; padding: 0;">
-        <div>
-                     <p id="nextiqama" style="margin-top: 0;margin-bottom: 0;">Weekly Masjid Project Updates:</p>
-                     
-            <p id="next-prayer" style="margin-top: 0; margin-bottom: 0;">Euros 1,97,000.23 Alhumdulillah</p>
-            <p id="nextiqama" style="margin-top: 0;margin-bottom: 0;">Weekly Maintenance Collections:</p>
-                     
-            <p id="next-prayer" style="margin-top: 0; margin-bottom: 0;">Euros 414, Last Friday Collection</p>
-            
+    <div id="right-container">
+        <div id="date-sunrise-display">
+            <div id="date-display"></div>
+            <div id="sunrise-time"></div>
         </div>
+        <div>
+            <p id="time-container">
+                            <p id="nextiqama" style="margin-top: 0;margin-bottom: 0;">Weekly Masjid Project Updates:</p>
+                             <p id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Euros 1,97,000.23 Alhumdulillah</p>
+            <p id="nextiqama" style="margin-top: 0;margin-bottom: 0;">Weekly Maintenance:</p>
+                             <p id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Euros 414, Last Friday Collection</p>
+        </div>
+
+
+              
+                
         <h2 style="margin-bottom: 0;">Jummah Khutbah at 1310</h2>
         <p style="margin-top: 0;">
             CICC is a charity organization, Charity No. RCN 20200211.
@@ -247,7 +245,9 @@ table th {
         </p>
     </div>
 </main>
-<script src="script.js"></script>
+
+    <script src="script.js"></script>
+
 
 </body>
 </html>
