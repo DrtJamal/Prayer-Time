@@ -22,7 +22,7 @@ const prayerTimesBody = document.getElementById('prayer-times-body');
             const response = await fetch(apiURL);
             const data = await response.json();
             timings = data.data.timings; // Store fetched timings
-            document.getElementById("sunrise-time").innerText = `Sunrise: ${timings.Sunrise}`;
+           // document.getElementById("sunrise-time").innerText = `Sunrise: ${timings.Sunrise}`;
             populatePrayerTable();
             startCountdown(); // Start countdown after populating table
             updateCurrentPrayer(); // Update the current prayer status
