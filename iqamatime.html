@@ -109,17 +109,19 @@ table th {
 }
 
  #current-time {
-    font-size: 10rem; /* Increased size for clock */
+    font-size: 13rem; /* Increased size for clock */
     margin-top: 3px;
     font-weight: bold;
     color: #ffcc00; /* Bright color for clock text */
     text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8); /* Glow effect */
     word-wrap: break-word;
+    line-height: 0.3; /* Remove extra space below the text */
  }
+
 
  #current-prayer{
     font-size: 3rem; /* Increased size for clock */
-    margin-top: 10px;
+    margin-top: 1px;
     font-weight: bold;
     color:green; /* Bright color for clock text */
     word-wrap: break-word;
@@ -128,11 +130,11 @@ table th {
     display: flex;             /* Use flexbox for alignment */
     align-items: center;       /* Vertically center items */
     justify-content: flex-start; /* Align to the left (or change to 'center' for centering) */
-    margin-top: 10px;          /* Space from the top, adjust as needed */
+    margin-top: 4px;          /* Space from the top, adjust as needed */
 }
 
 #date-display, #sunrise-time {
-    margin-right: 50px;        /* Space between the two elements */
+    margin-right: 20px;        /* Space between the two elements */
 }
 
 #time-container {
@@ -140,7 +142,7 @@ table th {
     align-items: center; /* Aligns both texts vertically in the center */
 }
 #next-iqama {
-    font-size: 100px;  /* Keep the text larger */
+    font-size: 110px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
     animation: colorChange 3.5s infinite;  /* Extended duration for smoother transitions */
@@ -152,7 +154,7 @@ table th {
 }
 
 #next-prayer{
-    font-size: 70px;  /* Keep the text larger */
+    font-size: 80px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
     animation: colorChange 7s infinite;  /* Extended duration for smoother transitions */
@@ -248,14 +250,14 @@ table th {
     <div id="right-container">
         <div id="date-sunrise-display">
             <div id="date-display"></div>
-            <div id="sunrise-time"></div>
+            
         </div>
         <div>
             <div id="current-time"></div> 
                             <p id="next-iqama" style="margin-bottom: 0;">Next Iqama: </p>
             <p id="next-prayer" style="margin-top: 0; margin-bottom: 0;">Time Remaining: --:--:--</p>
         </div>
-        <h2 style="margin-bottom: 0;">Jummah Khutbah at 1310</h2>
+        <h2 style="margin-bottom: 0;">Jummah Khutbah at 1310</h2><div id="sunrise-time"></div>
         <p style="margin-top: 0;">
             CICC is a charity organization, Charity No. RCN 20200211.
             <a href="https://drtjamal.github.io/Prayer-Time/" style="display: inline; margin-right: 10px;">Prayer Time</a>
