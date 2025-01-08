@@ -112,7 +112,7 @@
         function beepAndAlert() {
             let beep = new Audio("beep.mp3");
             beep.play();
-            alert("Time for the next iqama!");
+          //  alert("Time for the next iqama!");
         }
 
         function addMinutes(time, minutes) {
