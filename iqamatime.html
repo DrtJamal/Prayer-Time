@@ -109,8 +109,8 @@ table th {
 }
 
  #current-time {
-    font-size: 9rem; /* Increased size for clock */
-    margin-top: 10px;
+    font-size: 10rem; /* Increased size for clock */
+    margin-top: 3px;
     font-weight: bold;
     color: #ffcc00; /* Bright color for clock text */
     text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8); /* Glow effect */
@@ -124,19 +124,23 @@ table th {
     color: white; /* Bright color for clock text */
     word-wrap: break-word;
  }
+ #date-sunrise-display {
+    display: flex;             /* Use flexbox for alignment */
+    align-items: center;       /* Vertically center items */
+    justify-content: flex-start; /* Align to the left (or change to 'center' for centering) */
+    margin-top: 10px;          /* Space from the top, adjust as needed */
+}
 
-#date-display {
-    font-size: 1.8rem; /* Adjust the font size */
-    font-weight: bold;
-    color: #ffffff; /* White color for better contrast */
-    text-align: center;
-    }
+#date-display, #sunrise-time {
+    margin-right: 50px;        /* Space between the two elements */
+}
+
 #time-container {
     display: flex;
     align-items: center; /* Aligns both texts vertically in the center */
 }
 #next-iqama {
-    font-size: 120px;  /* Keep the text larger */
+    font-size: 100px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
     animation: colorChange 3.5s infinite;  /* Extended duration for smoother transitions */
@@ -148,7 +152,7 @@ table th {
 }
 
 #next-prayer{
-    font-size: 90px;  /* Keep the text larger */
+    font-size: 70px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
     animation: colorChange 7s infinite;  /* Extended duration for smoother transitions */
@@ -157,6 +161,19 @@ table th {
     border-radius: 3px;  /* Round the corners */
     line-height: 1; 
 }
+#date-sunrise-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: left;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #date-display, #sunrise-time {
+            font-size: 28px;
+            font-weight: bold;
+            color: yellow;
+        }
 
 @keyframes colorChange {
     0% {
@@ -229,6 +246,10 @@ table th {
         </table>
     </div>
     <div id="right-container">
+        <div id="date-sunrise-display">
+            <div id="date-display"></div>
+            <div id="sunrise-time"></div>
+        </div>
         <div>
             <p id="time-container">
                 <span id="current-time"></span> 
@@ -246,7 +267,9 @@ table th {
         </p>
     </div>
 </main>
-<script src="script.js"></script>
+
+    <script src="script.js"></script>
+
 
 </body>
 </html>
