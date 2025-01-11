@@ -2,7 +2,8 @@
         const currentTimeElement = document.getElementById("current-time");
         const nextIqamaElement = document.getElementById("next-iqama");
         const nextPrayerElement = document.getElementById("next-prayer");
-
+        const sunriseTimeElement = document.getElementById("sunrise-time");
+        
         let prayers = [
             { name: "Fajr", iqama: "07:00", class: "fajr-row" },
             { name: "Dhuhr", iqama: "13:00", class: "dhuhr-row" },
@@ -20,7 +21,9 @@
                 const response = await fetch(apiURL);
                 const data = await response.json();
                 const timings = data.data.timings;
+                sunriseTimeElement.innerText = `Sunrise: ${timings.Sunrise || "-"}`;
                 populatePrayerTable(timings);
+                           
                 startCountdown(); // Start countdown after populating table
             } catch (error) {
                 console.error("Error fetching prayer times:", error);
@@ -94,7 +97,7 @@
                 const now = new Date();
                 const diff = nextIqamaTime - now;
 
-                if (diff <= 0) {
+                if (diff <= 10) {
                     clearInterval(countdownInterval);
                     beepAndAlert();
                     startCountdown(); // Move to next iqama
@@ -112,7 +115,7 @@
         function beepAndAlert() {
             let beep = new Audio("beep.mp3");
             beep.play();
-          //  alert("Time for the next iqama!");
+        //   alert("Time for the next iqama!");
         }
 
         function addMinutes(time, minutes) {
