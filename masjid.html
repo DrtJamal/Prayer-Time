@@ -126,7 +126,18 @@ table th {
     display: flex;
     align-items: center; /* Aligns both texts vertically in the center */
 }
-#nextiqama {
+#weeklyiqama {
+    font-size: 50px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 3.5s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    padding: 3px;  /* Add some space around the text */
+    background-color: yellow;  /* Add a background color to make it stand out more */
+    border-radius: 3px;  /* Round the corners */
+    line-height: 1; 
+}
+        #nextiqama {
     font-size: 100px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
@@ -229,7 +240,7 @@ table th {
     </div>
     <div id="right-container">
                <div id="current-time"> </div>
-            <div id="nextiqama" style="margin-bottom: 0;margin-top: 0;">Weekly Updates:</div>
+            <div id="weeklyiqama" style="margin-bottom: 0;margin-top: 0;">Weekly Updates:</div>
         <div id="nextiqama" style="margin-bottom: 0;margin-top: 0;">Masjid Project Amount: 196,342.39 Euros</div>
             <div id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Friday Collections</div>
           <div id="fridaycoll" style="margin-top: 0; margin-bottom: 0;">10 Jan2025: Euros 560</div>  
