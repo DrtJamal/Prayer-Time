@@ -8,7 +8,7 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #4CAF50;
+    background-color: #6eaaf8;
     color: #333;
     display: flex;
     justify-content: center;
@@ -121,7 +121,10 @@ table th {
     word-wrap: break-word;
  }
 
-
+ #logo {
+    height: 110px; /* Adjust size as needed */
+    width: auto; /* Maintain aspect ratio */
+}
 #time-container {
     display: flex;
     align-items: center; /* Aligns both texts vertically in the center */
@@ -169,6 +172,7 @@ table th {
     border-radius: 3px;  /* Round the corners */
     line-height: 1; 
 }
+
 @keyframes colorChange {
     0% {
         color: red;
@@ -180,7 +184,7 @@ table th {
         color: blue;
     }
     60% {
-        color: purple;
+        color: red;
     }
     80% {
         color: green;
@@ -214,6 +218,7 @@ table th {
         font-size: 1rem; /* Adjust font size for smaller screens */
         margin-top: 5px; /* Add spacing for clarity */
     }
+  
 
 
 }
@@ -239,8 +244,8 @@ table th {
     </div>
     <div id="right-container">
                <div id="current-time"> </div>
-            <div id="weeklyiqama" style="margin-bottom: 0;margin-top: 0;">Weekly Updates Masjid Project:</div>
-        <div id="nextiqama" style="margin-bottom: 0;margin-top: 0;">Amount: 201,200 Euros</div>
+            <div id="weeklyiqama" style="margin-bottom: 0;margin-top: 0;">  Weekly Updates Masjid Project:</div>
+        <div id="nextiqama" style="margin-bottom: 0;margin-top: 0;"><img id="logo" src="logo2bg.png" alt="Logo">Amount: 201,200 Euros</div>
             <div id="nextprayer" style="margin-top: 0; margin-bottom: 0;">Friday Collections</div>
           <div id="fridaycoll" style="margin-top: 0; margin-bottom: 0;">10 Jan2025: Euros 560</div>  
         <div id="fridaycoll" style="margin-top: 0; margin-bottom: 0;">03 Jan2025: Euros 414</div>
