@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Friday Display</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      background: linear-gradient(to bottom, #87CEEB, #FFFFFF); /* Sky-like gradient */
+      font-family: Arial, sans-serif; /* Use a clean, readable font */
+      overflow: hidden; /* Prevent scrollbars */
+    }
+
+    .container {
+      height: 100%; /* Full vertical height */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box; /* Include padding and borders in dimensions */
+    }
+
+    .image-container {
+      width: 40%; /* 40% of the screen width */
+      display: flex;
+      justify-content: flex-start; /* Align images to the left */
+    }
+
+    .image-container img {
+      width: 100%; /* Take up the full width of the container */
+      height: 100%; /* Full vertical height */
+      object-fit: cover; /* Maintain aspect ratio, crop if necessary */
+      display: none; /* Hidden initially */
+    }
+
+    .image-container img.active {
+      display: block; /* Show active image */
+    }
+
+    .iqama-container {
+      width: 30%; /* 30% of the screen width */
+      height: 100%; /* Fit within vertical height */
+      max-width: 100%; /* Prevent overflow horizontally */
+      max-height: 100%; /* Prevent overflow vertically */
+      background-color: rgb(43, 205, 226); /* Semi-transparent white */
+      color: #000; /* Black text for better contrast */
+      padding: 20px;
+      box-sizing: border-box; /* Include padding in width/height */
+      overflow: hidden; /* Remove scrollbars */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .khutbah-container {
+      width: 30%; /* 30% of the screen width */
+      height: 100%; /* Fit within vertical height */
+      background-color: greenyellow; /* Slightly darker semi-transparent */
+      color: #000;
+      padding: 20px;
+      box-sizing: border-box; /* Include padding in width/height */
+      overflow: hidden; /* Remove scrollbars */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table th {
+      background-color: #f4f4f4;
+      font-size: 1.5em; /* Larger header text */
+    }
+
+    table td {
+      border: 1px solid #ccc;
+      padding: 15px; /* More padding for better readability */
+      text-align: center;
+      font-size: 2rem; /* Larger font size for rows */
+      font-weight: bold; /* Make text bold */
+      color: #333; /* Darker text color */
+    }
+
+    #current-time {
+      font-size: 6rem; /* Very large clock font */
+      margin-bottom: 10px;
+      color: #333; /* Darker color for visibility */
+    }
+
+    #next-iqama {
+      font-size: 1.5rem; /* Larger font for next iqama */
+      font-weight: bold;
+      color: #555; /* Medium-dark color for emphasis */
+      margin-top: 20px;
+    }
+
+    #next-prayer {
+      font-size: 1.5rem; /* Slightly smaller than next iqama */
+      margin-top: 10px;
+      color: #444; /* Medium-dark color */
+    }
+  </style>
+</head>
+<body>
+  <!-- Left Side: Image Section -->
+  <div class="container image-container">
+    <img id="poster1" src="poster1.jpg" alt="Poster 1" class="active">
+    <img id="poster2" src="poster2.jpg" alt="Poster 2">
+  </div>
+
+  <!-- Middle Section: Iqama Timetable -->
+  <div class="container iqama-container">
+    <div id="current-time">Loading current time...</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Prayer</th>
+          <th>Adhan</th>
+          <th>Iqama</th>
+        </tr>
+      </thead>
+      <tbody id="prayer-times-body">
+        <!-- Table rows will be populated by script.js -->
+      </tbody>
+    </table>
+    <div id="next-iqama">Loading next iqama...</div>
+    <div id="next-prayer">Loading next prayer...</div>
+  </div>
+
+  <!-- Right Section: Friday Khutbah and Funding -->
+  <div class="container khutbah-container">
+    <h1>Friday Khutbah</h1>
+    <p>Topic: Importance of Community in Islam</p>
+    <h2 style=" margin-bottom: 0;">Funding Update</h2>
+    <h1> <p style="margin-bottom: 0; margin-top: 0;">Target: €100,000</p>
+      <p style="margin: 0; color: red;">Amount: 202K Euros</p>
+      <p style="margin-bottom: 0;">Friday Collections</p>
+<p style="margin-top: 0; color: red; margin-bottom: 0;">7 Jan 2025: Euros 850</p>
+        <p style="margin-top: 0; color: red; margin-bottom: 0;">10 Jan 2025: Euros 560</p>
+        <p style="margin-top: 0; color: red; margin-bottom: 0;">3 Jan 2025: Euros 414</p>
+    </h1> 
+        <p style="margin-top: 0;">
+            CICC is a charity organization, Charity No. RCN 20200211.
+            <a href="https://drtjamal.github.io/Prayer-Time/" style="display: inline; margin-right: 10px;">Prayer Time</a>
+            <a href="https://drtjamal.github.io/Prayer-Time/masjid.html" style="display: inline; margin-right: 10px;">Masjid</a>
+            <a href="https://drtjamal.github.io/Prayer-Time/iqamatime.html" style="display: inline;">Iqama Highlight</a>
+            <a href="https://drtjamal.github.io/Prayer-Time/friday.html" style="display: inline;">Friday</a>
+        </p>
+   
+   
+  </div>
+  
+
+  <script>
+    // JavaScript to toggle images
+    const images = document.querySelectorAll(".image-container img");
+    let currentIndex = 0;
+
+    setInterval(() => {
+      // Remove active class from current image
+      images[currentIndex].classList.remove("active");
+
+      // Move to the next image
+      currentIndex = (currentIndex + 1) % images.length;
+
+      // Add active class to the next image
+      images[currentIndex].classList.add("active");
+    }, 60000); // Change every 5 seconds
+  </script>
+
+  <!-- Link to the external script -->
+  <script src="script.js"></script>
+</body>
+</html>
