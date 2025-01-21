@@ -97,21 +97,30 @@
       
     }
 
-    #next-iqama {
-      font-size:2.5rem; /* Larger font for next iqama */
-      font-weight: bold;
-      color: #555; /* Medium-dark color for emphasis */
-      margin-top: 20px;
-      background-color: yellowgreen;
-    }
-
     #next-prayer {
-      font-size: 2.5rem; /* Slightly smaller than next iqama */
-      margin-top: 10px;
-      font-weight: bold;
-      color: #444; /* Medium-dark color */
-      background-color: yellowgreen;
-    }
+    width: auto; /* Allow the width to adapt naturally */
+    padding: 10px;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    margin-top: 10px;
+    background-color: white;
+    word-wrap: break-word; /* Prevent text overflow */
+}
+
+#next-iqama {
+    font-size: 100px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 3.5s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    padding: 10px;  /* Add some space around the text */
+    background-color: yellow;  /* Add a background color to make it stand out more */
+    border-radius: 5px;  /* Round the corners */
+}
+
+
 
 /* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
