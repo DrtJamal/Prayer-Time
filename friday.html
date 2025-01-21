@@ -47,7 +47,7 @@
       max-height: 100%; /* Prevent overflow vertically */
       background-color: rgb(43, 205, 226); /* Semi-transparent white */
       color: #000; /* Black text for better contrast */
-      padding: 20px;
+      padding: 10px;
       box-sizing: border-box; /* Include padding in width/height */
       overflow: hidden; /* Remove scrollbars */
       display: flex;
@@ -82,9 +82,9 @@
 
     table td {
       border: 1px solid #ccc;
-      padding: 15px; /* More padding for better readability */
+      padding: 5px; /* More padding for better readability */
       text-align: center;
-      font-size: 2rem; /* Larger font size for rows */
+      font-size: 2.6rem; /* Larger font size for rows */
       font-weight: bold; /* Make text bold */
       color: #333; /* Darker text color */
     }
@@ -112,6 +112,48 @@
       color: #444; /* Medium-dark color */
       background-color: yellowgreen;
     }
+
+/* Mobile responsiveness */
+@media only screen and (max-width: 768px) {
+    main {
+        flex-direction: column; /* Stack the table and next prayer vertically */
+    }
+
+    .table-container, #image-container {
+        width: 5%; /* Take full width on mobile */
+        height: 5%; /* Allow height to adapt naturally */
+    }
+    .table-container, #iqama-container {
+        width: 30%; /* Take full width on mobile */
+        height: 30%; /* Allow height to adapt naturally */
+    }
+    .table-container, #khutbah-container {
+        width: 10%; /* Take full width on mobile */
+        height: 10%; /* Allow height to adapt naturally */
+    }
+
+    table th, table td {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+        padding: 8px; /* Adjust padding */
+    }
+
+    #current-time {
+        font-size: 2rem; /* Reduce clock font size on mobile */
+    }
+
+    #next-prayer, #next-iqama {
+        font-size: 1rem; /* Adjust font size for smaller screens */
+        margin-top: 10px; /* Add spacing for clarity */
+    }
+
+    #sunrise-time, #date-display {
+        font-size: 1.5rem; /* Adjust size for sunrise and date display */
+        margin-top: 10px; /* Add spacing */
+    }
+}
+
+
+
   </style>
 </head>
 <body>
