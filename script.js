@@ -4,10 +4,10 @@ const nextIqamaElement = document.getElementById("next-iqama");
 const nextPrayerElement = document.getElementById("next-prayer");
 
 let prayers = [
-    { name: "Fajr", iqama: "07:00", class: "fajr-row" },
+    { name: "Fajr", iqama: "06:50", class: "fajr-row" },
     { name: "Dhuhr", iqama: "13:15", class: "dhuhr-row" },
     { name: "Asr", iqama: "15:00", class: "asr-row" },
-    { name: "Maghrib", iqamaOffset: 12, class: "maghrib-row" },
+    { name: "Maghrib", iqamaOffset: 10, class: "maghrib-row" },
     { name: "Isha", iqama: "19:15", class: "isha-row" }
 ];
 
