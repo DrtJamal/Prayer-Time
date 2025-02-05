@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CICC Management Chart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        .chart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            padding: 10px;
+        }
+        .box {
+            border: 2px solid #333;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            width: 90%;
+            max-width: 600px;
+            background-color: #ffcc00;
+        }
+        .team-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+        }
+        .team {
+            border: 2px solid #666;
+            padding: 10px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 300px;
+            background-color: #ddd;
+        }
+        .team-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .team-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .team {
+                width: 100%;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>CICC Management Chart</h1>
+    <div class="chart">
+        <div class="box" id="president">President: Ahmad Maghrib</div>
+        <div class="team-container" id="teams"></div>
+    </div>
+
+    <script>
+        const teams = [
+            { name: "Majid Project Team", members: ["Dr. Bismil Ali", "Kausar Holadar", "Ali", "Asad"] },
+            { name: "Taleem Team", members: ["Dr. Rabi", "Dr. Akram", "Hafiz Tabarak", "Emad Ghareeb"] },
+            { name: "Media & Communication", members: ["Abur Rahim", "Ahmad Badawi", "Abu Marwan"] },
+            { name: "Security Team", members: ["Noor Khan", "Amir Butt", "Mustafa"] },
+            { name: "Maintenance Team", members: ["Yousaf", "Qasim", "Abdullah"] },
+            { name: "Cultural Wing", members: ["Syed Alam", "Ilyas", "Ibrahim"] },
+            { name: "Finance Team", members: ["Muhammad Hussain", "Hassan"] },
+            { name: "Events and Library", members: ["Shah Alam", "Hassan"] }
+        ];
+        
+        const colors = ["#ffcc00", "#ff6666", "#66ccff", "#99ff99", "#ff99ff", "#ff9966", "#ccccff", "#66ffcc"];
+        const teamsContainer = document.getElementById("teams");
+        
+        teams.forEach((team, index) => {
+            let teamDiv = document.createElement("div");
+            teamDiv.classList.add("team");
+            teamDiv.style.backgroundColor = colors[index % colors.length];
+            teamDiv.innerHTML = `<div class='team-title'>${team.name}</div>` +
+                team.members.map(member => `<div>${member}</div>`).join("");
+            teamsContainer.appendChild(teamDiv);
+        });
+    </script>
+</body>
+</html>
