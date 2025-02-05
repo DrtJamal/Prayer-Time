@@ -6,10 +6,24 @@
     <title>CICC Management Chart</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        h1 {
+            background: linear-gradient(to right, #0073e6, #00c6ff);
+            color: white;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .description {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding: 0 15px;
         }
         .chart {
             display: flex;
@@ -20,33 +34,36 @@
             padding: 10px;
         }
         .box {
-            border: 2px solid #333;
-            padding: 10px 20px;
+            border: 2px solid #444;
+            padding: 15px 25px;
             border-radius: 10px;
             font-weight: bold;
             width: 90%;
             max-width: 600px;
             background-color: #ffcc00;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
         }
         .team-container {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 15px;
             width: 100%;
         }
         .team {
-            border: 2px solid #666;
-            padding: 10px;
+            border: 2px solid #444;
+            padding: 15px;
             border-radius: 10px;
             width: 90%;
             max-width: 300px;
             background-color: #ddd;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
         }
         .team-title {
             font-weight: bold;
             margin-bottom: 10px;
             text-decoration: underline;
+            font-size: 18px;
         }
         @media (max-width: 600px) {
             .team-container {
@@ -61,7 +78,8 @@
     </style>
 </head>
 <body>
-    <h1>CICC Management Chart</h1>
+    <h1>Welcome to CICC Management Team</h1>
+    <p class="description">The following are CICC members with their roles.</p>
     <div class="chart">
         <div class="box" id="president">President: Ahmad Maghrib</div>
         <div class="team-container" id="teams"></div>
