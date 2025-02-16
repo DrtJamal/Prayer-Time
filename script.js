@@ -22,14 +22,21 @@ async function fetchPrayerTimes() {
 
         // Get today's date in DD/MM/YYYY format
         const today = new Date();
-        const formattedDate = today.toLocaleDateString("en-GB");
+        const formattedDate = today.toLocaleDateString("en-GB"); // Example: "02/01/2025"
 
-        // Find the prayer times for today's date
+        // Find today's prayer times from JSON
         const todayTiming = data.find(entry => entry.Date === formattedDate);
 
         if (todayTiming) {
-            populatePrayerTable(todayTiming); // Pass today's timings to the table
-            startCountdown(); // Start the countdown
+            populatePrayerTable(todayTiming);
+            startCountdown();
+
+            // **Update Date Display**
+            document.getElementById("date-display").innerText = `📅 Date: ${formattedDate}`;
+
+            // **Update Sunrise Time**
+            const sunriseElement = document.getElementById("sunrise-time");
+            sunriseElement.innerText = `🌅 Sunrise: ${todayTiming.Sunrise || "-"}`;
         } else {
             console.error("Prayer times for today's date not found in JSON.");
         }
@@ -37,7 +44,6 @@ async function fetchPrayerTimes() {
         console.error("Error fetching prayer times from JSON:", error);
     }
 }
-
 
 function populatePrayerTable(timings) {
     prayerTimesBody.innerHTML = ""; // Clear the table
