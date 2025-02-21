@@ -155,7 +155,10 @@ table th {
     background-color: white;
     word-wrap: break-word; /* Prevent text overflow */
 }
-
+#behave {
+    max-width: 80%;
+    height: auto; /* Maintain aspect ratio */
+}
 #next-prayer{
     font-size: 90px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
@@ -209,11 +212,13 @@ table th {
         font-size: 1rem; /* Reduce clock font size on mobile */
     }
 
-    #next-prayer, #next-iqama, #miss, #behave {
+    #next-prayer, #next-iqama, #miss {
         font-size: 1rem; /* Adjust font size for smaller screens */
         margin-top: 5px; /* Add spacing for clarity */
     }
-
+  #behave {
+        max-width: 25%; /* Reduce size to 25% on small screens */
+    }
 
 }
 
