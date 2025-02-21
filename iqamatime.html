@@ -126,16 +126,7 @@ table th {
     color:green; /* Bright color for clock text */
     word-wrap: break-word;
  }
- #date-sunrise-display {
-    display: flex;             /* Use flexbox for alignment */
-    align-items: center;       /* Vertically center items */
-    justify-content: flex-start; /* Align to the left (or change to 'center' for centering) */
-    margin-top: 4px;          /* Space from the top, adjust as needed */
-}
 
-#date-display, #sunrise-time {
-    margin-right: 20px;        /* Space between the two elements */
-}
 
 #time-container {
     display: flex;
@@ -175,19 +166,7 @@ table th {
     border-radius: 4px;  /* Round the corners */
     line-height: 1; 
 }
-#date-sunrise-display {
-            display: flex;
-            justify-content: space-between;
-            align-items: left;
-            width: 100%;
-            margin-bottom: 20px;
-        }
 
-        #date-display, #sunrise-time {
-            font-size: 28px;
-            font-weight: bold;
-            color: yellow;
-        }
 
 @keyframes colorChange {
     0% {
@@ -227,7 +206,7 @@ table th {
     }
 
     #current-time {
-        font-size: 2rem; /* Reduce clock font size on mobile */
+        font-size: 1rem; /* Reduce clock font size on mobile */
     }
 
     #next-prayer, #next-iqama, #miss, #behave {
