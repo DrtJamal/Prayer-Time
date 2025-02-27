@@ -6,9 +6,9 @@ const nextPrayerElement = document.getElementById("next-prayer");
 let prayers = [
     { name: "Fajr", iqama: "06:15", class: "fajr-row" },
     { name: "Dhuhr", iqama: "13:15", class: "dhuhr-row" },
-    { name: "Asr", iqama: "15:30", class: "asr-row" },
+    { name: "Asr", iqama: "15:45", class: "asr-row" },
     { name: "Maghrib", iqamaOffset: 10, class: "maghrib-row" },
-    { name: "Isha", iqama: "19:45", class: "isha-row" }
+    { name: "Isha", iqama: "20:00", class: "isha-row" }
 ];
 
 let currentIqamaIndex = null;
