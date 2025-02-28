@@ -275,37 +275,36 @@ table th {
 </main>
 <script>
     window.addEventListener('load', () => {
-    // Wait for the table to be populated before accessing the rows
-    const prayerTimesTable = document.getElementById("prayer-times-body");
+    // Fetch prayer times JSON data
+    fetch('prayer-times.json')
+        .then(response => response.json())
+        .then(data => {
+            // Assuming the JSON structure as shown above
+            const prayerTimes = data.prayer_times;
 
-    // Ensure the table has been populated
-    if (prayerTimesTable) {
-        // Find the Fajr and Maghrib rows dynamically from the table
-        const fajrRow = prayerTimesTable.querySelector('tr.fajr-row');
-        const maghribRow = prayerTimesTable.querySelector('tr.maghrib-row');
+            // Get today's date in the format 'YYYY-MM-DD'
+            const today = new Date().toISOString().split('T')[0];
 
-        // Ensure the rows exist
-        if (fajrRow && maghribRow) {
-            const fajrTime = fajrRow.querySelector('td:nth-child(2)').textContent;
-            const maghribTime = maghribRow.querySelector('td:nth-child(2)').textContent;
+            // Find today's Fajr and Maghrib times
+            const todayPrayerTime = prayerTimes.find(prayer => prayer.date === today);
 
-            // Ensure the divs exist before updating
-            const suhoorDiv = document.getElementById("suhoor-timing");
-            const iftarDiv = document.getElementById("iftar-timing");
+            if (todayPrayerTime) {
+                // Extract Fajr and Maghrib times
+                const fajrTime = todayPrayerTime.fajr;
+                const maghribTime = todayPrayerTime.maghrib;
 
-            if (suhoorDiv && iftarDiv) {
-                suhoorDiv.textContent = `Suhoor: ${fajrTime}`;
-                iftarDiv.textContent = `Iftar: ${maghribTime}`;
+                // Display the times in the respective divs
+                document.getElementById("suhoor-timing").textContent = `Suhoor Time: ${fajrTime}`;
+                document.getElementById("iftar-timing").textContent = `Iftar Time: ${maghribTime}`;
             } else {
-                console.error('Suhoor or Iftar divs are missing.');
+                console.log("No prayer times available for today.");
             }
-        } else {
-            console.error('Fajr or Maghrib row not found in the table.');
-        }
-    } else {
-        console.error('Prayer times table body not found.');
-    }
+        })
+        .catch(error => {
+            console.error("Error fetching prayer times from JSON:", error);
+        });
 });
+
 
 </script>
     <script src="script.js"></script>
