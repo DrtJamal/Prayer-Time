@@ -228,8 +228,6 @@ table th {
 </head>
 <body>
 
-
-
 <main class="container">
     <div class="table-container">
         <table>
@@ -245,27 +243,40 @@ table th {
     </div>
     <div id="right-container">
         <div id="date-sunrise-display">
-                     
+                      <!-- Add your content for date and sunrise here -->
         </div>
         
-            <div id="current-time"></div> 
-                            <p id="next-iqama" style="margin-bottom: 0;">Next Iqama: </p>
-            <p id="next-prayer" style="margin-top: 0; margin-bottom: 0;">Time Remaining: --:--:--</p>
-        
-       
-             <div id="miss" style="margin-top: 10; margin-bottom: 0";>Misbehaved Children are not Allowed</div>
-    <img id="behave" src="behave.jpg" alt="Behave">  
+        <div id="current-time"></div> 
+        <p id="next-iqama" style="margin-bottom: 0;">Next Iqama: </p>
+        <p id="next-prayer" style="margin-top: 0; margin-bottom: 0;">Time Remaining: --:--:--</p>
+                   
+           
+        <!-- Suhoor and Iftar Timings -->
+        <div id="suhoor-iftar-timing">
+            <p id="suhoor-timing">Suhoor: --:--</p>
+            <p id="iftar-timing">Iftar: --:--</p>
+        </div>
+
+    </div>
         <p style="margin-top: 0;">
             CICC is a charity organization, Charity No. RCN 20200211.
             <a href="https://drtjamal.github.io/Prayer-Time/" style="display: inline; margin-right: 10px;">Prayer Time</a>
- <a href="https://drtjamal.github.io/Prayer-Time/friday.html" style="display: inline; margin-right: 10px;">Friday</a> 
+            <a href="https://drtjamal.github.io/Prayer-Time/friday.html" style="display: inline; margin-right: 10px;">Friday</a> 
             <a href="https://drtjamal.github.io/Prayer-Time/iqamatime.html" style="display: inline;"> Iqama Highlight </a>
         </p>
-    </div>
 </main>
 
-    <script src="script.js"></script>
+<script>
+window.addEventListener('load', () => {
+    // Select the Fajr and Maghrib times from the table
+    const fajrTime = document.querySelector('.fajr-row td:nth-child(2)').textContent;  // Assuming Fajr time is in the second column of the row with the class 'fajr-row'
+    const maghribTime = document.querySelector('.maghrib-row td:nth-child(2)').textContent;  // Assuming Maghrib time is in the second column of the row with the class 'maghrib-row'
 
+    // Update the new div with Suhoor and Iftar times
+    document.getElementById("suhoor-timing").textContent = `Suhoor: ${fajrTime}`;
+    document.getElementById("iftar-timing").textContent = `Iftar: ${maghribTime}`;
+});
+</script>
 
 </body>
 </html>
