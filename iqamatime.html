@@ -251,10 +251,10 @@ table th {
             <div id="current-time"></div> 
                             <p id="next-iqama" style="margin-bottom: 0;">Next Iqama: </p>
             <p id="next-prayer" style="margin-top: 0; margin-bottom: 0;">Time Remaining: --:--:--</p>
+
+
+
         
-       
-             <div id="miss" style="margin-top: 10; margin-bottom: 0";>Misbehaved Children are not Allowed</div>
-    <img id="behave" src="behave.jpg" alt="Behave">  
         <p style="margin-top: 0;">
             CICC is a charity organization, Charity No. RCN 20200211.
             <a href="https://drtjamal.github.io/Prayer-Time/" style="display: inline; margin-right: 10px;">Prayer Time</a>
@@ -263,7 +263,16 @@ table th {
         </p>
     </div>
 </main>
+<script>
+    window.addEventListener('load', () => {
+        // Select the Fajr and Maghrib times from the table
+        const fajrTime = document.querySelector('.fajr-row td:nth-child(2)').textContent;
+        const maghribTime = document.querySelector('.maghrib-row td:nth-child(2)').textContent;
 
+        // Update the div with Suhoor and Iftar times
+        document.getElementById("suhoor-iftar-timing").textContent = `Suhoor: ${fajrTime} | Iftar: ${maghribTime}`;
+    });
+</script>
     <script src="script.js"></script>
 
 
