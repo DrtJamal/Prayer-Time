@@ -279,19 +279,17 @@ table th {
     fetch('prayer-times.json')
         .then(response => response.json())
         .then(data => {
-            // Assuming the JSON structure as shown above
-            const prayerTimes = data.prayer_times;
-
-            // Get today's date in the format 'YYYY-MM-DD'
-            const today = new Date().toISOString().split('T')[0];
+            // Get today's date in 'DD/MM/YYYY' format
+            const today = new Date();
+            const formattedDate = today.getDate().toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getFullYear();
 
             // Find today's Fajr and Maghrib times
-            const todayPrayerTime = prayerTimes.find(prayer => prayer.date === today);
+            const todayPrayerTime = data.find(prayer => prayer.Date === formattedDate);
 
             if (todayPrayerTime) {
                 // Extract Fajr and Maghrib times
-                const fajrTime = todayPrayerTime.fajr;
-                const maghribTime = todayPrayerTime.maghrib;
+                const fajrTime = todayPrayerTime.Fajr;
+                const maghribTime = todayPrayerTime.Maghrib;
 
                 // Display the times in the respective divs
                 document.getElementById("suhoor-timing").textContent = `Suhoor Time: ${fajrTime}`;
@@ -304,6 +302,7 @@ table th {
             console.error("Error fetching prayer times from JSON:", error);
         });
 });
+
 
 
 </script>
