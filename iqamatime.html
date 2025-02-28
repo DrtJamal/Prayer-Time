@@ -278,13 +278,38 @@ table th {
 </main>
 <script>
     window.addEventListener('load', () => {
-        // Select the Fajr and Maghrib times from the table
-        const fajrTime = document.querySelector('.fajr-row td:nth-child(2)').textContent;
-        const maghribTime = document.querySelector('.maghrib-row td:nth-child(2)').textContent;
+    // Wait for the table to be populated before accessing the rows
+    const prayerTimesTable = document.getElementById("prayer-times-body");
 
-        // Update the div with Suhoor and Iftar times
-        document.getElementById("suhoor-iftar-timing").textContent = `Suhoor: ${fajrTime} | Iftar: ${maghribTime}`;
-    });
+    // Ensure the table has been populated
+    if (prayerTimesTable) {
+        // Find the Fajr and Maghrib rows dynamically from the table
+        const fajrRow = prayerTimesTable.querySelector('tr.fajr-row');
+        const maghribRow = prayerTimesTable.querySelector('tr.maghrib-row');
+
+        // Ensure the rows exist
+        if (fajrRow && maghribRow) {
+            const fajrTime = fajrRow.querySelector('td:nth-child(2)').textContent;
+            const maghribTime = maghribRow.querySelector('td:nth-child(2)').textContent;
+
+            // Ensure the divs exist before updating
+            const suhoorDiv = document.getElementById("suhoor-timing");
+            const iftarDiv = document.getElementById("iftar-timing");
+
+            if (suhoorDiv && iftarDiv) {
+                suhoorDiv.textContent = `Suhoor: ${fajrTime}`;
+                iftarDiv.textContent = `Iftar: ${maghribTime}`;
+            } else {
+                console.error('Suhoor or Iftar divs are missing.');
+            }
+        } else {
+            console.error('Fajr or Maghrib row not found in the table.');
+        }
+    } else {
+        console.error('Prayer times table body not found.');
+    }
+});
+
 </script>
     <script src="script.js"></script>
 
