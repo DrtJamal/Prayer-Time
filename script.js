@@ -146,6 +146,6 @@ setInterval(() => {
     currentTimeElement.innerText = `${getCurrentTime()}`;
 }, 1000);
 
-setInterval(fetchPrayerTimes, 4 * 60 * 60 * 1000);
+setInterval(fetchPrayerTimes, 2 * 60 * 60 * 1000);
 
 fetchPrayerTimes();
