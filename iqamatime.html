@@ -281,38 +281,43 @@ table th {
     </div>
 </main>
 <script>
-    window.addEventListener('load', () => {
-    // Fetch prayer times JSON data
-    fetch('prayer-times.json')
-        .then(response => response.json())
-        .then(data => {
-            // Get today's date in 'DD/MM/YYYY' format
-            const today = new Date();
-            const formattedDate = today.getDate().toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + today.getFullYear();
+    function updatePrayerTimes() {
+        fetch('prayer-times.json')
+            .then(response => response.json())
+            .then(data => {
+                // Get today's date in 'DD/MM/YYYY' format
+                const today = new Date();
+                const formattedDate = today.getDate().toString().padStart(2, '0') + '/' + 
+                                      (today.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                                      today.getFullYear();
 
-            // Find today's Fajr and Maghrib times
-            const todayPrayerTime = data.find(prayer => prayer.Date === formattedDate);
+                // Find today's Fajr and Maghrib times
+                const todayPrayerTime = data.find(prayer => prayer.Date === formattedDate);
 
-            if (todayPrayerTime) {
-                // Extract Fajr and Maghrib times
-                const fajrTime = todayPrayerTime.Fajr;
-                const maghribTime = todayPrayerTime.Maghrib;
+                if (todayPrayerTime) {
+                    // Extract Fajr and Maghrib times
+                    const fajrTime = todayPrayerTime.Fajr;
+                    const maghribTime = todayPrayerTime.Maghrib;
 
-                // Display the times in the respective divs
-                document.getElementById("suhoor-timing").textContent = `وقت الإمساك: ${fajrTime}`;
-                document.getElementById("iftar-timing").textContent = `وقت الإفطار: ${maghribTime}`;
-            } else {
-                console.log("No prayer times available for today.");
-            }
-        })
-        .catch(error => {
-            console.error("Error fetching prayer times from JSON:", error);
-        });
-});
+                    // Display the times in the respective divs
+                    document.getElementById("suhoor-timing").textContent = `وقت الإمساك: ${fajrTime}`;
+                    document.getElementById("iftar-timing").textContent = `وقت الإفطار: ${maghribTime}`;
+                } else {
+                    console.log("No prayer times available for today.");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching prayer times from JSON:", error);
+            });
+    }
 
+    // Run the function immediately on page load
+    window.addEventListener('load', updatePrayerTimes);
 
-
+    // Refresh every 2 hours (7200000 milliseconds)
+    setInterval(updatePrayerTimes, 7200000);
 </script>
+
     <script src="script.js"></script>
 
 
