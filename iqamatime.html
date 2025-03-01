@@ -196,10 +196,7 @@ table th {
     }
       70% {
         color: blue;
-    80% {
-        color: green;
-        
-    }
+   
     100% {
         color: red;
     }
@@ -208,39 +205,33 @@ table th {
 /* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
     main {
-        flex-direction: column; /* Stack the table and next prayer vertically */
+        flex-direction: column;
+        height: auto; /* Allow content to expand */
+        align-items: center; /* Ensure centering */
     }
 
     .table-container, #right-container {
-        width: 100%; /* Take full width on mobile */
-        height: auto; /* Allow height to adapt naturally */
+        width: 100%;
+        height: auto; /* Let elements adjust naturally */
     }
 
     table th, table td {
-        font-size: 2rem; /* Adjust font size for smaller screens */
-        padding: 8px; /* Adjust padding */
+        font-size: 1.8rem; /* Adjusted for better readability */
+        padding: 5px;
     }
 
     #current-time {
-        font-size: 1rem; /* Reduce clock font size on mobile */
+        font-size: 8vw; /* Scales with viewport width */
     }
 
-    #next-prayer, #next-iqama, #miss {
-        font-size: 1rem; /* Adjust font size for smaller screens */
-        margin-top: 5px; /* Add spacing for clarity */
+    #next-prayer, #next-iqama, #miss, #suhoor-timing, #iftar-timing {
+        font-size: 5vw; /* Adjusted dynamically */
     }
 
-#suhoor-timing, #iftar-timing {
-        font-size: 1rem; /* Adjust font size for smaller screens */
-        margin-top: 3px; /* Add spacing for clarity */
+    #behave {
+        max-width: 50%; /* Make it more reasonable */
     }
-    
-  #behave {
-        max-width: 25%; /* Reduce size to 25% on small screens */
-    }
-
 }
-
 
     </style>
     
