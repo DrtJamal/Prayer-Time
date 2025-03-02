@@ -164,26 +164,30 @@ table th {
 /* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
     main {
-        flex-direction: column;
-        height: auto; /* Allow content to expand */
-        align-items: center; /* Ensure centering */
+        flex-direction: column; /* Stack the table and next prayer vertically */
     }
 
-    .table-container, #right-container {
-        width: 100%;
-        height: auto; /* Let elements adjust naturally */
+.table-container, #right-container {
+        width: 100%; /* Take full width on mobile */
+        height: auto; /* Allow height to adapt naturally */
     }
 
     table th, table td {
-        font-size: 1.8rem; /* Adjusted for better readability */
-        padding: 5px;
+        font-size: 2rem; /* Adjust font size for smaller screens */
+        padding: 8px; /* Adjust padding */
     }
 
     #current-time {
-        font-size: 8vw; /* Scales with viewport width */
+        font-size: 2rem; /* Reduce clock font size on mobile */
     }
 
-    #next-prayer, #next-iqama, #date-display, #sunrise-time, #suhoor-timing, #iftar-timing {
+    #next-prayer, #next-iqama , #date-display, #sunrise-time, #suhoor-timing, #iftar-timing{
+        font-size: 1rem; /* Adjust font size for smaller screens */
+        margin-top: 10px; /* Add spacing for clarity */
+    }
+
+
+    {
         font-size: 5vw; /* Adjusted dynamically */
     }
 }
