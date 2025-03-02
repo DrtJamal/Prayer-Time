@@ -67,10 +67,6 @@ table th {
     background-color: greenyellow; /* Light green */
 }
 
-.sunrise-row {
-    background-color: #fff9c4; /* Light yellow */
-}
-
 .dhuhr-row, .asr-row {
     background-color: #ffe0b2; /* Light orange */
 }
@@ -88,15 +84,6 @@ table th {
     animation: blink 1s infinite;
     font-weight: bold;
     color: red;
-}
-
-@keyframes blink {
-    0%, 50% {
-        opacity: 1;
-    }
-    25%, 75% {
-        opacity: 0.5;
-    }
 }
 
 #right-container {
@@ -118,17 +105,6 @@ table th {
     word-wrap: break-word;
     line-height: 0.9; /* Remove extra space below the text */
  }
-
-
- #current-prayer{
-    font-size: 3rem; /* Increased size for clock */
-    margin-top: 1px;
-    font-weight: bold;
-    color:green; /* Bright color for clock text */
-    word-wrap: break-word;
- }
-
-
 #time-container {
     display: flex;
     align-items: center; /* Aligns both texts vertically in the center */
@@ -146,25 +122,7 @@ table th {
     margin-top: 8px; 
     margin-bottom: 2px;
 }
-
-        #miss {
-    width: auto; /* Allow the width to adapt naturally */
-    padding: 10px;
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: black;
-    text-align: center;
-    margin-top: 10px;
-    background-color: white;
-    word-wrap: break-word; /* Prevent text overflow */
-}
-#behave {
-    max-width: 80%;
-    height: auto; /* Maintain aspect ratio */
-}
-
-        
- #suhoor-timing, #iftar-timing {
+#suhoor-timing, #iftar-timing {
     font-size: 110px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
@@ -177,14 +135,10 @@ table th {
     margin-bottom: 5px;
 }
 
-
 @keyframes colorChange {
     0% {
         color: red;
     }
-    10% {
-        color: orange;
-    } 
     20% {
         color: black;
     }
@@ -224,15 +178,10 @@ table th {
         font-size: 8vw; /* Scales with viewport width */
     }
 
-    #next-prayer, #next-iqama, #miss, #suhoor-timing, #iftar-timing {
+    #next-prayer, #next-iqama, #date-display, #sunrise-time, #suhoor-timing, #iftar-timing {
         font-size: 5vw; /* Adjusted dynamically */
     }
-
-    #behave {
-        max-width: 50%; /* Make it more reasonable */
-    }
 }
-
     </style>
     
 </head>
