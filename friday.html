@@ -123,43 +123,42 @@
 
 
 /* Mobile responsiveness */
+/* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
-    main {
-        flex-direction: column; /* Stack the table and next prayer vertically */
+    body {
+        flex-direction: column; /* Stack elements vertically */
+        overflow-y: auto; /* Allow scrolling */
+        height: auto; /* Adjust height for content */
     }
 
-    .table-container, #image-container {
-        width: 5%; /* Take full width on mobile */
-        height: 5%; /* Allow height to adapt naturally */
-    }
-    .table-container, #iqama-container {
-        width: 30%; /* Take full width on mobile */
-        height: 30%; /* Allow height to adapt naturally */
-    }
-    .table-container, #khutbah-container {
-        width: 10%; /* Take full width on mobile */
-        height: 10%; /* Allow height to adapt naturally */
+    .container {
+        width: 100%; /* Full width */
+        height: auto; /* Auto height to fit content */
+        padding: 10px; /* Add some spacing */
     }
 
-    table th, table td {
-        font-size: 2rem; /* Adjust font size for smaller screens */
-        padding: 8px; /* Adjust padding */
+    .image-container, .iqama-container, .khutbah-container {
+        width: 100%; /* Each section takes full width */
+        height: auto; /* Allow content to define height */
+    }
+
+    .image-container img {
+        height: auto; /* Adjust height automatically */
     }
 
     #current-time {
-        font-size: 2rem; /* Reduce clock font size on mobile */
+        font-size: 4rem; /* Reduce clock size */
     }
 
     #next-prayer, #next-iqama {
-        font-size: 1rem; /* Adjust font size for smaller screens */
-        margin-top: 10px; /* Add spacing for clarity */
+        font-size: 2rem; /* Adjust font size */
     }
 
-    #sunrise-time, #date-display {
-        font-size: 1.5rem; /* Adjust size for sunrise and date display */
-        margin-top: 10px; /* Add spacing */
+    table th, table td {
+        font-size: 1.5rem; /* Adjust table text size */
     }
 }
+
 
 
 
