@@ -127,6 +127,19 @@ table th {
     margin-top: 8px; 
     margin-bottom: 2px;
 }
+
+        #hijri-date {
+    font-size: 40px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 10s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    background-color: #bbdefb;  /* Add a background color to make it stand out more */
+    border-radius: 4px;  /* Round the corners */
+    line-height: 1; 
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
 #suhoor-timing, #iftar-timing {
     font-size: 110px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
@@ -181,7 +194,7 @@ table th {
         font-size: 2rem; /* Reduce clock font size on mobile */
     }
 
-    #next-prayer, #next-iqama , #date-display, #sunrise-time, #suhoor-timing, #iftar-timing{
+    #next-prayer, #next-iqama , #date-display, #sunrise-time, #suhoor-timing, #iftar-timing, #hijri-date{
         font-size: 1rem; /* Adjust font size for smaller screens */
         margin-top: 10px; /* Add spacing for clarity */
     }
@@ -215,7 +228,7 @@ table th {
             <div id="current-time"></div> 
                            <div id="next-iqama">Next Iqama: </div>
 <p id="next-prayer">Time Remaining: --:--:--</p>
- <h2><span id="hijri-date"></span></h2>
+ <p id="hijri-date"></p>
 <div id="suhoor-timing">وقت الإمساك: --:--</div>
 <div id="iftar-timing">وقت الإفطار: --:--</div>
 
