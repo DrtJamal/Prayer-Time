@@ -273,11 +273,13 @@ table th {
         let today = new Date();
 
         // Convert to Hijri format
-        let hijriDate = new Intl.DateTimeFormat('en-TN-u-ca-islamic', {
+       let hijriDate = today.toLocaleDateString('ar-SA', {
             day: 'numeric',
             month: 'long',
-            year: 'numeric'
-        }).format(today);
+            year: 'numeric',
+            calendar: 'islamic-umalqura' // Ensures correct Hijri date
+        });
+
 
         // Display on the page
         document.getElementById("hijri-date").innerText = hijriDate;
