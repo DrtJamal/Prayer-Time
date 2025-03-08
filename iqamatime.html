@@ -215,7 +215,7 @@ table th {
             <div id="current-time"></div> 
                            <div id="next-iqama">Next Iqama: </div>
 <p id="next-prayer">Time Remaining: --:--:--</p>
-
+ <h2><span id="hijri-date"></span></h2>
 <div id="suhoor-timing">وقت الإمساك: --:--</div>
 <div id="iftar-timing">وقت الإفطار: --:--</div>
 
@@ -268,7 +268,20 @@ table th {
 </script>
 
     <script src="script.js"></script>
+   <script>
+        // Get current date
+        let today = new Date();
 
+        // Convert to Hijri format
+        let hijriDate = new Intl.DateTimeFormat('en-TN-u-ca-islamic', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        }).format(today);
+
+        // Display on the page
+        document.getElementById("hijri-date").innerText = hijriDate;
+    </script>
 
 </body>
 </html>
