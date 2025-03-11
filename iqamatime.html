@@ -282,22 +282,22 @@ table th {
 
     <script src="script.js"></script>
    <script>
-        // Get current date
+   function updateHijriDate() {
         let today = new Date();
-
-        // Convert to Hijri format
-       let hijriDate = today.toLocaleDateString('ar-SA', {
+        let hijriDate = today.toLocaleDateString('ar-SA', {
             day: 'numeric',
             month: 'long',
             year: 'numeric',
-            calendar: 'islamic-umalqura' // Ensures correct Hijri date
+            calendar: 'islamic-umalqura' 
         });
-
-
-        // Display on the page
         document.getElementById("hijri-date").innerText = hijriDate;
-       // Refresh every 2 hours (7200000 milliseconds)
-    setInterval(updatePrayerTimes, 7200000);
+    }
+
+    // Run immediately on load
+    updateHijriDate();
+
+    // Refresh every 2 hours (7200000 milliseconds)
+    setInterval(updateHijriDate, 7200000);
     </script>
 
 </body>
