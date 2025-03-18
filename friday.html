@@ -109,6 +109,19 @@
     word-wrap: break-word; /* Prevent text overflow */
 }
 
+    #hijri-date {
+    font-size: 80px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 10s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    background-color: #bbdefb;  /* Add a background color to make it stand out more */
+    border-radius: 4px;  /* Round the corners */
+    line-height: 1; 
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
 #next-iqama {
     font-size: 50px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
@@ -147,11 +160,11 @@
     }
 
     #current-time {
-        font-size: 4rem; /* Reduce clock size */
+        font-size: 2rem; /* Reduce clock size */
     }
 
-    #next-prayer, #next-iqama {
-        font-size: 2rem; /* Adjust font size */
+    #next-prayer, #next-iqama, #hijri-date {
+        font-size: 1rem; /* Adjust font size */
     }
 
     table th, table td {
@@ -176,6 +189,7 @@
   <!-- Middle Section: Iqama Timetable -->
   <div class="container iqama-container">
     <div id="current-time">Loading current time...</div>
+         <p id="hijri-date"></p>
     <table>
       <thead>
         <tr>
