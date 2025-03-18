@@ -149,3 +149,20 @@ setInterval(() => {
 setInterval(fetchPrayerTimes, 2 * 60 * 60 * 1000);
 
 fetchPrayerTimes();
+
+   function updateHijriDate() {
+        let today = new Date();
+        let hijriDate = today.toLocaleDateString('ar-SA', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            calendar: 'islamic-umalqura' 
+        });
+        document.getElementById("hijri-date").innerText = hijriDate;
+    }
+
+    // Run immediately on load
+    updateHijriDate();
+
+    // Refresh every 2 hours (7200000 milliseconds)
+    setInterval(updateHijriDate, 7200000);
