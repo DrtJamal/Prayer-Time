@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times</title>
+        <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #4CAF50;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Full viewport height */
+        overflow: hidden;
+    }
+
+    main {
+        display: flex;
+        height: 100%;
+        width: 100%;
+    }
+
+    .container {
+        display: flex;
+        width: 100%;
+        height: 100%; /* Stretch to full height of the viewport */
+    }
+
+    .table-container {
+        width: 50%; /* Takes up half of the screen horizontally */
+        height: 100%; /* Stretch vertically */
+        padding: 10px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .table-container table {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+        margin: 0;
+        height: 90%; /* Stretch to near full height */
+    }
+
+    table th, table td {
+        padding: 10px;
+        text-align: center;
+        font-size: 4rem; /* Adjusted font size */
+        font-weight: bold;
+    }
+    table td:nth-child(3) {
+                font-weight: bold; /* Makes the text bold */
+                color: #007bff; /* Change this to your desired color */
+            }
+    table th {
+        background-color: #d7b899;
+        color: black;
+    }
+
+    /* Restoring original row colors */
+    .fajr-row {
+        background-color: #c8e6c9; /* Light green */
+    }
+
+    .sunrise-row {
+        background-color: #fff9c4; /* Light yellow */
+    }
+
+    .dhuhr-row, .asr-row {
+        background-color: #ffe0b2; /* Light orange */
+    }
+
+    .maghrib-row {
+        background-color: #f8bbd0; /* Light pink */
+    }
+
+    .isha-row {
+        background-color: #bbdefb; /* Light blue */
+    }
+
+    /* Highlight styles */
+    .highlight {
+        animation: blink 1s infinite;
+        font-weight: bold;
+        color: red;
+    }
+
+    @keyframes blink {
+        0%, 50% {
+            opacity: 1;
+        }
+        25%, 75% {
+            opacity: 0.5;
+        }
+    }
+
+    #right-container {
+        width: 50%; /* Takes up the other half of the screen */
+        height: 100%; /* Stretch vertically */
+        display: flex;
+        flex-direction: column; /* Stack elements vertically */
+        justify-content: center; /* Center items */
+        align-items: center;
+    }
+    #top-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between elements */
+    margin-bottom: 20px; /* Space below this section */
+}
+#date-display, #sunrise-time {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+    #current-time {
+        font-size: 12rem; /* Increased size for clock */
+        margin: 20px 0;
+        font-weight: bold;
+        color: #000000; /* Bright color for clock text */
+        text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8); /* Glow effect */
+        word-wrap: break-word;
+    }
+
+    #date-display {
+    color: #ffffff; /* White color for better contrast */
+}
+
+#sunrise-time {
+    color: #ffcc00; /* Bright yellow color */
+}
+#hijri-date {
+    font-size: 80px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 10s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    background-color: #bbdefb;  /* Add a background color to make it stand out more */
+    border-radius: 4px;  /* Round the corners */
+    line-height: 1; 
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+#logo {
+    height: 120px; /* Adjust size as needed */
+    width: auto; /* Maintain aspect ratio */
+}
+            
+#bismillah-text {
+    font-size: 60px;
+    font-weight: bold;
+    font-family: 'Traditional Arabic', serif;
+}
+            
+#next-prayer {
+    width: auto; /* Allow the width to adapt naturally */
+    padding: 10px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    margin-top: 10px;
+    background-color: white;
+    word-wrap: break-word; /* Prevent text overflow */
+}
+
+#next-iqama {
+    font-size: 50px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 3.5s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    padding: 10px;  /* Add some space around the text */
+    background-color: yellow;  /* Add a background color to make it stand out more */
+    border-radius: 5px;  /* Round the corners */
+}
+
+@keyframes colorChange {
+    0% {
+        color: red;
+    }
+    20% {
+        color: black;
+    }
+    40% {
+        color: blue;
+    }
+    60% {
+        color: purple;
+    }
+    80% {
+        color: green;
+    }
+    100% {
+        color: red;
+    }
+}
+
+/* Mobile responsiveness */
+@media only screen and (max-width: 768px) {
+    main {
+        flex-direction: column; /* Stack the table and next prayer vertically */
+    }
+
+    .table-container, #right-container {
+        width: 100%; /* Take full width on mobile */
+        height: auto; /* Allow height to adapt naturally */
+    }
+
+    table th, table td {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+        padding: 8px; /* Adjust padding */
+    }
+
+    #current-time {
+        font-size: 2rem; /* Reduce clock font size on mobile */
+    }
+
+    #next-prayer, #next-iqama, #hijri-date  {
+        font-size: 1rem; /* Adjust font size for smaller screens */
+        margin-top: 10px; /* Add spacing for clarity */
+    }
+
+    #sunrise-time, #date-display {
+        font-size: 1rem; /* Adjust size for sunrise and date display */
+        margin-top: 10px; /* Add spacing */
+    }
+    #logo {
+    height: 20px; /* Adjust size as needed */
+    width: auto; /* Maintain aspect ratio */
+}
+     #bismillah-text {
+            font-size: 9px; /* Smaller font size for mobile screens */
+        }
+}
+
+
+    </style>
+    
+</head>
+<body>
+
+
+
+<main class="container">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>صلاة</th>
+                    <th>أَذَان</th>
+                    <th>إِقَامَة</th>
+                </tr>
+            </thead>
+            <tbody id="prayer-times-body"></tbody>
+        </table>
+    </div>
+    <div id="right-container">
+      <div id="top-info" style="display: flex; align-items: center;">
+    <img id="logo" src="ciccbg.png" alt="Logo" >
+    <span id="bismillah-text">
+        بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+    </span>  </div>
+<div>        
+            <span id="date-display"></span>
+            <span id="sunrise-time"></span>
+        </div>
+        <div id="current-time"></div> <!-- Digital clock moved here -->
+        <p id="hijri-date"></p>
+        <div id="next-iqama"></div>  <!-- The next iqama time will be displayed here -->
+        <div id="next-prayer"></div> <!-- Next Adhan section -->
+    <h1 style="margin-bottom: 0;">Jummah Khutbah at 1315</h1>
+        <p style="margin-top: 0;">
+            CICC is a charity organization, Charity No. RCN 20200211.
+            <a href="https://drtjamal.github.io/Prayer-Time/" style="display: inline; margin-right: 10px;">Prayer Time</a>
+ <a href="https://drtjamal.github.io/Prayer-Time/friday.html" style="display: inline; margin-right: 10px;">Friday</a>
+            <a href="https://drtjamal.github.io/Prayer-Time/iqamatime.html" style="display: inline;">Iqama Highlight </a>
+        </p>
+
+    </div>
+</main>
+<script src="script.js"></script></body>
+</html>
