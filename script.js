@@ -71,7 +71,8 @@ function populatePrayerTable(timings) {
 
 function getCurrentTime() {
     const now = new Date();
-    return now.toTimeString().slice(0, 8);
+    const options = { timeZone: "Europe/Dublin", hour12: false };
+    return now.toLocaleTimeString("en-GB", options);
 }
 
 function findNextIqama() {
