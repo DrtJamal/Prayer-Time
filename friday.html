@@ -243,10 +243,10 @@
 
   <!-- Link to the external script -->
   <script src="script.js"></script>
-  <script>
-setTimeout(function () {
-    location.reload(true);
-},  5000);
-</script>
+ <script>
+        setTimeout(function () {
+            location.reload(true); // true forces reload from server
+        }, 12 * 60 * 60 * 1000); // 12 hours in milliseconds
+    </script>
 </body>
 </html>
