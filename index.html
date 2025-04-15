@@ -163,7 +163,7 @@ table th {
     margin-bottom: 1px;
 }
         #hijri-date, #message  {
-    font-size: 60px;  /* Keep the text larger */
+    font-size: 50px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
     animation: colorChange 10s infinite;  /* Extended duration for smoother transitions */
@@ -207,30 +207,33 @@ table th {
         color: red;
     }
 }
-          #quran-verse {
-      text-align: center;
-      font-family: "Segoe UI", Tahoma, sans-serif;
-      margin-top: 40px;
-      animation: fadeIn 2s ease-in;
-    }
+         #quran-verse {
+    text-align: center;
+    font-family: "Arial", sans-serif;
+    margin-top: 40px;
+    padding: 20px;
+    animation: fadeIn 2s ease-in;
+  }
 
-    .arabic {
-      font-size: 50px;
-      font-weight: bold;
-      color: #006400;
-      margin-bottom: 10px;
-    }
+  .arabic {
+    font-size: 70px;
+    font-weight: bold;
+    color: #007B00;
+    margin-bottom: 40px;
+    line-height: 1.5;
+  }
 
-    .english {
-      font-size: 40px;
-      color: #333;
-    }
+  .english {
+    font-size: 40px;
+    color: #000;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 /* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
     main {
@@ -339,8 +342,7 @@ table th {
   document.getElementById("quran-verse").innerHTML = `
     <div class="arabic">${verse.arabic}</div>
     <div class="english">${verse.english}</div>
-    <div style="margin-top: 8px; font-size: 14px; color: #666;">(${verse.surah} – ${verse.ayah})</div>
-  `;
+`;
 </script>
      <script>
         setTimeout(function () {
