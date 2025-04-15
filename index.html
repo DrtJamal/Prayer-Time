@@ -278,9 +278,8 @@ table th {
         <p id="next-iqama">Next: --:--:--</p>
 <p id="next-prayer">Time Remaining: --:--:--</p>
     <div id="message">Fundraising Updates:</div>
-        <div id="message1">Project Amount: €257,000</div>
-        <div id="message1">Shortfall = €743,000</div>
-<div id="message2">Help Us Build a Masjid and Islamic School in Carlow</div>
+        <div id="message1">Project Amount: €257,000, Shortfall = €743,000</div>
+    <div id="quran-verse"></div>
         <p style="margin-top: 5;">
             CICC is a charity organization, Charity No. RCN 20200211.
             <a href="https://drtjamal.github.io/Prayer-Time/" style="display: inline; margin-right: 10px;">Prayer Time</a>
@@ -292,11 +291,40 @@ table th {
 
 
     <script src="script.js"></script>
+    <script>
+  const verses = [
+    { surah: "Al-Fatiha", ayah: 2, arabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", english: "All praise is due to Allah, Lord of the worlds." },
+    { surah: "Al-Baqarah", ayah: 2, arabic: "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ", english: "This is the Book about which there is no doubt." },
+    { surah: "Al-Baqarah", ayah: 286, arabic: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا", english: "Allah does not burden a soul beyond that it can bear." },
+    { surah: "Al-Imran", ayah: 139, arabic: "وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ", english: "Do not lose heart or despair—you will be superior if you are true believers." },
+    { surah: "An-Nisa", ayah: 36, arabic: "وَاعْبُدُوا اللَّهَ وَلَا تُشْرِكُوا بِهِ شَيْئًا", english: "Worship Allah and associate nothing with Him." },
+    { surah: "Al-Ma’idah", ayah: 8, arabic: "اعْدِلُوا ۚ هُوَ أَقْرَبُ لِلتَّقْوَى", english: "Be just: that is nearer to righteousness." },
+    { surah: "At-Tawbah", ayah: 51, arabic: "قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا", english: "Say, 'Nothing will happen to us except what Allah has decreed for us.'" },
+    { surah: "Yunus", ayah: 61, arabic: "وَمَا تَسْقُطُ مِن وَرَقَةٍ إِلَّا يَعْلَمُهَا", english: "Not a leaf falls but that He knows it." },
+    { surah: "Ar-Ra’d", ayah: 28, arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", english: "Surely in the remembrance of Allah do hearts find rest." },
+    { surah: "Ibrahim", ayah: 7, arabic: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ", english: "If you are grateful, I will surely increase you [in favor]." },
+    { surah: "An-Nahl", ayah: 97, arabic: "مَنْ عَمِلَ صَالِحًا ... فَلَنُحْيِيَنَّهُ حَيَاةً طَيِّبَةً", english: "Whoever does good, We will give them a good life." },
+    { surah: "Al-Isra", ayah: 23, arabic: "وَبِالْوَالِدَيْنِ إِحْسَانًا", english: "And be kind to parents." },
+    { surah: "Ash-Sharh", ayah: 6, arabic: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", english: "Indeed, with hardship comes ease." },
+    { surah: "Az-Zumar", ayah: 53, arabic: "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا ... لَا تَقْنَطُوا", english: "O My servants who have transgressed... do not despair of Allah’s mercy." },
+    { surah: "Al-Kahf", ayah: 46, arabic: "الْمَالُ وَالْبَنُونَ زِينَةُ الْحَيَاةِ الدُّنْيَا", english: "Wealth and children are [but] adornment of the worldly life." }
+  ];
+
+  const dayIndex = new Date().getDate() % verses.length;
+  const verse = verses[dayIndex];
+
+  document.getElementById("quran-verse").innerHTML = `
+    <div class="arabic">${verse.arabic}</div>
+    <div class="english">${verse.english}</div>
+    <div style="margin-top: 8px; font-size: 14px; color: #666;">(${verse.surah} – ${verse.ayah})</div>
+  `;
+</script>
      <script>
         setTimeout(function () {
             location.reload(true); // true forces reload from server
         }, 6 * 60 * 60 * 1000); // 6 hours in milliseconds
     </script>
+    
 
 
 </body>
