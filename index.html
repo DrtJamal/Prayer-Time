@@ -152,7 +152,7 @@ table th {
     font-family: 'Traditional Arabic', serif;
 }
   #message1  {
-    font-size: 40px;  /* Keep the text larger */
+    font-size: 35px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: black;  /* Initial color */
     animation: colorChange 3s infinite;  /* Extended duration for smoother transitions */
@@ -175,7 +175,7 @@ table th {
     margin-bottom: 1px;
 }
           #message2  {
-    font-size: 70px;  /* Keep the text larger */
+    font-size: 60px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
     text-align: center;  /* Center the text */
@@ -207,6 +207,29 @@ table th {
         color: red;
     }
 }
+          #quran-verse {
+      text-align: center;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      margin-top: 40px;
+      animation: fadeIn 2s ease-in;
+    }
+
+    .arabic {
+      font-size: 28px;
+      font-weight: bold;
+      color: #006400;
+      margin-bottom: 10px;
+    }
+
+    .english {
+      font-size: 20px;
+      color: #333;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
 /* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
