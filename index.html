@@ -95,7 +95,7 @@ table th {
     align-items: center;
 }
 
-        #date-display, #sunrise-time {
+        #date-display {
     font-size: 3rem;
     font-weight: bold;
 }
@@ -162,7 +162,7 @@ table th {
     margin-top: 1px;
     margin-bottom: 1px;
 }
-        #hijri-date, #message  {
+        #hijri-date, #message,  #sunrise-time  {
     font-size: 50px;  /* Keep the text larger */
     font-weight: bold;  /* Make the text bold */
     color: red;  /* Initial color */
@@ -304,8 +304,11 @@ table th {
         </div>
         
             <div id="current-time"></div> 
-                            <p id="sunrise-time"></p>
-        <p id="next-iqama">Next: --:--:--</p>
+                    
+        <div>        
+            <span id="sunrise-time"></span>
+            <span id="next-iqama"></span>
+        </div>
 <p id="next-prayer">Time Remaining: --:--:--</p>
     <div id="message2">Fundraising Updates:</div>
         <div id="message1">Project Amount: €267000, Shortfall = €733000</div>
