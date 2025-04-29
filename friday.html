@@ -276,7 +276,7 @@ async function fetchTomorrowPrayerTimes() {
                 .map(t => `${t.label}: ${entry[t.key]}`)
                 .join(" | ");
 
-            document.getElementById("tomorrow-prayers-container").innerText = `🕒 غدًا: ${row}`;
+            document.getElementById("tomorrow-prayers-container").innerText = `🕒 Tomorrow: ${row}`;
         }
     } catch (err) {
         console.error("Error loading tomorrow's timings:", err);
