@@ -219,7 +219,6 @@
             <a href="friday.html" style="display: inline; margin-right: 10px;">Friday</a>
                 
         </p>
-    <div id="tomorrow-prayers-container" style="font-size: 12px; text-align: right; margin-top: 10px;"></div>
  
    
   </div>
@@ -249,56 +248,7 @@
             location.reload(true); // true forces reload from server
         }, 6 * 60 * 60 * 1000); // 12 hours in milliseconds
     </script>
-<script>
-async function fetchTomorrowPrayerTimes() {
-    try {
-        const response = await fetch('prayer-times.json');
-        const data = await response.json();
 
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const formattedTomorrow = tomorrow.toLocaleDateString("en-GB");
-
-        const entry = data.find(e => e.Date === formattedTomorrow);
-
-        if (entry) {
-            const timings = [
-                { label: "فجر", key: "Fajr" },
-                { label: "شروق", key: "Sunrise" },
-                { label: "ظهر", key: "Dhuhr" },
-                { label: "عصر", key: "Asr" },
-                { label: "مغرب", key: "Maghrib" },
-                { label: "عشاء", key: "Isha" }
-            ];
-
-            const row = timings
-                .filter(t => entry[t.key])
-                .map(t => `${t.label}: ${entry[t.key]}`)
-                .join(" | ");
-
-            document.getElementById("tomorrow-prayers-container").innerText = `🕒 Tomorrow: ${row}`;
-        }
-    } catch (err) {
-        console.error("Error loading tomorrow's timings:", err);
-    }
-}
-
-// Run once now
-fetchTomorrowPrayerTimes();
-
-// Calculate time left until next midnight
-const now = new Date();
-const nextMidnight = new Date();
-nextMidnight.setHours(24, 0, 5, 0); // Just after midnight (00:00:05)
-
-const msUntilMidnight = nextMidnight - now;
-
-// Set timer to refresh at midnight
-setTimeout(() => {
-    fetchTomorrowPrayerTimes(); // Update once at midnight
-    setInterval(fetchTomorrowPrayerTimes, 24 * 60 * 60 * 1000); // Then every 24 hours
-}, msUntilMidnight);
-</script>
 
 
 </body>
