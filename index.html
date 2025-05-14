@@ -322,7 +322,7 @@ table th {
     
     
     <div id="quran-verse"></div>
-<div id="tomorrow-prayers-container" class="prayer-text">Tomorrow's prayers...</div>
+<div id="next-days-prayers-container" class="prayer-text"></div>
 <div id="message2">Fundraising Updates:€279K</div>
         <p style="margin-top: 5;">
             CICC is a charity organization, Charity No. RCN 20200211.
@@ -369,53 +369,65 @@ table th {
     </script>
     
 <script>
-async function fetchTomorrowPrayerTimes() {
+<script>
+async function fetchNextThreeDaysPrayerTimes() {
     try {
         const response = await fetch('prayer-times.json');
         const data = await response.json();
 
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        const formattedTomorrow = tomorrow.toLocaleDateString("en-GB");
+        const container = document.getElementById("next-days-prayers-container");
+        container.innerHTML = ""; // Clear previous entries
 
-        const entry = data.find(e => e.Date === formattedTomorrow);
+        for (let i = 1; i <= 3; i++) {
+            const futureDate = new Date();
+            futureDate.setDate(futureDate.getDate() + i);
 
-        if (entry) {
-            const timings = [
-                { label: "فجر", key: "Fajr" },
-                { label: "شروق", key: "Sunrise" },
-                { label: "ظهر", key: "Dhuhr" },
-                { label: "عصر", key: "Asr" },
-                { label: "مغرب", key: "Maghrib" },
-                { label: "عشاء", key: "Isha" }
-            ];
+            const formattedDataDate = futureDate.toLocaleDateString("en-GB"); // for JSON lookup
+            const readableDate = futureDate.toLocaleDateString("en-GB", {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            }); // for display
 
-            const row = timings
-                .filter(t => entry[t.key])
-                .map(t => `${t.label}: ${entry[t.key]}`)
-                .join(" | ");
+            const entry = data.find(e => e.Date === formattedDataDate);
+            if (entry) {
+                const timings = [
+                    { label: "فجر", key: "Fajr" },
+                    { label: "شروق", key: "Sunrise" },
+                    { label: "ظهر", key: "Dhuhr" },
+                    { label: "عصر", key: "Asr" },
+                    { label: "مغرب", key: "Maghrib" },
+                    { label: "عشاء", key: "Isha" }
+                ];
 
-            document.getElementById("tomorrow-prayers-container").innerText = `🕒 Tomorrow: ${row}`;
+                const row = timings
+                    .filter(t => entry[t.key])
+                    .map(t => `${t.label}: ${entry[t.key]}`)
+                    .join(" | ");
+
+                const div = document.createElement("div");
+                div.innerText = `📅 ${readableDate}: ${row}`;
+                container.appendChild(div);
+            }
         }
     } catch (err) {
-        console.error("Error loading tomorrow's timings:", err);
+        console.error("Error loading prayer timings:", err);
     }
 }
 
 // Run once now
-fetchTomorrowPrayerTimes();
+fetchNextThreeDaysPrayerTimes();
 
-// Calculate time left until next midnight
+// Refresh logic
 const now = new Date();
 const nextMidnight = new Date();
-nextMidnight.setHours(24, 0, 5, 0); // Just after midnight (00:00:05)
+nextMidnight.setHours(24, 0, 5, 0);
 
 const msUntilMidnight = nextMidnight - now;
 
-// Set timer to refresh at midnight
 setTimeout(() => {
-    fetchTomorrowPrayerTimes(); // Update once at midnight
-    setInterval(fetchTomorrowPrayerTimes, 24 * 60 * 60 * 1000); // Then every 24 hours
+    fetchNextThreeDaysPrayerTimes();
+    setInterval(fetchNextThreeDaysPrayerTimes, 24 * 60 * 60 * 1000);
 }, msUntilMidnight);
 </script>
 
