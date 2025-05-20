@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quran Juz and Full Quran</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      color: #212529;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .links-container {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .link-item {
+      background: white;
+      border-radius: 8px;
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.1rem;
+      flex-wrap: wrap;
+    }
+    .link-item span {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .link-item a {
+      color: #2980b9;
+      text-decoration: none;
+      margin-left: 15px;
+      font-weight: 600;
+    }
+    .link-item a:hover {
+      text-decoration: underline;
+    }
+    .back-link {
+      display: block;
+      margin-top: 40px;
+      text-align: center;
+      font-size: 1rem;
+      color: #34495e;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Read & Download Quran</h1>
+
+  <div class="links-container" id="links-container">
+    <!-- Links will be inserted here by JS -->
+  </div>
+
+  <a href="index.html" class="back-link">← Back to Prayer Times</a>
+
+  
+    <script>
+  const files = [
+    { name: 'Juz-01', fileId: '15QlVK1otPXRd7paSpc7MQ1E-HZaL1arT' },
+    { name: 'Juz-02', fileId: '1MyIzYiM3QVF9VRWq7eG7RJZWjv9SBQDQ' },
+    { name: 'Juz-03', fileId: '1h6Zw7xTBWO629R6mgCq79RhSML9J5PFh' },
+    { name: 'Juz-04', fileId: '1DsWaD1OWKeYxkwkaVceBxV2snnPcYKzi' },
+    { name: 'Juz-05', fileId: '1G6OIcRVxABpbfyR9RrWg1HAZNQj3I5mA' },
+    { name: 'Juz-06', fileId: '1c2dgqaX-SWm5Sb4YVyE4wQeWBJXp5xt8' },
+    { name: 'Juz-07', fileId: '1dI4j9GyhHtHfmYEgGJ8nJzgvwTCTKmdb' },
+    { name: 'Juz-08', fileId: '1cUr3jjZcT0Kg2WpYZ5IX1l25nfcWkeCd' },
+    { name: 'Juz-09', fileId: '11LwlY8ZGmaP7u9yR2krSqmOksgy5y4ga' },
+    { name: 'Juz-10', fileId: '1bySg455_Ea_-LZcTx5E3zm1lECyl1fbc' },
+    { name: 'Juz-11', fileId: '189ZvC3cR_mqHN2lHE5I43W2x4w5BNXk3' },
+    { name: 'Juz-12', fileId: '1g8cahYtxDJdhY4LF2jtQbCqAaCgPOvEj' },
+    { name: 'Juz-13', fileId: '1bn2a5SLhEWT8N4Q6VejiePte5OMQ6Gtg' },
+    { name: 'Juz-14', fileId: '1EIhctXyB8izOFrXo5TNlI1TifU3VMqF0' },
+    { name: 'Juz-15', fileId: '1tsgMBJAf1uMJEEC7SIBw8Diu9aJvrLPd' },
+    { name: 'Juz-16', fileId: '1GGQxJ3gLSN7VHzyNM5mmCaYOfIE7zjQk' },
+    { name: 'Juz-17', fileId: '1zIIij-5Xh7udW1ErjsKQ1LhyTbFekY39' },
+    { name: 'Juz-18', fileId: '1Ezrha0i-oEUDwPwtwEz8VpgytCFEiqY3' },
+    { name: 'Juz-19', fileId: '1duIL_rNdsJ9sa0nqpHFEX2qdFWuwNmMI' },
+    { name: 'Juz-20', fileId: '1lZoiNeSoxhoOM3pAj5-PxJ1TvCWhmYFi' },
+    { name: 'Juz-21', fileId: '12PwKFb0f0vDecW8MR-fVCru3jggxYy8p' },
+    { name: 'Juz-22', fileId: '1LgiZBYTkz1R-3RZFacI7JPW8v47gc8kb' },
+    { name: 'Juz-23', fileId: '1QPS4C0BvjQwLMUn4jSqv8FA7EHsu0PuL' },
+    { name: 'Juz-24', fileId: '1jyg6H70ysc59dSgEKMMySGDMqI5C22nk' },
+    { name: 'Juz-25', fileId: '1oH9XCzVpOH8lGhnzV93Yy6Xrip-3A72H' },
+    { name: 'Juz-26', fileId: '1AtjA6KhY0en6t8XoVkjydfU3680WXAeK' },
+    { name: 'Juz-27', fileId: '1BOL9egTDPQRle0YU7F3afHnEy_2WWv9n' },
+    { name: 'Juz-28', fileId: '1Qz_iCyDHInwgGYpHkHbyraQPFTTlKCTZ' },
+    { name: 'Juz-29', fileId: '1TlOjTGS8GuVUb5aFgaOU95JSHfd3OXGa' },
+    { name: 'Juz-30', fileId: '120PC5jl-ce8ocPuZeWR1UfKMJaFj73wd' },
+    { name: 'Full Quran', fileId: '1rBGtF34pGr6koPBbiQxOCPRhZqZZRXXd' }
+  ];
+
+  const container = document.getElementById('links-container');
+
+  files.forEach(file => {
+    const div = document.createElement('div');
+    div.className = 'link-item';
+
+    const nameSpan = document.createElement('span');
+    nameSpan.textContent = file.name;
+
+    const readLink = document.createElement('a');
+    readLink.href = `https://drive.google.com/file/d/${file.fileId}/preview`;
+    readLink.target = '_blank';
+    readLink.rel = 'noopener noreferrer';
+    readLink.textContent = 'Read Online';
+
+    const downloadLink = document.createElement('a');
+    downloadLink.href = `https://drive.google.com/uc?export=download&id=${file.fileId}`;
+    downloadLink.target = '_blank';
+    downloadLink.rel = 'noopener noreferrer';
+    downloadLink.textContent = 'Download';
+
+    div.appendChild(nameSpan);
+    div.appendChild(readLink);
+    div.appendChild(downloadLink);
+    container.appendChild(div);
+  });
+
+  </script>
+</body>
+</html>
