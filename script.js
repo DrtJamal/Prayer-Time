@@ -7,7 +7,7 @@ let prayers = [
     { name: "Fajr", iqama: "03:35", class: "fajr-row" },
     { name: "Dhuhr", iqama: "14:00", class: "dhuhr-row" },
     { name: "Asr", iqama: "18:00", class: "asr-row" },
-    { name: "Maghrib", iqamaOffset: 6, class: "maghrib-row" },
+    { name: "Maghrib", iqamaOffset: 5, class: "maghrib-row" },
     { name: "Isha", iqamaOffset: 0, class: "isha-row" }
 ];
 
