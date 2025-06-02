@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Full Blood Count Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f8f8f8;
+    }
+    .report {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: auto;
+    }
+    .parameter {
+      margin-bottom: 40px;
+    }
+    .strip-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .strip {
+      height: 30px;
+      display: flex;
+      overflow: hidden;
+      border-radius: 4px;
+      width: 70%;
+      position: relative;
+    }
+    .low { background: orange; flex: 1; }
+    .normal { background: green; flex: 2; }
+    .high { background: red; flex: 1; }
+
+    .labels {
+      display: flex;
+      font-size: 12px;
+      margin-top: 4px;
+      justify-content: space-between;
+      width: 70%;
+    }
+    .labels span {
+      flex: 1;
+      text-align: center;
+    }
+
+    .arrow {
+      position: absolute;
+      top: -14px;
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 12px solid black;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .balloon {
+      position: absolute;
+      top: -35px;
+      background: green;
+      color: white;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      white-space: nowrap;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="report">
+    <h2>Full Blood Count Report</h2>
+    <form id="fbc-form">
+      <label>Patient Name: <input type="text" id="patient-name" required /></label><br/><br/>
+      <label>Patient ID: <input type="text" id="patient-id" required /></label><br/><br/>
+      <div id="input-fields"></div>
+      <br/>
+      <button type="submit">Generate Report</button>
+    </form>
+    <hr/>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const parameters = [
+      { name: "Haemoglobin", low: 115.0, high: 165.0 },
+      { name: "Haematocrit", low: 37.0, high: 47.0 },
+      { name: "MCH", low: 27.0, high: 32.0 },
+      { name: "MCHC", low: 320.0, high: 360.0 },
+      { name: "MCV", low: 76.0, high: 100.0 },
+      { name: "RBC Count", low: 3.8, high: 5.8 },
+      { name: "Basophils", low: 0.01, high: 0.1 },
+      { name: "Eosinophils", low: 0.04, high: 0.4 },
+      { name: "Lymphocytes", low: 1.0, high: 3.5 },
+      { name: "Monocytes", low: 0.2, high: 0.8 },
+      { name: "Neutrophils", low: 2.0, high: 7.5 },
+      { name: "WBC Count", low: 4.0, high: 10.0 },
+      { name: "Platelet Count", low: 150, high: 450 }
+    ];
+
+    const inputFields = document.getElementById("input-fields");
+    parameters.forEach(p => {
+      inputFields.innerHTML += `<label>${p.name}: <input type="number" step="any" name="${p.name}" required /></label><br/>`;
+    });
+
+    document.getElementById("fbc-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const result = document.getElementById("result");
+      result.innerHTML = "";
+
+      const formData = new FormData(e.target);
+      const name = formData.get("patient-name");
+      const id = formData.get("patient-id");
+
+      result.innerHTML += `<h3>Report for ${name} (ID: ${id})</h3>`;
+
+      parameters.forEach(p => {
+        const value = parseFloat(formData.get(p.name));
+        const range = p.high - p.low;
+        const min = p.low - range;
+        const max = p.high + range;
+        let pos = ((value - min) / (max - min)) * 100;
+        pos = Math.max(0, Math.min(pos, 100));
+
+        // Determine balloon color
+        let balloonColor = "green";
+        if (value < p.low) balloonColor = "orange";
+        if (value > p.high) balloonColor = "red";
+
+        result.innerHTML += `
+          <div class="parameter">
+            <strong>${p.name}: ${value}</strong>
+            <div class="strip-wrapper">
+              <div class="strip">
+                <div class="low"></div>
+                <div class="normal"></div>
+                <div class="high"></div>
+                <div class="arrow" style="left: ${pos}%"></div>
+                <div class="balloon" style="left: ${pos}%; background: ${balloonColor}">${value}</div>
+              </div>
+            </div>
+            <div class="labels">
+              <span>&lt;${p.low} LOW</span>
+              <span>${p.low}–${p.high} NORMAL</span>
+              <span>&gt;${p.high} HIGH</span>
+            </div>
+          </div>
+        `;
+      });
+    });
+  </script>
+</body>
+</html>
