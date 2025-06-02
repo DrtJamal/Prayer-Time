@@ -15,41 +15,38 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 800px;
+      max-width: 900px;
       margin: auto;
     }
     .parameter {
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
     .strip-wrapper {
       position: relative;
-      display: flex;
-      align-items: center;
+      margin-top: 10px;
+      width: 70%;
     }
     .strip {
       height: 30px;
       display: flex;
-      overflow: hidden;
+      overflow: visible;
       border-radius: 4px;
-      width: 70%;
       position: relative;
     }
     .low { background: orange; flex: 1; }
     .normal { background: green; flex: 2; }
     .high { background: red; flex: 1; }
-
     .labels {
       display: flex;
       font-size: 12px;
       margin-top: 4px;
-      justify-content: space-between;
       width: 70%;
+      justify-content: space-between;
     }
     .labels span {
       flex: 1;
       text-align: center;
     }
-
     .arrow {
       position: absolute;
       top: -14px;
@@ -58,21 +55,41 @@
       border-left: 7px solid transparent;
       border-right: 7px solid transparent;
       border-bottom: 12px solid black;
-      transform: translateX(-50%);
-      z-index: 2;
     }
-
-    .balloon {
+    .value-circle {
       position: absolute;
-      top: -35px;
-      background: green;
+      right: -45px;
+      top: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
       color: white;
-      padding: 3px 10px;
-      border-radius: 6px;
       font-size: 12px;
-      white-space: nowrap;
-      transform: translateX(-50%);
-      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .export-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #result, #result * {
+        visibility: visible;
+      }
+      #result {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
     }
   </style>
 </head>
@@ -80,12 +97,13 @@
   <div class="report">
     <h2>Full Blood Count Report</h2>
     <form id="fbc-form">
-      <label>Patient Name: <input type="text" id="patient-name" required /></label><br/><br/>
-      <label>Patient ID: <input type="text" id="patient-id" required /></label><br/><br/>
+      <label>Patient Name: <input type="text" id="patient-name" name="patient-name" required /></label><br/><br/>
+      <label>Patient ID: <input type="text" id="patient-id" name="patient-id" required /></label><br/><br/>
       <div id="input-fields"></div>
       <br/>
       <button type="submit">Generate Report</button>
     </form>
+    <button class="export-button" onclick="window.print()">Export PDF</button>
     <hr/>
     <div id="result"></div>
   </div>
@@ -125,16 +143,17 @@
 
       parameters.forEach(p => {
         const value = parseFloat(formData.get(p.name));
+        if (isNaN(value)) return;
+
         const range = p.high - p.low;
         const min = p.low - range;
         const max = p.high + range;
         let pos = ((value - min) / (max - min)) * 100;
         pos = Math.max(0, Math.min(pos, 100));
 
-        // Determine balloon color
-        let balloonColor = "green";
-        if (value < p.low) balloonColor = "orange";
-        if (value > p.high) balloonColor = "red";
+        let color = "green";
+        if (value < p.low) color = "orange";
+        else if (value > p.high) color = "red";
 
         result.innerHTML += `
           <div class="parameter">
@@ -145,7 +164,7 @@
                 <div class="normal"></div>
                 <div class="high"></div>
                 <div class="arrow" style="left: ${pos}%"></div>
-                <div class="balloon" style="left: ${pos}%; background: ${balloonColor}">${value}</div>
+                <div class="value-circle" style="background: ${color}">${value}</div>
               </div>
             </div>
             <div class="labels">
