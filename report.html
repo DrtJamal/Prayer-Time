@@ -211,11 +211,18 @@
         const value = parseFloat(formData.get(p.name));
         if (isNaN(value)) return;
 
-        const range = p.high - p.low;
-        const min = p.low - range;
-        const max = p.high + range;
-        let pos = ((value - min) / (max - min)) * 100;
-        pos = Math.max(0, Math.min(pos, 100));
+      let pos;
+      if (value < p.low) {
+        // Left red zone
+        pos = (value / p.low) * 33.33;
+      } else if (value <= p.high) {
+        // Green normal zone
+        pos = 33.33 + ((value - p.low) / (p.high - p.low)) * 33.33;
+      } else {
+        // Right red zone
+        pos = 66.66 + ((value - p.high) / (p.high) * 33.33);
+      }
+      pos = Math.max(0, Math.min(pos, 100));
 
         let color = "light green";
         if (value < p.low) color = "red";
