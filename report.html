@@ -217,7 +217,7 @@
         let pos = ((value - min) / (max - min)) * 100;
         pos = Math.max(0, Math.min(pos, 100));
 
-        let color = "green";
+        let color = "light green";
         if (value < p.low) color = "red";
         else if (value > p.high) color = "red";
 
@@ -229,7 +229,7 @@
                 <div class="low"></div>
                 <div class="normal"></div>
                 <div class="high"></div>
-                <div class="arrow" style="left: ${pos}%"></div>
+                <div class="inverted arrow" style="left: ${pos}%"></div>
 <div class="value-circle" style="background: ${color}">
   ${value}<br><span style="font-size: 20px;">${p.unit}</span>
 </div>
