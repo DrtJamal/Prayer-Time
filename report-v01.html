@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Full Blood Count Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f8f8f8;
+    }
+    .report {
+      background: white;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 900px;
+      margin: auto;
+    }
+    .header, .footer {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .header img {
+      width: 100px;
+    }
+    .parameter {
+      margin-bottom: 60px;
+    }
+ .strip-wrapper {
+  position: relative;
+  margin-top: 10px;
+  width: 70%;
+  padding-right: 80px; /* Give space for the value-circle */
+}
+
+    .strip {
+      height: 30px;
+      display: flex;
+      border-radius: 7px;
+      position: relative;
+      overflow: visible;
+    }
+    .low { background: red; flex: 1; }
+    .normal { background: green; flex: 2; }
+    .high { background: red; flex: 1; }
+    .labels {
+      display: flex;
+      font-size: 12px;
+      margin-top: 4px;
+      width: 70%;
+      justify-content: space-between;
+    }
+    .labels span {
+      flex: 1;
+      text-align: center;
+    }
+    .arrow {
+      position: absolute;
+      top: -14px;/* place it below the strip */
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 12px solid black; /* changed from border-bottom to border-top */
+    }
+   .value-circle {
+  position: absolute;
+  right: -70px; /* Move it further from the strip */
+  top: -4px;    /* Optional: fine-tune vertical alignment */
+  width: 60px;  /* Bigger circle */
+  height: 60px;
+  border-radius: 50%;
+  color: white;
+  font-size: 16px;  /* Bigger font for value */
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.1;
+}
+    .export-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .footer {
+      font-size: 14px;
+      margin-top: 60px;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+    .explanation {
+      text-align: justify;
+      margin: 20px 0;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #result, #result * {
+        visibility: visible;
+      }
+      #result {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white;
+        color: black;
+      }
+      .strip {
+        display: flex !important;
+      }
+      .low, .normal, .high, .value-circle, .arrow {
+        background-clip: border-box !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .value-circle {
+        color: white !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="report">
+    <form id="fbc-form">
+      <label>Patient Name: <input type="text" id="patient-name" name="patient-name" required /></label><br/><br/>
+      <label>Patient ID: <input type="text" id="patient-id" name="patient-id" required /></label><br/><br/>
+      <div id="input-fields"></div>
+      <br/>
+      <button type="submit">Generate Report</button>
+    </form>
+
+    <button class="export-button" onclick="window.print()">Export PDF</button>
+    <hr/>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const parameters = [
+  { name: "Haemoglobin", low: 11.5, high: 16.5, unit: "g/L" },
+  { name: "Haematocrit", low: 37.0, high: 47.0, unit: "%" },
+  { name: "MCH", low: 27.0, high: 32.0, unit: "pg" },
+  { name: "MCHC", low: 32.0, high: 36.0, unit: "g/L" },
+  { name: "MCV", low: 76.0, high: 100.0, unit: "fL" },
+  { name: "RBC Count", low: 3.8, high: 5.8, unit: "x10¹²/L" },
+  { name: "Basophils", low: 0.01, high: 0.1, unit: "x10⁹/L" },
+  { name: "Eosinophils", low: 0.04, high: 0.4, unit: "x10⁹/L" },
+  { name: "Lymphocytes", low: 1.0, high: 3.5, unit: "x10⁹/L" },
+  { name: "Monocytes", low: 0.2, high: 0.8, unit: "x10⁹/L" },
+  { name: "Neutrophils", low: 2.0, high: 7.5, unit: "x10⁹/L" },
+  { name: "WBC Count", low: 4.0, high: 10.0, unit: "x10⁹/L" },
+  { name: "Platelet Count", low: 150, high: 450, unit: "x10⁹/L" }
+];
+
+
+    const inputFields = document.getElementById("input-fields");
+    parameters.forEach(p => {
+      inputFields.innerHTML += `<label>${p.name}: <input type="number" step="any" name="${p.name}" /></label><br/>`;
+    });
+
+    document.getElementById("fbc-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const result = document.getElementById("result");
+      result.innerHTML = "";
+
+      const formData = new FormData(e.target);
+      const name = formData.get("patient-name");
+      const id = formData.get("patient-id");
+
+      result.innerHTML += `
+        <div class="header">
+          <img src="cliniclogo.jpg" alt="Clinic Logo"/><br/>
+          <strong> Moorefield Medical Clinic </strong><br/>
+          <em> Newbridge, Co Kildare, Ireland </em><br/><br/>
+          <h2>Full Blood Count</h2>
+        </div>
+        <h3>Patient Name: ${name} &nbsp;&nbsp; ID: ${id}</h3>
+        <div class="explanation">
+          <p>
+            A Full Blood Count is a common blood test that gives a picture of your overall health. 
+            It measures the different components in your blood including red blood cells, white blood cells or leukocytes and platelets. 
+            This helps doctors detect a variety of conditions, such as infections, anemia, and other health problems.
+          </p>
+          <p>
+            Red blood cells contain hemoglobin, a protein that carries oxygen from the lungs to all the tissues and organs of the body and 
+            carbon dioxide back to the lungs to be exhaled. White blood cells or leukocytes form part of the immune system and help to defend 
+            the body against infection such as bacteria, fungi and viruses. The major types of white blood cells are neutrophils, lymphocytes, 
+            monocytes, eosinophils and basophils, with each having their own role in protecting the body from infection, allergies, etc. 
+            Platelets are important for blood clotting and repairing blood vessels. When you bleed, platelets rush to the site of the injury and 
+            form a “plug” to stop the bleeding. They also help repair blood vessels that might be damaged, keeping you healthy and preventing 
+            excessive bleeding from happening again.
+          </p>
+        </div>
+        <hr/>
+      `;
+
+      parameters.forEach(p => {
+        const value = parseFloat(formData.get(p.name));
+        if (isNaN(value)) return;
+
+      let pos;
+      if (value < p.low) {
+        // Left red zone
+        pos = (value / p.low) * 33.33;
+      } else if (value <= p.high) {
+        // Green normal zone
+        pos = 33.33 + ((value - p.low) / (p.high - p.low)) * 33.33;
+      } else {
+        // Right red zone
+        pos = 66.66 + ((value - p.high) / (p.high) * 33.33);
+      }
+      pos = Math.max(0, Math.min(pos, 100));
+
+        let color = "light green";
+        if (value < p.low) color = "red";
+        else if (value > p.high) color = "red";
+
+        result.innerHTML += `
+          <div class="parameter">
+<strong>${p.name}: ${value} ${p.unit}</strong>
+            <div class="strip-wrapper">
+              <div class="strip">
+                <div class="low"></div>
+                <div class="normal"></div>
+                <div class="high"></div>
+                <div class="arrow" style="left: ${pos}%"></div>
+<div class="value-circle" style="background: ${color}">
+  ${value}<br><span style="font-size: 20px;">${p.unit}</span>
+</div>
+              </div>
+            </div>
+            <div class="labels">
+              <span>&lt;${p.low} LOW</span>
+              <span>${p.low}–${p.high} NORMAL</span>
+              <span>&gt;${p.high} HIGH</span>
+            </div>
+          </div>
+        `;
+      });
+
+      result.innerHTML += `
+        <div class="footer">
+          <p>Authorized By: <strong> Dr. Bismil Ali Ali </strong></p>
+          <p> Moorefield Medical Clinic, Newbridge, Co Kildre, Ireland</p>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
