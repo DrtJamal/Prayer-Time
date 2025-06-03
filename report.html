@@ -26,13 +26,15 @@
       width: 100px;
     }
     .parameter {
-      margin-bottom: 50px;
+      margin-bottom: 60px;
     }
-    .strip-wrapper {
-      position: relative;
-      margin-top: 10px;
-      width: 70%;
-    }
+ .strip-wrapper {
+  position: relative;
+  margin-top: 10px;
+  width: 70%;
+  padding-right: 80px; /* Give space for the value-circle */
+}
+
     .strip {
       height: 30px;
       display: flex;
@@ -63,19 +65,23 @@
       border-right: 7px solid transparent;
       border-bottom: 12px solid black;
     }
-    .value-circle {
-      position: absolute;
-      right: -45px;
-      top: 0;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      color: white;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+   .value-circle {
+  position: absolute;
+  right: -70px; /* Move it further from the strip */
+  top: -4px;    /* Optional: fine-tune vertical alignment */
+  width: 50px;  /* Bigger circle */
+  height: 50px;
+  border-radius: 50%;
+  color: white;
+  font-size: 16px;  /* Bigger font for value */
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.1;
+}
     .export-button {
       margin-top: 20px;
       padding: 10px 20px;
@@ -90,6 +96,12 @@
       margin-top: 60px;
       border-top: 1px solid #ccc;
       padding-top: 10px;
+    }
+    .explanation {
+      text-align: justify;
+      margin: 20px 0;
+      font-size: 15px;
+      line-height: 1.6;
     }
 
     @media print {
@@ -138,20 +150,21 @@
 
   <script>
     const parameters = [
-      { name: "Haemoglobin", low: 115.0, high: 165.0 },
-      { name: "Haematocrit", low: 37.0, high: 47.0 },
-      { name: "MCH", low: 27.0, high: 32.0 },
-      { name: "MCHC", low: 320.0, high: 360.0 },
-      { name: "MCV", low: 76.0, high: 100.0 },
-      { name: "RBC Count", low: 3.8, high: 5.8 },
-      { name: "Basophils", low: 0.01, high: 0.1 },
-      { name: "Eosinophils", low: 0.04, high: 0.4 },
-      { name: "Lymphocytes", low: 1.0, high: 3.5 },
-      { name: "Monocytes", low: 0.2, high: 0.8 },
-      { name: "Neutrophils", low: 2.0, high: 7.5 },
-      { name: "WBC Count", low: 4.0, high: 10.0 },
-      { name: "Platelet Count", low: 150, high: 450 }
-    ];
+  { name: "Haemoglobin", low: 115.0, high: 165.0, unit: "g/L" },
+  { name: "Haematocrit", low: 37.0, high: 47.0, unit: "%" },
+  { name: "MCH", low: 27.0, high: 32.0, unit: "pg" },
+  { name: "MCHC", low: 320.0, high: 360.0, unit: "g/L" },
+  { name: "MCV", low: 76.0, high: 100.0, unit: "fL" },
+  { name: "RBC Count", low: 3.8, high: 5.8, unit: "x10¹²/L" },
+  { name: "Basophils", low: 0.01, high: 0.1, unit: "x10⁹/L" },
+  { name: "Eosinophils", low: 0.04, high: 0.4, unit: "x10⁹/L" },
+  { name: "Lymphocytes", low: 1.0, high: 3.5, unit: "x10⁹/L" },
+  { name: "Monocytes", low: 0.2, high: 0.8, unit: "x10⁹/L" },
+  { name: "Neutrophils", low: 2.0, high: 7.5, unit: "x10⁹/L" },
+  { name: "WBC Count", low: 4.0, high: 10.0, unit: "x10⁹/L" },
+  { name: "Platelet Count", low: 150, high: 450, unit: "x10⁹/L" }
+];
+
 
     const inputFields = document.getElementById("input-fields");
     parameters.forEach(p => {
@@ -169,12 +182,29 @@
 
       result.innerHTML += `
         <div class="header">
-          <img src="cliniclogo.jpg"/><br/>
+          <img src="https://via.placeholder.com/100" alt="Clinic Logo"/><br/>
           <strong>Dr. Bismil Surgery</strong><br/>
-          <em>New Bridge, Ireland, https://www.moorefield.ie/</em><br/><br/>
+          <em>New Bridge, Ireland</em><br/><br/>
           <h2>Full Blood Count</h2>
         </div>
-        <h3>Patient Name: ${name} &nbsp;&nbsp; ID: ${id}</h3><hr/>
+        <h3>Patient Name: ${name} &nbsp;&nbsp; ID: ${id}</h3>
+        <div class="explanation">
+          <p>
+            A Full Blood Count is a common blood test that gives a picture of your overall health. 
+            It measures the different components in your blood including red blood cells, white blood cells or leukocytes and platelets. 
+            This helps doctors detect a variety of conditions, such as infections, anemia, and other health problems.
+          </p>
+          <p>
+            Red blood cells contain hemoglobin, a protein that carries oxygen from the lungs to all the tissues and organs of the body and 
+            carbon dioxide back to the lungs to be exhaled. White blood cells or leukocytes form part of the immune system and help to defend 
+            the body against infection such as bacteria, fungi and viruses. The major types of white blood cells are neutrophils, lymphocytes, 
+            monocytes, eosinophils and basophils, with each having their own role in protecting the body from infection, allergies, etc. 
+            Platelets are important for blood clotting and repairing blood vessels. When you bleed, platelets rush to the site of the injury and 
+            form a “plug” to stop the bleeding. They also help repair blood vessels that might be damaged, keeping you healthy and preventing 
+            excessive bleeding from happening again.
+          </p>
+        </div>
+        <hr/>
       `;
 
       parameters.forEach(p => {
@@ -193,14 +223,16 @@
 
         result.innerHTML += `
           <div class="parameter">
-            <strong>${p.name}: ${value}</strong>
+<strong>${p.name}: ${value} ${p.unit}</strong>
             <div class="strip-wrapper">
               <div class="strip">
                 <div class="low"></div>
                 <div class="normal"></div>
                 <div class="high"></div>
                 <div class="arrow" style="left: ${pos}%"></div>
-                <div class="value-circle" style="background: ${color}">${value}</div>
+<div class="value-circle" style="background: ${color}">
+  ${value}<br><span style="font-size: 20px;">${p.unit}</span>
+</div>
               </div>
             </div>
             <div class="labels">
