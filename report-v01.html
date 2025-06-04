@@ -1,263 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Full Blood Count Report</title>
+  <meta charset="UTF-8">
+  <title>Health Report Generator</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f8f8f8;
-    }
-    .report {
-      background: white;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      max-width: 900px;
-      margin: auto;
-    }
-    .header, .footer {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .header img {
-      width: 100px;
-    }
-    .parameter {
-      margin-bottom: 60px;
-    }
- .strip-wrapper {
-  position: relative;
-  margin-top: 10px;
-  width: 70%;
-  padding-right: 80px; /* Give space for the value-circle */
-}
-
-    .strip {
-      height: 30px;
-      display: flex;
-      border-radius: 7px;
-      position: relative;
-      overflow: visible;
-    }
-    .low { background: red; flex: 1; }
-    .normal { background: green; flex: 2; }
-    .high { background: red; flex: 1; }
-    .labels {
-      display: flex;
-      font-size: 12px;
-      margin-top: 4px;
-      width: 70%;
-      justify-content: space-between;
-    }
-    .labels span {
-      flex: 1;
-      text-align: center;
-    }
-    .arrow {
-      position: absolute;
-      top: -14px;/* place it below the strip */
-      width: 0;
-      height: 0;
-      border-left: 7px solid transparent;
-      border-right: 7px solid transparent;
-      border-bottom: 12px solid black; /* changed from border-bottom to border-top */
-    }
-   .value-circle {
-  position: absolute;
-  right: -70px; /* Move it further from the strip */
-  top: -4px;    /* Optional: fine-tune vertical alignment */
-  width: 60px;  /* Bigger circle */
-  height: 60px;
-  border-radius: 50%;
-  color: white;
-  font-size: 16px;  /* Bigger font for value */
-  font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  line-height: 1.1;
-}
-    .export-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .footer {
-      font-size: 14px;
-      margin-top: 60px;
-      border-top: 1px solid #ccc;
-      padding-top: 10px;
-    }
-    .explanation {
-      text-align: justify;
-      margin: 20px 0;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      #result, #result * {
-        visibility: visible;
-      }
-      #result {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        background: white;
-        color: black;
-      }
-      .strip {
-        display: flex !important;
-      }
-      .low, .normal, .high, .value-circle, .arrow {
-        background-clip: border-box !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      .value-circle {
-        color: white !important;
-      }
-    }
+    body { font-family: Arial; margin: 20px; background: #f4f4f4; }
+    .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
+    h2 { margin-top: 0; }
+    .input-row { margin-bottom: 10px; }
+    .input-row label { display: inline-block; width: 150px; font-weight: bold; }
+    input[type="text"] { width: 200px; padding: 5px; }
+    button.category-btn { margin: 5px; padding: 10px 20px; border-radius: 6px; border: none; background: #007bff; color: white; cursor: pointer; }
+    .param-inputs { display: none; margin-top: 10px; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+    .report-section { margin-top: 30px; border-top: 2px solid #ccc; padding-top: 20px; }
+    .strip { margin-bottom: 10px; }
+    .strip .label { font-weight: bold; width: 200px; display: inline-block; }
+    .strip .bar { display: inline-block; width: 300px; height: 10px; background: #eee; position: relative; border-radius: 5px; }
+    .strip .marker { position: absolute; top: -5px; width: 12px; height: 20px; background: green; border-radius: 50%; }
+    .strip.low .marker { background: orange; }
+    .strip.high .marker { background: red; }
   </style>
 </head>
 <body>
-  <div class="report">
-    <form id="fbc-form">
-      <label>Patient Name: <input type="text" id="patient-name" name="patient-name" required /></label><br/><br/>
-      <label>Patient ID: <input type="text" id="patient-id" name="patient-id" required /></label><br/><br/>
-      <div id="input-fields"></div>
-      <br/>
-      <button type="submit">Generate Report</button>
-    </form>
+  <div class="container">
+    <h2>Health Report Generator</h2>
+    <div class="input-row">
+      <label>Patient Name:</label><input type="text" id="patientName">
+    </div>
+    <div class="input-row">
+      <label>Patient ID:</label><input type="text" id="patientID">
+    </div>
+    <div class="input-row">
+      <label>Gender:</label><input type="text" id="gender">
+    </div>
 
-    <button class="export-button" onclick="window.print()">Export PDF</button>
-    <hr/>
-    <div id="result"></div>
+    <h3>Select Categories</h3>
+    <div id="categoryButtons"></div>
+
+    <div id="categoryInputs"></div>
+
+    <button onclick="generateReport()" style="margin-top:20px;padding:10px 30px;">Generate Report</button>
+
+    <div class="report-section" id="report"></div>
   </div>
 
   <script>
-    const parameters = [
-  { name: "Haemoglobin", low: 11.5, high: 16.5, unit: "g/L" },
-  { name: "Haematocrit", low: 37.0, high: 47.0, unit: "%" },
-  { name: "MCH", low: 27.0, high: 32.0, unit: "pg" },
-  { name: "MCHC", low: 32.0, high: 36.0, unit: "g/L" },
-  { name: "MCV", low: 76.0, high: 100.0, unit: "fL" },
-  { name: "RBC Count", low: 3.8, high: 5.8, unit: "x10¹²/L" },
-  { name: "Basophils", low: 0.01, high: 0.1, unit: "x10⁹/L" },
-  { name: "Eosinophils", low: 0.04, high: 0.4, unit: "x10⁹/L" },
-  { name: "Lymphocytes", low: 1.0, high: 3.5, unit: "x10⁹/L" },
-  { name: "Monocytes", low: 0.2, high: 0.8, unit: "x10⁹/L" },
-  { name: "Neutrophils", low: 2.0, high: 7.5, unit: "x10⁹/L" },
-  { name: "WBC Count", low: 4.0, high: 10.0, unit: "x10⁹/L" },
-  { name: "Platelet Count", low: 150, high: 450, unit: "x10⁹/L" }
-];
-
-
-    const inputFields = document.getElementById("input-fields");
-    parameters.forEach(p => {
-      inputFields.innerHTML += `<label>${p.name}: <input type="number" step="any" name="${p.name}" /></label><br/>`;
-    });
-
-    document.getElementById("fbc-form").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const result = document.getElementById("result");
-      result.innerHTML = "";
-
-      const formData = new FormData(e.target);
-      const name = formData.get("patient-name");
-      const id = formData.get("patient-id");
-
-      result.innerHTML += `
-        <div class="header">
-          <img src="cliniclogo.jpg" alt="Clinic Logo"/><br/>
-          <strong> Moorefield Medical Clinic </strong><br/>
-          <em> Newbridge, Co Kildare, Ireland </em><br/><br/>
-          <h2>Full Blood Count</h2>
-        </div>
-        <h3>Patient Name: ${name} &nbsp;&nbsp; ID: ${id}</h3>
-        <div class="explanation">
-          <p>
-            A Full Blood Count is a common blood test that gives a picture of your overall health. 
-            It measures the different components in your blood including red blood cells, white blood cells or leukocytes and platelets. 
-            This helps doctors detect a variety of conditions, such as infections, anemia, and other health problems.
-          </p>
-          <p>
-            Red blood cells contain hemoglobin, a protein that carries oxygen from the lungs to all the tissues and organs of the body and 
-            carbon dioxide back to the lungs to be exhaled. White blood cells or leukocytes form part of the immune system and help to defend 
-            the body against infection such as bacteria, fungi and viruses. The major types of white blood cells are neutrophils, lymphocytes, 
-            monocytes, eosinophils and basophils, with each having their own role in protecting the body from infection, allergies, etc. 
-            Platelets are important for blood clotting and repairing blood vessels. When you bleed, platelets rush to the site of the injury and 
-            form a “plug” to stop the bleeding. They also help repair blood vessels that might be damaged, keeping you healthy and preventing 
-            excessive bleeding from happening again.
-          </p>
-        </div>
-        <hr/>
-      `;
-
-      parameters.forEach(p => {
-        const value = parseFloat(formData.get(p.name));
-        if (isNaN(value)) return;
-
-      let pos;
-      if (value < p.low) {
-        // Left red zone
-        pos = (value / p.low) * 33.33;
-      } else if (value <= p.high) {
-        // Green normal zone
-        pos = 33.33 + ((value - p.low) / (p.high - p.low)) * 33.33;
-      } else {
-        // Right red zone
-        pos = 66.66 + ((value - p.high) / (p.high) * 33.33);
+    const healthData = {
+      "Full Blood Count": {
+        "Haemoglobin": [13.0, 17.0],
+        "White Blood Cells": [4.0, 11.0],
+        "Platelets": [150, 450],
+        "Haematocrit": [0.38, 0.50],
+        "MCV": [80, 100],
+        "MCH": [27, 33],
+        "MCHC": [320, 360],
+        "RDW": [11.5, 14.5],
+        "Neutrophils": [2.0, 7.5],
+        "Lymphocytes": [1.0, 4.0],
+        "Monocytes": [0.2, 1.0]
+      },
+      "Iron Status": {
+        "Serum Iron": [10, 30],
+        "Ferritin": [30, 300],
+        "Transferrin Saturation": [20, 50],
+        "Total Iron Binding Capacity": [45, 85]
+      },
+      "Kidney Health": {
+        "Urea": [2.5, 7.5],
+        "Creatinine": [60, 110],
+        "eGFR": [90, 120]
+      },
+      "Cardiovascular Health": {
+        "Total Cholesterol": [0, 5.0],
+        "LDL": [0, 3.0],
+        "HDL": [1.0, 2.0],
+        "Triglycerides": [0.4, 1.7]
+      },
+      "Diabetes Monitoring": {
+        "Fasting Glucose": [4.0, 5.9],
+        "HbA1c": [4.0, 6.0],
+        "Random Glucose": [4.0, 7.8]
+      },
+      "Nutritional Health": {
+        "Vitamin B12": [138, 652],
+        "Folate": [3.1, 20.5],
+        "Vitamin D": [50, 125]
+      },
+      "Liver Function": {
+        "ALT": [7, 56],
+        "AST": [10, 40],
+        "ALP": [44, 147],
+        "Bilirubin": [0.3, 1.2]
+      },
+      "Thyroid Function": {
+        "TSH": [0.4, 4.0],
+        "T3": [3.1, 6.8],
+        "T4": [12, 22]
+      },
+      "Urinalysis": {
+        "pH": [4.6, 8.0],
+        "Specific Gravity": [1.005, 1.030],
+        "Protein": [0, 0.15],
+        "Glucose": [0, 0.8]
       }
-      pos = Math.max(0, Math.min(pos, 100));
+    };
 
-        let color = "light green";
-        if (value < p.low) color = "red";
-        else if (value > p.high) color = "red";
+    const categoryButtons = document.getElementById("categoryButtons");
+    const categoryInputs = document.getElementById("categoryInputs");
 
-        result.innerHTML += `
-          <div class="parameter">
-<strong>${p.name}: ${value} ${p.unit}</strong>
-            <div class="strip-wrapper">
-              <div class="strip">
-                <div class="low"></div>
-                <div class="normal"></div>
-                <div class="high"></div>
-                <div class="arrow" style="left: ${pos}%"></div>
-<div class="value-circle" style="background: ${color}">
-  ${value}<br><span style="font-size: 20px;">${p.unit}</span>
-</div>
+    for (let cat in healthData) {
+      const btn = document.createElement("button");
+      btn.textContent = cat;
+      btn.className = "category-btn";
+      btn.onclick = () => showInputs(cat);
+      categoryButtons.appendChild(btn);
+    }
+
+    function showInputs(category) {
+      const paramSet = healthData[category];
+      let div = document.getElementById("input-" + category);
+      if (div) return; // Already shown
+
+      div = document.createElement("div");
+      div.className = "param-inputs";
+      div.id = "input-" + category;
+
+      const heading = document.createElement("h4");
+      heading.textContent = category;
+      div.appendChild(heading);
+
+      for (let param in paramSet) {
+        const row = document.createElement("div");
+        row.className = "input-row";
+        const label = document.createElement("label");
+        label.textContent = param;
+        const input = document.createElement("input");
+        input.type = "text";
+        input.dataset.category = category;
+        input.dataset.param = param;
+        row.appendChild(label);
+        row.appendChild(input);
+        div.appendChild(row);
+      }
+      categoryInputs.appendChild(div);
+      div.style.display = "block";
+    }
+
+    function generateReport() {
+      const name = document.getElementById("patientName").value;
+      const id = document.getElementById("patientID").value;
+      const gender = document.getElementById("gender").value;
+      const reportDiv = document.getElementById("report");
+      reportDiv.innerHTML = `<h3>Patient Report</h3>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>ID:</strong> ${id}</p>
+        <p><strong>Gender:</strong> ${gender}</p>`;
+
+      const inputs = document.querySelectorAll("#categoryInputs input");
+      inputs.forEach(input => {
+        const value = input.value.trim();
+        if (value !== '') {
+          const category = input.dataset.category;
+          const param = input.dataset.param;
+          const range = healthData[category][param];
+          const min = range[0], max = range[1];
+          const val = parseFloat(value);
+          if (!isNaN(val)) {
+            const norm = (val - min) / (max - min);
+            const percent = Math.max(0, Math.min(1, norm)) * 100;
+            let status = '';
+            if (val < min) status = 'low';
+            else if (val > max) status = 'high';
+            else status = 'normal';
+
+            reportDiv.innerHTML += `<div class="strip ${status}">
+              <span class="label">${param} (${min}–${max})</span>
+              <div class="bar">
+                <div class="marker" style="left:${percent}%"></div>
               </div>
-            </div>
-            <div class="labels">
-              <span>&lt;${p.low} LOW</span>
-              <span>${p.low}–${p.high} NORMAL</span>
-              <span>&gt;${p.high} HIGH</span>
-            </div>
-          </div>
-        `;
+              <span> ${val}</span>
+            </div>`;
+          }
+        }
       });
-
-      result.innerHTML += `
-        <div class="footer">
-          <p>Authorized By: <strong> Dr. Bismil Ali Ali </strong></p>
-          <p> Moorefield Medical Clinic, Newbridge, Co Kildre, Ireland</p>
-        </div>
-      `;
-    });
+    }
   </script>
 </body>
 </html>
