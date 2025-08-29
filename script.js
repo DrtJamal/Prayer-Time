@@ -8,7 +8,7 @@ let prayers = [
     { name: "Dhuhr", iqama: "14:00", class: "dhuhr-row" },
     { name: "Asr", iqama: "18:00", class: "asr-row" },
     { name: "Maghrib", iqamaOffset: 3, class: "maghrib-row" },
-    { name: "Isha", iqama: "22:30", class: "isha-row" }
+    { name: "Isha", iqama: "22:10", class: "isha-row" }
 ];
 
 let currentIqamaIndex = null;
