@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dua Collection</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 10px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .top-link {
+      align-self: flex-start;
+      margin: 10px;
+    }
+    .top-link a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .top-link a:hover {
+      color: #0056b3;
+    }
+    h2 {
+      margin: 10px 0;
+      font-size: 1.5em;
+    }
+    .image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    img {
+      max-width: 95%;
+      max-height: 75vh;   /* ✅ ensures it fits on screen */
+      object-fit: contain; /* ✅ keeps proportions */
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .controls {
+      margin: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .counter {
+      margin: 5px 0 15px 0;
+      font-weight: bold;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Back link -->
+  <div class="top-link">
+    <a href="https://drtjamal.github.io/Prayer-Time/index.html">⬅ Back to Prayer Time</a>
+  </div>
+
+  <h2>Collection of Duas</h2>
+
+  <!-- Dua image in container -->
+  <div class="image-container">
+    <img id="duaImage" src="dua/dua1.jpeg" alt="Dua Image">
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button onclick="prevDua()">⬅ Previous</button>
+    <button onclick="nextDua()">Next ➡</button>
+  </div>
+
+  <!-- Counter -->
+  <div class="counter" id="counter">Dua 1 of 55</div>
+
+  <script>
+    let current = 1;
+    const total = 55; // total number of duas
+
+    function showDua() {
+      document.getElementById('duaImage').src = 'dua/dua' + current + '.jpeg';
+      document.getElementById('counter').innerText = 'Dua ' + current + ' of ' + total;
+    }
+
+    function nextDua() {
+      if (current < total) current++;
+      else current = 1; // loop back to start
+      showDua();
+    }
+
+    function prevDua() {
+      if (current > 1) current--;
+      else current = total; // loop back to end
+      showDua();
+    }
+  </script>
+</body>
+</html>
