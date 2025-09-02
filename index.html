@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prayer Times</title>
-<style>
-/* General Body */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Times</title>
+    <style>
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5; /* Professional soft gray */
+    background-color: #4CAF50;
     color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow-x: hidden;
+    height: 100vh; /* Full viewport height */
+    overflow-x: hidden; /* Only hide horizontal scrolling */
 }
 
-/* Main Container */
 main {
     display: flex;
     height: 100%;
@@ -28,13 +26,12 @@ main {
 .container {
     display: flex;
     width: 100%;
-    height: 100%;
+    height: 100%; /* Stretch to full height of the viewport */
 }
 
-/* Table Container */
 .table-container {
-    width: 50%;
-    height: 100%;
+    width: 50%; /* Takes up half of the screen horizontally */
+    height: 100%; /* Stretch vertically */
     padding: 10px;
     box-sizing: border-box;
     display: flex;
@@ -46,208 +43,250 @@ main {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
-    height: 90%;
+    margin: 0;
+    height: 90%; /* Stretch to near full height */
 }
 
 table th, table td {
     padding: 10px;
     text-align: center;
-    font-size: 4rem;
+    font-size: 4rem; /* Adjusted font size */
     font-weight: bold;
 }
-
 table td:nth-child(3) {
-    font-weight: bold;
-    color: #007bff;
-}
-
+            font-weight: bold; /* Makes the text bold */
+            color: #007bff; /* Change this to your desired color */
+        }
 table th { 
     background-color: #d7b899;
     color: black;
 }
 
-/* Row colors */
-.fajr-row { background-color: #c8e6c9; }
-.dhuhr-row, .asr-row { background-color: #ffe0b2; }
-.maghrib-row { background-color: #f8bbd0; }
-.isha-row { background-color: #bbdefb; }
+/* Restoring original row colors */
+.fajr-row {
+    background-color: greenyellow; /* Light green */
+}
 
-/* Highlight blink */
+.dhuhr-row, .asr-row {
+    background-color: #ffe0b2; /* Light orange */
+}
+
+.maghrib-row {
+    background-color: #f8bbd0; /* Light pink */
+}
+
+.isha-row {
+    background-color: #bbdefb; /* Light blue */
+}
+
+/* Highlight styles */
 .highlight {
     animation: blink 1s infinite;
     font-weight: bold;
     color: red;
 }
 
-/* Right Container */
 #right-container {
-    width: 50%;
-    height: 100%;
+    width: 50%; /* Takes up the other half of the screen */
+    height: 100%; /* Stretch vertically */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center; /* Center items */
     align-items: center;
 }
 
-#top-info {
+        #date-display {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+ #current-time {
+    font-size: 13rem; /* Increased size for clock */
+    margin-top: 3px;
+     margin-bottom: 25px;
+    font-weight: bold;
+    color: #000000; /* Bright color for clock text */
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8); /* Glow effect */
+    word-wrap: break-word;
+    line-height: 0.9; /* Remove extra space below the text */
+ }
+#time-container {
     display: flex;
-    align-items: center;
+    align-items: center; /* Aligns both texts vertically in the center */
 }
 
-#logo {
-    height: 100px;
-    width: auto;
+ #next-iqama {
+    font-size: 30px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: white;  /* Initial color */
+        text-align: center;  /* Center the text */
+    padding: 3px;  /* Add some space around the text */
+    border-radius: 4px;  /* Round the corners */
+    line-height: 1; 
+    margin-top: 8px; 
+    margin-bottom: 2px;
+}
+        
+#next-prayer {
+    font-size: 80px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 3s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    padding: 3px;  /* Add some space around the text */
+    background-color: yellow;  /* Add a background color to make it stand out more */
+    border-radius: 4px;  /* Round the corners */
+    line-height: 1; 
+    margin-top: 8px; 
+    margin-bottom: 2px;
 }
 
+        #logo {
+    height: 100px; /* Adjust size as needed */
+    width: auto; /* Maintain aspect ratio */
+}
+            
 #bismillah-text {
     font-size: 50px;
     font-weight: bold;
     font-family: 'Traditional Arabic', serif;
-    margin-left: 10px;
+}
+  #message1  {
+    font-size: 25px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: black;  /* Initial color */
+    animation: colorChange 3s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    border-radius: 4px;  /* Round the corners */
+    line-height: 1; 
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+        #hijri-date, #message,  #sunrise-time  {
+    font-size: 50px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    animation: colorChange 10s infinite;  /* Extended duration for smoother transitions */
+    text-align: center;  /* Center the text */
+    background-color: #bbdefb;  /* Add a background color to make it stand out more */
+    border-radius: 4px;  /* Round the corners */
+    line-height: 1; 
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+          #message2  {
+    font-size: 20px;  /* Keep the text larger */
+    font-weight: bold;  /* Make the text bold */
+    color: red;  /* Initial color */
+    text-align: center;  /* Center the text */
+    background-color: white;  /* Add a background color to make it stand out more */
+    border-radius: 4px;  /* Round the corners */
+    line-height: 1; 
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
 
-/* Date & Time */
-#date-display, #hijri-date, #sunrise-time, #message, #message1, #message2 {
-    font-weight: bold;
-    text-align: center;
-    border-radius: 4px;
-    line-height: 1;
-    margin: 2px 0;
-    padding: 3px 5px;
-}
 
-#current-time {
-    font-size: 13rem;
-    margin: 3px 0 25px;
-    font-weight: bold;
-    color: #000;
-    text-shadow: 2px 2px 5px rgba(255,255,255,0.8);
-    word-wrap: break-word;
-    line-height: 0.9;
-}
-
-#next-iqama {
-    font-size: 30px;
-    font-weight: bold;
-    color: white;
-    text-align: center;
-    padding: 3px;
-    border-radius: 4px;
-    line-height: 1;
-}
-
-#next-prayer {
-    font-size: 80px;
-    font-weight: bold;
-    color: red;
-    animation: colorChange 3s infinite;
-    text-align: center;
-    padding: 3px;
-    background-color: yellow;
-    border-radius: 4px;
-    line-height: 1;
-    margin: 8px 0;
-}
-
-/* Quran Verse & Hadith */
-#quran-verse, #daily-hadith {
-    text-align: center;
-    margin: 15px 0;
-    padding: 20px 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-#quran-verse {
-    background-color: #ffffff;
-}
-
-#daily-hadith {
-    background-color: #e8f5e9;
-}
-
-#quran-verse h2, #daily-hadith h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    color: #0D47A1;
-}
-
-#quran-verse .arabic {
-    font-size: 60px;
-    color: #0D47A1;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-#quran-verse .english {
-    font-size: 28px;
-    color: #333;
-    font-weight: 600;
-    margin-bottom: 5px;
-    font-style: italic;
-}
-
-#daily-hadith .arabic {
-    font-size: 50px;
-    color: #2E7D32;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-#daily-hadith .english {
-    font-size: 24px;
-    font-style: italic;
-    color: #333;
-    margin-bottom: 5px;
-}
-
-.reference {
-    font-size: 18px;
-    color: #555;
-    margin-top: 5px;
-}
-
-/* Prayer Text */
-.prayer-text {
-    color: red;
-    text-align: center;
-    margin-top: 5px;
-    font-size: 20px;
-}
-
-/* Animations */
 @keyframes colorChange {
-    0% { color: red; }
-    20% { color: black; }
-    40% { color: blue; }
-    60% { color: purple; }
-    70% { color: blue; }
-    100% { color: red; }
-}
-
-/* Mobile Responsiveness */
-@media only screen and (max-width: 768px) {
-    main { flex-direction: column; }
-    .table-container, #right-container { width: 100%; height: auto; }
-
-    table th, table td { font-size: 2rem; padding: 8px; }
-    #current-time { font-size: 4rem; }
-    #next-prayer { font-size: 40px; }
-    #next-iqama, #date-display, #sunrise-time, #message, #message1, #hijri-date, #message2 {
-        font-size: 1rem;
-        margin-top: 6px;
+    0% {
+        color: red;
     }
-    #logo { height: 50px; }
-    #bismillah-text { font-size: 20px; }
-    #quran-verse .arabic { font-size: 32px; }
-    #quran-verse .english { font-size: 16px; }
-    #daily-hadith .arabic { font-size: 28px; }
-    #daily-hadith .english { font-size: 16px; }
-    .reference { font-size: 14px; }
+    20% {
+        color: black;
+    }
+    40% {
+        color: blue;
+    }
+    60% {
+        color: purple;
+    }
+      70% {
+        color: blue;}
+   
+    100% {
+        color: red;
+    }
 }
-</style>
+         #quran-verse {
+    text-align: center;
+    font-family: "Arial", sans-serif;
+    margin-top: 3px;
+    padding: 10px;
+     }
+
+  .arabic {
+    font-size: 70px;
+    font-weight: bold;
+    color: blue;
+      background-color: white;
+    margin-bottom: 3px;
+    line-height: 1;
+  }
+
+  .english {
+    font-size: 30px;
+    color: #000;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+        .prayer-text {
+  color: red; /* Blue text, change as needed */
+  text-align: center;
+  margin-top: 5px;
+  font-size: 20px; /* Base size */
+}
+
+/* Mobile responsiveness */
+@media only screen and (max-width: 768px) {
+    main {
+        flex-direction: column; /* Stack the table and next prayer vertically */
+    }
+
+.table-container, #right-container {
+        width: 100%; /* Take full width on mobile */
+        height: auto; /* Allow height to adapt naturally */
+    }
+
+    table th, table td {
+        font-size: 2rem; /* Adjust font size for smaller screens */
+        padding: 8px; /* Adjust padding */
+    }
+
+    #current-time {
+        font-size: 2rem; /* Reduce clock font size on mobile */
+    }
+
+    #next-prayer, #next-iqama , #date-display, #sunrise-time, #message1, #hijri-date, #message, #message2{
+        font-size: 1rem; /* Adjust font size for smaller screens */
+        margin-top: 6px; /* Add spacing for clarity */
+    }
+
+        #logo {
+    height: 20px; /* Adjust size as needed */
+    width: auto; /* Maintain aspect ratio */
+}
+     #bismillah-text {
+            font-size: 9px; /* Smaller font size for mobile screens */
+        }
+    .arabic {
+    font-size: 10px;
+  }
+
+  .english {
+    font-size: 8px;
+  }
+    .prayer-text {
+    font-size: 8px;
+  }
+
+
+}
+    </style>
+    
 </head>
 <body>
+
+
 
 <main class="container">
     <div class="table-container">
@@ -263,58 +302,189 @@ table th {
         </table>
     </div>
     <div id="right-container">
-        <div id="top-info">
-            <img id="logo" src="ciccbg.png" alt="Logo">
-            <span id="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</span>
-        </div>
-        <div>
+        <div id="top-info" style="display: flex; align-items: center;">
+    <img id="logo" src="ciccbg.png" alt="Logo" >
+    <span id="bismillah-text">
+        بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
+    </span>  </div>
+        <div>        
             <span id="date-display"></span>
             <span id="hijri-date"></span>
         </div>
-        <div id="current-time"></div>
-        <div>
+        
+            <div id="current-time"></div> 
+                    
+        <div>        
             <span id="sunrise-time"></span>
             <span id="next-iqama"></span>
         </div>
-        <p id="next-prayer">Time Remaining: --:--:--</p>
-        <div id="quran-verse"></div>
-        <div id="daily-hadith"></div>
-        <div id="next-days-prayers-container" class="prayer-text"></div>
-        <p style="margin-top: 5px;">
+<p id="next-prayer">Time Remaining: --:--:--</p>
+    
+    
+    <div id="quran-verse"></div>
+    <div id="daily-hadith"></div>
+<div id="next-days-prayers-container" class="prayer-text"></div>
+        <p style="margin-top: 5;">
             CICC is a charity organization, Charity No. RCN 20200211.
-            <a href="https://drtjamal.github.io/Prayer-Time/dua.html" style="display: inline; margin-right: 10px;">Daily Dua</a>
-            <a href="https://drtjamal.github.io/Prayer-Time/quran.html" style="display: inline; margin-right: 10px;">Read & Download Quran</a>
-            <a href="izkar-card.html" style="display: inline; margin-right: 10px;" target="_blank">Izkar after Prayer</a>
+            
+ <a href="https://drtjamal.github.io/Prayer-Time/dua.html" style="display: inline; margin-right: 10px;">Daily Dua</a> 
+  <a href="https://drtjamal.github.io/Prayer-Time/quran.html" style="display: inline; margin-right: 10px;">Read & Download Quran</a>
+           <a href="izkar-card.html" style="display: inline; margin-right: 10px;" target="_blank">Izkar after Prayer</a>
+       
         </p>
     </div>
 </main>
 
-<!-- JS Files -->
-<script src="script.js"></script>
 
-<!-- Verse & Hadith -->
-<script>
-const verses = [ /* your existing verses array */ ];
-const hadiths = [ /* your existing hadiths array */ ];
+    <script src="script.js"></script>
+ <script>
+  const verses = [
+    { surah: "Al-Fatiha", ayah: 5, arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", english: "It is You we worship and You we ask for help." },
+    { surah: "Al-Baqarah", ayah: 45, arabic: "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ", english: "Seek help through patience and prayer." },
+    { surah: "Al-Baqarah", ayah: 286, arabic: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا", english: "Allah does not burden a soul beyond that it can bear." },
+    { surah: "Al-Imran", ayah: 200, arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا اصْبِرُوا وَصَابِرُوا", english: "O you who have believed, be patient and endure." },
+    { surah: "Al-Imran", ayah: 139, arabic: "وَلَا تَهِنُوا وَلَا تَحْزَنُوا", english: "Do not lose heart or despair." },
+    { surah: "An-Nisa", ayah: 36, arabic: "وَاعْبُدُوا اللَّهَ وَلَا تُشْرِكُوا بِهِ شَيْئًا", english: "Worship Allah and associate nothing with Him." },
+    { surah: "Al-Ma’idah", ayah: 8, arabic: "اعْدِلُوا ۚ هُوَ أَقْرَبُ لِلتَّقْوَى", english: "Be just: that is nearer to righteousness." },
+    { surah: "Al-Anfal", ayah: 2, arabic: "إِنَّمَا الْمُؤْمِنُونَ الَّذِينَ إِذَا ذُكِرَ اللَّهُ وَجِلَتْ قُلُوبُهُمْ", english: "The believers are only those who, when Allah is mentioned, their hearts tremble." },
+    { surah: "At-Tawbah", ayah: 51, arabic: "قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا", english: "Say, 'Nothing will happen to us except what Allah has decreed for us.'" },
+    { surah: "Yunus", ayah: 61, arabic: "وَمَا تَسْقُطُ مِن وَرَقَةٍ إِلَّا يَعْلَمُهَا", english: "Not a leaf falls but that He knows it." },
+    { surah: "Hud", ayah: 114, arabic: "إِنَّ الْحَسَنَاتِ يُذْهِبْنَ السَّيِّئَاتِ", english: "Good deeds wipe out bad deeds." },
+    { surah: "Ar-Ra’d", ayah: 28, arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", english: "Surely in the remembrance of Allah do hearts find rest." },
+    { surah: "Ibrahim", ayah: 7, arabic: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ", english: "If you are grateful, I will surely increase you." },
+    { surah: "Al-Nahl", ayah: 97, arabic: "مَنْ عَمِلَ صَالِحًا فَلَنُحْيِيَنَّهُ حَيَاةً طَيِّبَةً", english: "Whoever does good, We will give them a good life." },
+    { surah: "Al-Isra", ayah: 23, arabic: "وَبِالْوَالِدَيْنِ إِحْسَانًا", english: "And be kind to parents." },
+    { surah: "Al-Kahf", ayah: 46, arabic: "الْمَالُ وَالْبَنُونَ زِينَةُ الْحَيَاةِ الدُّنْيَا", english: "Wealth and children are [but] adornment of worldly life." },
+    { surah: "Maryam", ayah: 96, arabic: "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ سَيَجْعَلُ لَهُمُ الرَّحْمَٰنُ وُدًّا", english: "Indeed, those who have believed and done righteous deeds – the Most Merciful will appoint for them affection." },
+    { surah: "Al-Ankabut", ayah: 69, arabic: "وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا", english: "As for those who strive in Us – We will surely guide them to Our ways." },
+    { surah: "Luqman", ayah: 17, arabic: "وَأْمُرْ بِالْمَعْرُوفِ وَانْهَ عَنِ الْمُنكَرِ وَاصْبِرْ", english: "Enjoin what is right, forbid what is wrong, and be patient." },
+    { surah: "As-Saff", ayah: 4, arabic: "إِنَّ اللَّهَ يُحِبُّ الَّذِينَ يُقَاتِلُونَ فِي سَبِيلِهِ صَفًّا", english: "Allah loves those who fight in His cause in rows as though they are a [single] structure." },
+    { surah: "An-Nur", ayah: 35, arabic: "اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ", english: "Allah is the Light of the heavens and the earth." },
+    { surah: "Ash-Shura", ayah: 36, arabic: "فَمَا أُوتِيتُم مِّن شَيْءٍ فَمَتَاعُ الْحَيَاةِ الدُّنْيَا", english: "Whatever you have been given is but [a passing] enjoyment of worldly life." },
+    { surah: "Muhammad", ayah: 7, arabic: "إِن تَنصُرُوا اللَّهَ يَنصُرْكُمْ", english: "If you support Allah, He will support you." },
+    { surah: "Al-Fath", ayah: 4, arabic: "هُوَ الَّذِي أَنزَلَ السَّكِينَةَ فِي قُلُوبِ الْمُؤْمِنِينَ", english: "It is He who sent down tranquility into the hearts of the believers." },
+    { surah: "Qaf", ayah: 16, arabic: "وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ الْوَرِيدِ", english: "We are closer to him than his jugular vein." },
+    { surah: "Adh-Dhariyat", ayah: 56, arabic: "وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ", english: "I did not create jinn and mankind except to worship Me." },
+    { surah: "Al-Hadid", ayah: 23, arabic: "لِكَيْلَا تَأْسَوْا عَلَىٰ مَا فَاتَكُمْ", english: "So you do not grieve over what has escaped you." },
+    { surah: "Al-Taghabun", ayah: 11, arabic: "مَا أَصَابَ مِن مُّصِيبَةٍ إِلَّا بِإِذْنِ اللَّهِ", english: "No disaster strikes except by permission of Allah." },
+    { surah: "At-Talaq", ayah: 3, arabic: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", english: "And whoever relies upon Allah – then He is sufficient for him." }
+  ];
 
-const dayIndex = (new Date().getDate() - 1) % verses.length;
-const verse = verses[dayIndex];
-const hadith = hadiths[dayIndex];
+  const hadiths = [
+    { arabic: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ", english: "Actions are judged by intentions.", reference: "Bukhari & Muslim" },
+    { arabic: "الدُّعَاءُ هُوَ الْعِبَادَةُ", english: "Dua is worship.", reference: "Tirmidhi" },
+    { arabic: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", english: "The best of you are those who learn the Qur’an and teach it.", reference: "Bukhari" },
+    { arabic: "مَنْ صَلَّى الْبَرْدَيْنِ دَخَلَ الْجَنَّةَ", english: "Whoever prays Fajr and Asr will enter Paradise.", reference: "Bukhari & Muslim" },
+    { arabic: "الدِّينُ النَّصِيحَةُ", english: "The religion is sincere advice.", reference: "Muslim" },
+    { arabic: "الْمُسْلِمُ أَخُو الْمُسْلِمِ", english: "A Muslim is the brother of another Muslim.", reference: "Bukhari & Muslim" },
+    { arabic: "الطُّهُورُ شَطْرُ الإِيمَانِ", english: "Cleanliness is half of faith.", reference: "Muslim" },
+    { arabic: "مَنْ لَا يَرْحَمْ لَا يُرْحَمْ", english: "Whoever does not show mercy will not be shown mercy.", reference: "Bukhari & Muslim" },
+    { arabic: "الْجَنَّةُ تَحْتَ أَقْدَامِ الأُمَّهَاتِ", english: "Paradise lies under the feet of mothers.", reference: "Nasa’i" },
+    { arabic: "الصَّبْرُ ضِيَاءٌ", english: "Patience is light.", reference: "Muslim" },
+    { arabic: "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ", english: "The strong believer is better and more beloved to Allah than the weak believer.", reference: "Muslim" },
+    { arabic: "مَنْ صَمَتَ نَجَا", english: "Whoever remains silent is saved.", reference: "Tirmidhi" },
+    { arabic: "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ", english: "Whoever follows a path in pursuit of knowledge, Allah will make a path to Paradise easy for him.", reference: "Muslim" },
+    { arabic: "السَّخِيُّ قَرِيبٌ مِنَ اللَّهِ", english: "The generous person is close to Allah.", reference: "Tirmidhi" },
+    { arabic: "مَنْ يَسَّرَ عَلَى مُعْسِرٍ يَسَّرَ اللَّهُ عَلَيْهِ", english: "Whoever relieves a hardship for a debtor, Allah will relieve a hardship for him.", reference: "Muslim" },
+    { arabic: "اتَّقِ اللَّهَ حَيْثُمَا كُنتَ", english: "Fear Allah wherever you are.", reference: "Tirmidhi" },
+    { arabic: "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ", english: "The Muslim is the one from whose tongue and hand other Muslims are safe.", reference: "Bukhari & Muslim" },
+    { arabic: "الدُّنْيَا سِجْنُ الْمُؤْمِنِ وَجَنَّةُ الْكَافِرِ", english: "The world is a prison for the believer and Paradise for the disbeliever.", reference: "Muslim" },
+    { arabic: "الْجَارُ ثُمَّ الْبَيْتُ", english: "Consider your neighbor before your house.", reference: "Ibn Hibban" },
+    { arabic: "الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى", english: "The upper hand (giver) is better than the lower hand (receiver).", reference: "Bukhari & Muslim" },
+    { arabic: "لَا يَحِلُّ لِمُسْلِمٍ أَنْ يَهْجُرَ أَخَاهُ فَوْقَ ثَلَاثٍ", english: "It is not permissible for a Muslim to abandon his brother for more than three days.", reference: "Bukhari & Muslim" },
+    { arabic: "مَنْ غَشَّنَا فَلَيْسَ مِنَّا", english: "Whoever cheats us is not one of us.", reference: "Muslim" },
+    { arabic: "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ", english: "None of you truly believes until he loves for his brother what he loves for himself.", reference: "Bukhari & Muslim" },
+    { arabic: "إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمَالَ", english: "Allah is Beautiful and loves beauty.", reference: "Muslim" },
+    { arabic: "مَنْ بَنَى لِلَّهِ مَسْجِدًا بَنَى اللَّهُ لَهُ بَيْتًا فِي الْجَنَّةِ", english: "Whoever builds a mosque for Allah, Allah will build for him a house in Paradise.", reference: "Bukhari & Muslim" },
+    { arabic: "مَنْ لَا يَشْكُرِ النَّاسَ لَا يَشْكُرِ اللَّهَ", english: "Whoever does not thank people does not thank Allah.", reference: "Tirmidhi" },
+    { arabic: "مَنْ سَنَّ فِي الْإِسْلَامِ سُنَّةً حَسَنَةً", english: "Whoever starts a good practice in Islam will have its reward and the reward of those who follow it.", reference: "Muslim" },
+    { arabic: "إِنَّ أَصْدَقَ الْحَدِيثِ كِتَابُ اللَّهِ", english: "The most truthful speech is the Book of Allah.", reference: "Nasa’i" },
+    { arabic: "كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ", english: "Two words are light on the tongue, heavy on the scale: SubhanAllah wa bihamdihi, SubhanAllahil Azim.", reference: "Bukhari & Muslim" },
+    { arabic: "مَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", english: "Whoever relies upon Allah – He is sufficient for him.", reference: "Tirmidhi" }
+  ];
 
-document.getElementById('quran-verse').innerHTML = `
-<h2>Quran Verse</h2>
-<div class="arabic">${verse.arabic}</div>
-<div class="english">${verse.english}</div>
-<div class="reference">${verse.reference}</div>
-`;
+  const dayIndex = (new Date().getDate() - 1) % verses.length;
+  const verse = verses[dayIndex];
+  const hadith = hadiths[dayIndex];
 
-document.getElementById('daily-hadith').innerHTML = `
-<h2>Daily Hadith</h2>
-<div class="arabic">${hadith.arabic}</div>
-<div class="english">${hadith.english}</div>
-<div class="reference">${hadith.reference}</div>
-`;
+  document.getElementById("quran-verse").innerHTML = `
+    <div class="arabic">${verse.arabic}</div>
+    <div class="english">${verse.english}</div>
+    <div class="reference">(${verse.surah} ${verse.ayah})</div>
+  `;
+
+  document.getElementById("daily-hadith").innerHTML = `
+    <div class="arabic">${hadith.arabic}</div>
+    <div class="english">${hadith.english}</div>
+    <div class="reference">(${hadith.reference})</div>
+  `;
 </script>
+
+     <script>
+        setTimeout(function () {
+            location.reload(true); // true forces reload from server
+        }, 6 * 60 * 60 * 1000); // 6 hours in milliseconds
+    </script>
+    
+
+<script>
+async function fetchNextDaysPrayerTimes() {
+    try {
+        const response = await fetch('prayer-times.json');
+        const data = await response.json();
+
+        const container = document.getElementById("next-days-prayers-container");
+        container.innerHTML = ""; // Clear previous content
+
+        const timings = [
+            { label: "فجر", key: "Fajr" },
+            { label: "شروق", key: "Sunrise" },
+            { label: "ظهر", key: "Dhuhr" },
+            { label: "عصر", key: "Asr" },
+            { label: "مغرب", key: "Maghrib" },
+            { label: "عشاء", key: "Isha" }
+        ];
+
+        for (let i = 1; i <= 5; i++) {
+            const date = new Date();
+            date.setDate(date.getDate() + i);
+            const formattedDate = date.toLocaleDateString("en-GB");
+
+            const entry = data.find(e => e.Date === formattedDate);
+
+            if (entry) {
+                const row = timings
+                    .filter(t => entry[t.key])
+                    .map(t => `${t.label}: ${entry[t.key]}`)
+                    .join(" | ");
+
+                const line = document.createElement("div");
+                line.className = "prayer-text";
+                line.innerText = `📅 ${formattedDate} → ${row}`;
+                container.appendChild(line);
+            }
+        }
+    } catch (err) {
+        console.error("Error loading upcoming prayer times:", err);
+    }
+}
+
+// Run once now
+fetchNextDaysPrayerTimes();
+
+// Refresh daily just after midnight
+const now = new Date();
+const nextMidnight = new Date();
+nextMidnight.setHours(24, 0, 5, 0);
+
+const msUntilMidnight = nextMidnight - now;
+
+setTimeout(() => {
+    fetchNextDaysPrayerTimes();
+    setInterval(fetchNextDaysPrayerTimes, 24 * 60 * 60 * 1000);
+}, msUntilMidnight);
+</script>
+
 
 </body>
 </html>
