@@ -336,33 +336,89 @@ table th {
 
 
     <script src="script.js"></script>
-    <script>
+ <script>
   const verses = [
-    { surah: "Al-Fatiha", ayah: 2, arabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", english: "All praise is due to Allah, Lord of the worlds." },
-    { surah: "Al-Baqarah", ayah: 2, arabic: "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ", english: "This is the Book about which there is no doubt." },
+    { surah: "Al-Fatiha", ayah: 5, arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", english: "It is You we worship and You we ask for help." },
+    { surah: "Al-Baqarah", ayah: 45, arabic: "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ", english: "Seek help through patience and prayer." },
     { surah: "Al-Baqarah", ayah: 286, arabic: "لَا يُكَلِّفُ اللَّهُ نَفْسًا إِلَّا وُسْعَهَا", english: "Allah does not burden a soul beyond that it can bear." },
-    { surah: "Al-Imran", ayah: 139, arabic: "وَلَا تَهِنُوا وَلَا تَحْزَنُوا وَأَنتُمُ الْأَعْلَوْنَ", english: "Do not lose heart or despair—you will be superior if you are true believers." },
+    { surah: "Al-Imran", ayah: 200, arabic: "يَا أَيُّهَا الَّذِينَ آمَنُوا اصْبِرُوا وَصَابِرُوا", english: "O you who have believed, be patient and endure." },
+    { surah: "Al-Imran", ayah: 139, arabic: "وَلَا تَهِنُوا وَلَا تَحْزَنُوا", english: "Do not lose heart or despair." },
     { surah: "An-Nisa", ayah: 36, arabic: "وَاعْبُدُوا اللَّهَ وَلَا تُشْرِكُوا بِهِ شَيْئًا", english: "Worship Allah and associate nothing with Him." },
     { surah: "Al-Ma’idah", ayah: 8, arabic: "اعْدِلُوا ۚ هُوَ أَقْرَبُ لِلتَّقْوَى", english: "Be just: that is nearer to righteousness." },
+    { surah: "Al-Anfal", ayah: 2, arabic: "إِنَّمَا الْمُؤْمِنُونَ الَّذِينَ إِذَا ذُكِرَ اللَّهُ وَجِلَتْ قُلُوبُهُمْ", english: "The believers are only those who, when Allah is mentioned, their hearts tremble." },
     { surah: "At-Tawbah", ayah: 51, arabic: "قُل لَّن يُصِيبَنَا إِلَّا مَا كَتَبَ اللَّهُ لَنَا", english: "Say, 'Nothing will happen to us except what Allah has decreed for us.'" },
     { surah: "Yunus", ayah: 61, arabic: "وَمَا تَسْقُطُ مِن وَرَقَةٍ إِلَّا يَعْلَمُهَا", english: "Not a leaf falls but that He knows it." },
+    { surah: "Hud", ayah: 114, arabic: "إِنَّ الْحَسَنَاتِ يُذْهِبْنَ السَّيِّئَاتِ", english: "Good deeds wipe out bad deeds." },
     { surah: "Ar-Ra’d", ayah: 28, arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", english: "Surely in the remembrance of Allah do hearts find rest." },
-    { surah: "Ibrahim", ayah: 7, arabic: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ", english: "If you are grateful, I will surely increase you [in favor]." },
-    { surah: "An-Nahl", ayah: 97, arabic: "مَنْ عَمِلَ صَالِحًا ... فَلَنُحْيِيَنَّهُ حَيَاةً طَيِّبَةً", english: "Whoever does good, We will give them a good life." },
+    { surah: "Ibrahim", ayah: 7, arabic: "لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ", english: "If you are grateful, I will surely increase you." },
+    { surah: "Al-Nahl", ayah: 97, arabic: "مَنْ عَمِلَ صَالِحًا فَلَنُحْيِيَنَّهُ حَيَاةً طَيِّبَةً", english: "Whoever does good, We will give them a good life." },
     { surah: "Al-Isra", ayah: 23, arabic: "وَبِالْوَالِدَيْنِ إِحْسَانًا", english: "And be kind to parents." },
-    { surah: "Ash-Sharh", ayah: 6, arabic: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", english: "Indeed, with hardship comes ease." },
-    { surah: "Az-Zumar", ayah: 53, arabic: "قُلْ يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا ... لَا تَقْنَطُوا", english: "O My servants who have transgressed... do not despair of Allah’s mercy." },
-    { surah: "Al-Kahf", ayah: 46, arabic: "الْمَالُ وَالْبَنُونَ زِينَةُ الْحَيَاةِ الدُّنْيَا", english: "Wealth and children are [but] adornment of the worldly life." }
+    { surah: "Al-Kahf", ayah: 46, arabic: "الْمَالُ وَالْبَنُونَ زِينَةُ الْحَيَاةِ الدُّنْيَا", english: "Wealth and children are [but] adornment of worldly life." },
+    { surah: "Maryam", ayah: 96, arabic: "إِنَّ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ سَيَجْعَلُ لَهُمُ الرَّحْمَٰنُ وُدًّا", english: "Indeed, those who have believed and done righteous deeds – the Most Merciful will appoint for them affection." },
+    { surah: "Al-Ankabut", ayah: 69, arabic: "وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا", english: "As for those who strive in Us – We will surely guide them to Our ways." },
+    { surah: "Luqman", ayah: 17, arabic: "وَأْمُرْ بِالْمَعْرُوفِ وَانْهَ عَنِ الْمُنكَرِ وَاصْبِرْ", english: "Enjoin what is right, forbid what is wrong, and be patient." },
+    { surah: "As-Saff", ayah: 4, arabic: "إِنَّ اللَّهَ يُحِبُّ الَّذِينَ يُقَاتِلُونَ فِي سَبِيلِهِ صَفًّا", english: "Allah loves those who fight in His cause in rows as though they are a [single] structure." },
+    { surah: "An-Nur", ayah: 35, arabic: "اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ", english: "Allah is the Light of the heavens and the earth." },
+    { surah: "Ash-Shura", ayah: 36, arabic: "فَمَا أُوتِيتُم مِّن شَيْءٍ فَمَتَاعُ الْحَيَاةِ الدُّنْيَا", english: "Whatever you have been given is but [a passing] enjoyment of worldly life." },
+    { surah: "Muhammad", ayah: 7, arabic: "إِن تَنصُرُوا اللَّهَ يَنصُرْكُمْ", english: "If you support Allah, He will support you." },
+    { surah: "Al-Fath", ayah: 4, arabic: "هُوَ الَّذِي أَنزَلَ السَّكِينَةَ فِي قُلُوبِ الْمُؤْمِنِينَ", english: "It is He who sent down tranquility into the hearts of the believers." },
+    { surah: "Qaf", ayah: 16, arabic: "وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ الْوَرِيدِ", english: "We are closer to him than his jugular vein." },
+    { surah: "Adh-Dhariyat", ayah: 56, arabic: "وَمَا خَلَقْتُ الْجِنَّ وَالْإِنسَ إِلَّا لِيَعْبُدُونِ", english: "I did not create jinn and mankind except to worship Me." },
+    { surah: "Al-Hadid", ayah: 23, arabic: "لِكَيْلَا تَأْسَوْا عَلَىٰ مَا فَاتَكُمْ", english: "So you do not grieve over what has escaped you." },
+    { surah: "Al-Taghabun", ayah: 11, arabic: "مَا أَصَابَ مِن مُّصِيبَةٍ إِلَّا بِإِذْنِ اللَّهِ", english: "No disaster strikes except by permission of Allah." },
+    { surah: "At-Talaq", ayah: 3, arabic: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", english: "And whoever relies upon Allah – then He is sufficient for him." }
   ];
 
-  const dayIndex = new Date().getDate() % verses.length;
+  const hadiths = [
+    { arabic: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ", english: "Actions are judged by intentions.", reference: "Bukhari & Muslim" },
+    { arabic: "الدُّعَاءُ هُوَ الْعِبَادَةُ", english: "Dua is worship.", reference: "Tirmidhi" },
+    { arabic: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", english: "The best of you are those who learn the Qur’an and teach it.", reference: "Bukhari" },
+    { arabic: "مَنْ صَلَّى الْبَرْدَيْنِ دَخَلَ الْجَنَّةَ", english: "Whoever prays Fajr and Asr will enter Paradise.", reference: "Bukhari & Muslim" },
+    { arabic: "الدِّينُ النَّصِيحَةُ", english: "The religion is sincere advice.", reference: "Muslim" },
+    { arabic: "الْمُسْلِمُ أَخُو الْمُسْلِمِ", english: "A Muslim is the brother of another Muslim.", reference: "Bukhari & Muslim" },
+    { arabic: "الطُّهُورُ شَطْرُ الإِيمَانِ", english: "Cleanliness is half of faith.", reference: "Muslim" },
+    { arabic: "مَنْ لَا يَرْحَمْ لَا يُرْحَمْ", english: "Whoever does not show mercy will not be shown mercy.", reference: "Bukhari & Muslim" },
+    { arabic: "الْجَنَّةُ تَحْتَ أَقْدَامِ الأُمَّهَاتِ", english: "Paradise lies under the feet of mothers.", reference: "Nasa’i" },
+    { arabic: "الصَّبْرُ ضِيَاءٌ", english: "Patience is light.", reference: "Muslim" },
+    { arabic: "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ", english: "The strong believer is better and more beloved to Allah than the weak believer.", reference: "Muslim" },
+    { arabic: "مَنْ صَمَتَ نَجَا", english: "Whoever remains silent is saved.", reference: "Tirmidhi" },
+    { arabic: "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ", english: "Whoever follows a path in pursuit of knowledge, Allah will make a path to Paradise easy for him.", reference: "Muslim" },
+    { arabic: "السَّخِيُّ قَرِيبٌ مِنَ اللَّهِ", english: "The generous person is close to Allah.", reference: "Tirmidhi" },
+    { arabic: "مَنْ يَسَّرَ عَلَى مُعْسِرٍ يَسَّرَ اللَّهُ عَلَيْهِ", english: "Whoever relieves a hardship for a debtor, Allah will relieve a hardship for him.", reference: "Muslim" },
+    { arabic: "اتَّقِ اللَّهَ حَيْثُمَا كُنتَ", english: "Fear Allah wherever you are.", reference: "Tirmidhi" },
+    { arabic: "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ", english: "The Muslim is the one from whose tongue and hand other Muslims are safe.", reference: "Bukhari & Muslim" },
+    { arabic: "الدُّنْيَا سِجْنُ الْمُؤْمِنِ وَجَنَّةُ الْكَافِرِ", english: "The world is a prison for the believer and Paradise for the disbeliever.", reference: "Muslim" },
+    { arabic: "الْجَارُ ثُمَّ الْبَيْتُ", english: "Consider your neighbor before your house.", reference: "Ibn Hibban" },
+    { arabic: "الْيَدُ الْعُلْيَا خَيْرٌ مِنَ الْيَدِ السُّفْلَى", english: "The upper hand (giver) is better than the lower hand (receiver).", reference: "Bukhari & Muslim" },
+    { arabic: "لَا يَحِلُّ لِمُسْلِمٍ أَنْ يَهْجُرَ أَخَاهُ فَوْقَ ثَلَاثٍ", english: "It is not permissible for a Muslim to abandon his brother for more than three days.", reference: "Bukhari & Muslim" },
+    { arabic: "مَنْ غَشَّنَا فَلَيْسَ مِنَّا", english: "Whoever cheats us is not one of us.", reference: "Muslim" },
+    { arabic: "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ", english: "None of you truly believes until he loves for his brother what he loves for himself.", reference: "Bukhari & Muslim" },
+    { arabic: "إِنَّ اللَّهَ جَمِيلٌ يُحِبُّ الْجَمَالَ", english: "Allah is Beautiful and loves beauty.", reference: "Muslim" },
+    { arabic: "مَنْ بَنَى لِلَّهِ مَسْجِدًا بَنَى اللَّهُ لَهُ بَيْتًا فِي الْجَنَّةِ", english: "Whoever builds a mosque for Allah, Allah will build for him a house in Paradise.", reference: "Bukhari & Muslim" },
+    { arabic: "مَنْ لَا يَشْكُرِ النَّاسَ لَا يَشْكُرِ اللَّهَ", english: "Whoever does not thank people does not thank Allah.", reference: "Tirmidhi" },
+    { arabic: "مَنْ سَنَّ فِي الْإِسْلَامِ سُنَّةً حَسَنَةً", english: "Whoever starts a good practice in Islam will have its reward and the reward of those who follow it.", reference: "Muslim" },
+    { arabic: "إِنَّ أَصْدَقَ الْحَدِيثِ كِتَابُ اللَّهِ", english: "The most truthful speech is the Book of Allah.", reference: "Nasa’i" },
+    { arabic: "كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ", english: "Two words are light on the tongue, heavy on the scale: SubhanAllah wa bihamdihi, SubhanAllahil Azim.", reference: "Bukhari & Muslim" },
+    { arabic: "مَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", english: "Whoever relies upon Allah – He is sufficient for him.", reference: "Tirmidhi" }
+  ];
+
+  const dayIndex = (new Date().getDate() - 1) % verses.length;
   const verse = verses[dayIndex];
+  const hadith = hadiths[dayIndex];
 
   document.getElementById("quran-verse").innerHTML = `
     <div class="arabic">${verse.arabic}</div>
     <div class="english">${verse.english}</div>
-`;
+    <div class="reference">(${verse.surah} ${verse.ayah})</div>
+  `;
+
+  document.getElementById("daily-hadith").innerHTML = `
+    <div class="arabic">${hadith.arabic}</div>
+    <div class="english">${hadith.english}</div>
+    <div class="reference">(${hadith.reference})</div>
+  `;
 </script>
+
      <script>
         setTimeout(function () {
             location.reload(true); // true forces reload from server
