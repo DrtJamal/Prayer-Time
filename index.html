@@ -5,10 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prayer Times</title>
 <style>
+/* General Body */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5; /* Light professional grey */
+    background-color: #f5f5f5; /* Professional soft gray */
     color: #333;
     display: flex;
     justify-content: center;
@@ -17,6 +18,7 @@ body {
     overflow-x: hidden;
 }
 
+/* Main Container */
 main {
     display: flex;
     height: 100%;
@@ -29,7 +31,7 @@ main {
     height: 100%;
 }
 
-/* Table styles */
+/* Table Container */
 .table-container {
     width: 50%;
     height: 100%;
@@ -44,7 +46,6 @@ main {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
-    margin: 0;
     height: 90%;
 }
 
@@ -54,29 +55,31 @@ table th, table td {
     font-size: 4rem;
     font-weight: bold;
 }
+
 table td:nth-child(3) {
     font-weight: bold;
     color: #007bff;
 }
+
 table th { 
     background-color: #d7b899;
     color: black;
 }
 
 /* Row colors */
-.fajr-row { background-color: #c8e6c9; } /* soft green */
-.dhuhr-row, .asr-row { background-color: #ffe0b2; } /* soft orange */
-.maghrib-row { background-color: #f8bbd0; } /* soft pink */
-.isha-row { background-color: #bbdefb; } /* soft blue */
+.fajr-row { background-color: #c8e6c9; }
+.dhuhr-row, .asr-row { background-color: #ffe0b2; }
+.maghrib-row { background-color: #f8bbd0; }
+.isha-row { background-color: #bbdefb; }
 
-/* Highlight */
+/* Highlight blink */
 .highlight {
     animation: blink 1s infinite;
     font-weight: bold;
     color: red;
 }
 
-/* Right container */
+/* Right Container */
 #right-container {
     width: 50%;
     height: 100%;
@@ -86,12 +89,31 @@ table th {
     align-items: center;
 }
 
+#top-info {
+    display: flex;
+    align-items: center;
+}
+
+#logo {
+    height: 100px;
+    width: auto;
+}
+
+#bismillah-text {
+    font-size: 50px;
+    font-weight: bold;
+    font-family: 'Traditional Arabic', serif;
+    margin-left: 10px;
+}
+
+/* Date & Time */
 #date-display, #hijri-date, #sunrise-time, #message, #message1, #message2 {
     font-weight: bold;
     text-align: center;
     border-radius: 4px;
     line-height: 1;
-    margin: 1px 0;
+    margin: 2px 0;
+    padding: 3px 5px;
 }
 
 #current-time {
@@ -104,19 +126,6 @@ table th {
     line-height: 0.9;
 }
 
-#next-prayer {
-    font-size: 80px;
-    font-weight: bold;
-    color: red;
-    animation: colorChange 3s infinite;
-    text-align: center;
-    padding: 3px;
-    background-color: #ffeb3b; /* softer yellow */
-    border-radius: 4px;
-    line-height: 1;
-    margin: 8px 0 2px;
-}
-
 #next-iqama {
     font-size: 30px;
     font-weight: bold;
@@ -125,12 +134,88 @@ table th {
     padding: 3px;
     border-radius: 4px;
     line-height: 1;
-    margin: 8px 0 2px;
 }
 
-#logo { height: 100px; width: auto; }
-#bismillah-text { font-size: 50px; font-weight: bold; font-family: 'Traditional Arabic', serif; }
+#next-prayer {
+    font-size: 80px;
+    font-weight: bold;
+    color: red;
+    animation: colorChange 3s infinite;
+    text-align: center;
+    padding: 3px;
+    background-color: yellow;
+    border-radius: 4px;
+    line-height: 1;
+    margin: 8px 0;
+}
 
+/* Quran Verse & Hadith */
+#quran-verse, #daily-hadith {
+    text-align: center;
+    margin: 15px 0;
+    padding: 20px 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#quran-verse {
+    background-color: #ffffff;
+}
+
+#daily-hadith {
+    background-color: #e8f5e9;
+}
+
+#quran-verse h2, #daily-hadith h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #0D47A1;
+}
+
+#quran-verse .arabic {
+    font-size: 60px;
+    color: #0D47A1;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#quran-verse .english {
+    font-size: 28px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-style: italic;
+}
+
+#daily-hadith .arabic {
+    font-size: 50px;
+    color: #2E7D32;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#daily-hadith .english {
+    font-size: 24px;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.reference {
+    font-size: 18px;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Prayer Text */
+.prayer-text {
+    color: red;
+    text-align: center;
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+/* Animations */
 @keyframes colorChange {
     0% { color: red; }
     20% { color: black; }
@@ -140,34 +225,25 @@ table th {
     100% { color: red; }
 }
 
-/* Quran & Hadith */
-#quran-verse, #daily-hadith {
-    text-align: center;
-    margin-top: 3px;
-    padding: 10px;
-}
-
-#quran-verse .arabic { font-size: 60px; color: #0D47A1; font-weight: bold; }
-#quran-verse .english { font-size: 30px; color: #000; font-weight: 600; margin-bottom: 2px; }
-#daily-hadith .arabic { font-size: 45px; color: #2E7D32; font-weight: bold; margin-top: 20px; }
-#daily-hadith .english { font-size: 25px; font-style: italic; color: #333; }
-.reference { font-size: 20px; color: #555; margin-top: 5px; }
-
-/* Prayer text */
-.prayer-text { color: #d32f2f; text-align: center; margin-top: 5px; font-size: 20px; }
-
-/* Mobile responsiveness */
+/* Mobile Responsiveness */
 @media only screen and (max-width: 768px) {
     main { flex-direction: column; }
     .table-container, #right-container { width: 100%; height: auto; }
+
     table th, table td { font-size: 2rem; padding: 8px; }
-    #current-time { font-size: 2rem; }
-    #next-prayer, #next-iqama, #date-display, #sunrise-time, #message1, #hijri-date, #message, #message2 { font-size: 1rem; margin-top: 6px; }
-    #logo { height: 20px; }
-    #bismillah-text { font-size: 9px; }
-    .arabic { font-size: 10px; }
-    .english { font-size: 8px; }
-    .prayer-text { font-size: 8px; }
+    #current-time { font-size: 4rem; }
+    #next-prayer { font-size: 40px; }
+    #next-iqama, #date-display, #sunrise-time, #message, #message1, #hijri-date, #message2 {
+        font-size: 1rem;
+        margin-top: 6px;
+    }
+    #logo { height: 50px; }
+    #bismillah-text { font-size: 20px; }
+    #quran-verse .arabic { font-size: 32px; }
+    #quran-verse .english { font-size: 16px; }
+    #daily-hadith .arabic { font-size: 28px; }
+    #daily-hadith .english { font-size: 16px; }
+    .reference { font-size: 14px; }
 }
 </style>
 </head>
@@ -187,8 +263,8 @@ table th {
         </table>
     </div>
     <div id="right-container">
-        <div id="top-info" style="display: flex; align-items: center;">
-            <img id="logo" src="ciccbg.png" alt="Logo" >
+        <div id="top-info">
+            <img id="logo" src="ciccbg.png" alt="Logo">
             <span id="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</span>
         </div>
         <div>
@@ -204,49 +280,40 @@ table th {
         <div id="quran-verse"></div>
         <div id="daily-hadith"></div>
         <div id="next-days-prayers-container" class="prayer-text"></div>
-        <p style="margin-top: 5;">
+        <p style="margin-top: 5px;">
             CICC is a charity organization, Charity No. RCN 20200211.
-            <a href="https://drtjamal.github.io/Prayer-Time/dua.html" style="display: inline; margin-right: 10px;">Daily Dua</a> 
+            <a href="https://drtjamal.github.io/Prayer-Time/dua.html" style="display: inline; margin-right: 10px;">Daily Dua</a>
             <a href="https://drtjamal.github.io/Prayer-Time/quran.html" style="display: inline; margin-right: 10px;">Read & Download Quran</a>
             <a href="izkar-card.html" style="display: inline; margin-right: 10px;" target="_blank">Izkar after Prayer</a>
         </p>
     </div>
 </main>
 
+<!-- JS Files -->
 <script src="script.js"></script>
+
+<!-- Verse & Hadith -->
 <script>
-// Quran and Hadith logic stays unchanged
-const verses = [...]; // keep your 30 verses
-const hadiths = [...]; // keep your 30 hadiths
-const dayIndex = (new Date().getDate() - 1) % Math.min(verses.length, hadiths.length);
+const verses = [ /* your existing verses array */ ];
+const hadiths = [ /* your existing hadiths array */ ];
+
+const dayIndex = (new Date().getDate() - 1) % verses.length;
 const verse = verses[dayIndex];
 const hadith = hadiths[dayIndex];
 
-document.getElementById("quran-verse").innerHTML = `
-  <h2>📖 Verse of the Day</h2>
-  <div class="arabic">${verse.arabic}</div>
-  <div class="english">${verse.english}</div>
-  <div class="reference">(${verse.surah} ${verse.ayah})</div>
+document.getElementById('quran-verse').innerHTML = `
+<h2>Quran Verse</h2>
+<div class="arabic">${verse.arabic}</div>
+<div class="english">${verse.english}</div>
+<div class="reference">${verse.reference}</div>
 `;
 
-document.getElementById("daily-hadith").innerHTML = `
-  <h2>🕌 Hadith of the Day</h2>
-  <div class="arabic">${hadith.arabic}</div>
-  <div class="english">${hadith.english}</div>
-  <div class="reference">(${hadith.reference})</div>
+document.getElementById('daily-hadith').innerHTML = `
+<h2>Daily Hadith</h2>
+<div class="arabic">${hadith.arabic}</div>
+<div class="english">${hadith.english}</div>
+<div class="reference">${hadith.reference}</div>
 `;
-
-setTimeout(function() { location.reload(true); }, 6*60*60*1000); // 6 hours
-</script>
-
-<script>
-// Next days prayer times logic stays unchanged
-async function fetchNextDaysPrayerTimes() { ... }
-fetchNextDaysPrayerTimes();
-const now = new Date();
-const nextMidnight = new Date(); nextMidnight.setHours(24,0,5,0);
-const msUntilMidnight = nextMidnight - now;
-setTimeout(() => { fetchNextDaysPrayerTimes(); setInterval(fetchNextDaysPrayerTimes, 24*60*60*1000); }, msUntilMidnight);
 </script>
 
 </body>
