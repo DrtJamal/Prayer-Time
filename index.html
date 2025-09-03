@@ -279,7 +279,51 @@ table th {
     font-size: 8px;
   }
 
+}
 
+/* Default (PC/tablet) → side by side */
+.pretty-btn {
+  display: inline-block;
+  padding: 14px 24px;
+  margin: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #2e8b57, #3cb371);
+  border-radius: 12px;
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  animation: pulse 1.8s infinite;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Hover effect */
+.pretty-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(46, 139, 87, 0.8);
+}
+
+/* Mobile (screen < 600px) → stack & center */
+@media (max-width: 600px) {
+  .pretty-btn {
+    display: block;        /* force stacking */
+    width: 90%;            /* almost full width */
+    max-width: 400px;      /* not too wide */
+    margin: 12px auto;     /* center horizontally */
+  }
+}
+
+
+@keyframes pulse {
+  0%, 100% {
+    background: linear-gradient(135deg, #2e8b57, #3cb371);
+    box-shadow: 0 0 5px rgba(46, 139, 87, 0.6);
+  }
+  50% {
+    background: linear-gradient(135deg, #3cb371, #2e8b57);
+    box-shadow: 0 0 25px rgba(46, 139, 87, 1);
+  }
 }
     </style>
     
@@ -301,38 +345,33 @@ table th {
             <tbody id="prayer-times-body"></tbody>
         </table>
     </div>
-    <div id="right-container">
+ <div id="right-container">
         <div id="top-info" style="display: flex; align-items: center;">
-    <img id="logo" src="ciccbg.png" alt="Logo" >
-    <span id="bismillah-text">
+        <img id="logo" src="ciccbg.png" alt="Logo" >
+        <span id="bismillah-text">
         بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
-    </span>  </div>
-        <div>        
+        </span>  </div>
+    <div>        
             <span id="date-display"></span>
             <span id="hijri-date"></span>
-        </div>
+    </div>
         
-            <div id="current-time"></div> 
+    <div id="current-time"></div> 
                     
-        <div>        
-            <span id="sunrise-time"></span>
-            <span id="next-iqama"></span>
-        </div>
-<p id="next-prayer">Time Remaining: --:--:--</p>
-    
-    
+    <div>        
+        <span id="sunrise-time"></span>
+        <span id="next-iqama"></span>
+    </div>
+    <p id="next-prayer">Time Remaining: --:--:--</p>
+     <div style="text-align:center; margin: 20px 0;">
+     <a href="https://drtjamal.github.io/Prayer-Time/dua.html" class="pretty-btn">Daily Dua</a>
+      <a href="https://drtjamal.github.io/Prayer-Time/quran.html" class="pretty-btn">Read & Download Quran</a>
+     <a href="https://drtjamal.github.io/Prayer-Time/izkar-card.html" target="_blank" class="pretty-btn">Izkar after Prayer</a>
+    </div>
     <div id="quran-verse"></div>
     <div id="daily-hadith"></div>
-<div id="next-days-prayers-container" class="prayer-text"></div>
-        <p style="margin-top: 5;">
-            CICC is a charity organization, Charity No. RCN 20200211.
-            
- <a href="https://drtjamal.github.io/Prayer-Time/dua.html" style="display: inline; margin-right: 10px;">Daily Dua</a> 
-  <a href="https://drtjamal.github.io/Prayer-Time/quran.html" style="display: inline; margin-right: 10px;">Read & Download Quran</a>
-           <a href="izkar-card.html" style="display: inline; margin-right: 10px;" target="_blank">Izkar after Prayer</a>
-       
-        </p>
-    </div>
+    <div id="next-days-prayers-container" class="prayer-text"></div>
+ </div>
 </main>
 
 
@@ -445,7 +484,7 @@ async function fetchNextDaysPrayerTimes() {
             { label: "عشاء", key: "Isha" }
         ];
 
-        for (let i = 1; i <= 5; i++) {
+        for (let i = 1; i <= 4; i++) {
             const date = new Date();
             date.setDate(date.getDate() + i);
             const formattedDate = date.toLocaleDateString("en-GB");
