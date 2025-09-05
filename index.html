@@ -235,6 +235,12 @@ table th {
   margin-top: 5px;
   font-size: 20px; /* Base size */
 }
+.reference {
+  font-size: 14px;
+  color: gray;
+  display: inline;
+  margin-left: 6px;
+}
 
 /* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
@@ -274,6 +280,10 @@ table th {
 
   .english {
     font-size: 8px;
+  }
+   .reference {
+    font-size: 6px;
+    margin-left: 3px;
   }
     .prayer-text {
     font-size: 8px;
@@ -446,17 +456,17 @@ table th {
   const verse = verses[dayIndex];
   const hadith = hadiths[dayIndex];
 
-  document.getElementById("quran-verse").innerHTML = `
-    <div class="arabic">${verse.arabic}</div>
-    <div class="english">${verse.english}</div>
-    <div class="reference">(${verse.surah} ${verse.ayah})</div>
-  `;
+document.getElementById("quran-verse").innerHTML = `
+  <div class="arabic">${verse.arabic}</div>
+  <div class="english">${verse.english} <span class="reference">(${verse.surah} ${verse.ayah})</span></div>
+`;
 
-  document.getElementById("daily-hadith").innerHTML = `
-    <div class="arabic">${hadith.arabic}</div>
-    <div class="english">${hadith.english}</div>
-    <div class="reference">(${hadith.reference})</div>
-  `;
+document.getElementById("daily-hadith").innerHTML = `
+  <div class="arabic">${hadith.arabic}</div>
+  <div class="english">${hadith.english} <span class="reference">(${hadith.reference})</span></div>
+`;
+
+
 </script>
 
      <script>
