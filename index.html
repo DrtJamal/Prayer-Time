@@ -215,7 +215,7 @@ table th {
      }
 
   .arabic {
-    font-size: 70px;
+    font-size: 60px;
     font-weight: bold;
     color: blue;
       background-color: white;
@@ -229,12 +229,7 @@ table th {
     font-weight: 600;
     margin-bottom: 2px;
   }
-        .prayer-text {
-  color: #000080; /* for next day prayer list */
-  text-align: center;
-  margin-top: 5px;
-  font-size: 20px; /* Base size */
-}
+    
 .reference {
   font-size: 14px;
   color: gray;
@@ -259,38 +254,75 @@ table th {
     }
 
     #current-time {
-        font-size: 2rem; /* Reduce clock font size on mobile */
+        font-size: 1.5rem; /* Reduce clock font size on mobile */
+          margin: 1px 0;      /* reduce vertical gap further */
     }
 
     #next-prayer, #next-iqama , #date-display, #sunrise-time, #message1, #hijri-date, #message, #message2{
         font-size: 1rem; /* Adjust font size for smaller screens */
-        margin-top: 6px; /* Add spacing for clarity */
+        margin-top: 2px; /* Add spacing for clarity */
     }
 
         #logo {
     height: 20px; /* Adjust size as needed */
     width: auto; /* Maintain aspect ratio */
-}
+            }
      #bismillah-text {
             font-size: 9px; /* Smaller font size for mobile screens */
         }
     .arabic {
-    font-size: 10px;
-       margin-top: 3px; 
+    font-size: 8px;
+       margin: 0;                /* remove all margins */
+    line-height: 1.1;         /* compact lines */
   }
 
   .english {
-    font-size: 8px;
-      margin-bottom: 2px;
-  }
-   .reference {
     font-size: 6px;
-    margin-left: 3px;
+      margin-top: 0px; 
        margin-bottom: 2px;
   }
-    .prayer-text {
-    font-size: 8px;
+   .reference {
+    font-size: 4px;
+    margin-left: 3px;
+       margin-top: 0px; 
+       margin-bottom: 2px;
   }
+      .verse-hadith-qr {
+   display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        margin: 0;
+        padding: 0;
+        gap: 2px !important;   /* force small gap on mobile */
+  }
+
+  .qr-code {
+    display: block;
+        width: 50px;
+        max-width: 50px;
+        height: auto;
+        margin: 0 auto;
+   
+         }
+
+  .texts {
+    text-align: center;
+    margin: 0;
+        padding: 0;
+   }
+  .texts, .arabic, .english, .reference {
+    margin: 0;
+        padding: 0;
+        line-height: 1.1;
+     }
+.pretty-btn {
+    display: block;        /* force stacking */
+    width: 50%;            /* almost full width */
+    max-width: 400px;      /* not too wide */
+    margin: 6px auto;     /* center horizontally */
+  }
+
 
 }
 
@@ -317,16 +349,6 @@ table th {
   box-shadow: 0 0 20px rgba(46, 139, 87, 0.8);
 }
 
-/* Mobile (screen < 600px) → stack & center */
-@media (max-width: 600px) {
-  .pretty-btn {
-    display: block;        /* force stacking */
-    width: 90%;            /* almost full width */
-    max-width: 400px;      /* not too wide */
-    margin: 12px auto;     /* center horizontally */
-  }
-}
-
 
 @keyframes pulse {
   0%, 100% {
@@ -338,6 +360,24 @@ table th {
     box-shadow: 0 0 25px rgba(46, 139, 87, 1);
   }
 }
+
+.verse-hadith-qr {
+  display: flex;
+  align-items: flex-start; /* Align top of QR with top of text */
+  gap: 15px;               /* Space between QR and text */
+}
+
+.qr-code {
+  width: 230px;    /* Adjust as needed */
+  height: auto;
+  flex-shrink: 0;  /* Prevent it from shrinking */
+}
+
+.texts {
+  flex: 1;          /* Take remaining space for verse + hadith */
+   text-align: center;
+}
+
     </style>
     
 </head>
@@ -376,14 +416,21 @@ table th {
         <span id="next-iqama"></span>
     </div>
     <p id="next-prayer">Time Remaining: --:--:--</p>
-     <div style="text-align:center; margin: 20px 0;">
-     <a href="https://drtjamal.github.io/Prayer-Time/dua.html" class="pretty-btn">Daily Dua</a>
-      <a href="https://drtjamal.github.io/Prayer-Time/quran.html" class="pretty-btn">Read & Download Quran</a>
-     <a href="https://drtjamal.github.io/Prayer-Time/izkar-card.html" target="_blank" class="pretty-btn">Izkar after Prayer</a>
-    </div>
+     <div style="text-align:center; margin: 5px 0;">
+  <a href="https://drtjamal.github.io/Prayer-Time/dua.html" class="pretty-btn">Daily Dua</a>
+  <a href="https://drtjamal.github.io/Prayer-Time/quran.html" class="pretty-btn">Read & Download Quran</a>
+  <a href="https://drtjamal.github.io/Prayer-Time/izkar-card.html" target="_blank" class="pretty-btn">Izkar after Prayer</a>
+  <a href="https://drtjamal.github.io/Prayer-Time/year.html" class="pretty-btn">Full Timetable</a>
+</div>
+
+   <div class="verse-hadith-qr">
+  <img src="qrcode_prayertime.png" alt="QR Code" class="qr-code">
+  <div class="texts">
     <div id="quran-verse"></div>
     <div id="daily-hadith"></div>
-    <div id="next-days-prayers-container" class="prayer-text"></div>
+  </div>
+</div>
+
  </div>
 </main>
 
@@ -477,66 +524,5 @@ document.getElementById("daily-hadith").innerHTML = `
             location.reload(true); // true forces reload from server
         }, 6 * 60 * 60 * 1000); // 6 hours in milliseconds
     </script>
-    
-
-<script>
-async function fetchNextDaysPrayerTimes() {
-    try {
-        const response = await fetch('prayer-times.json');
-        const data = await response.json();
-
-        const container = document.getElementById("next-days-prayers-container");
-        container.innerHTML = ""; // Clear previous content
-
-        const timings = [
-            { label: "فجر", key: "Fajr" },
-            { label: "شروق", key: "Sunrise" },
-            { label: "ظهر", key: "Dhuhr" },
-            { label: "عصر", key: "Asr" },
-            { label: "مغرب", key: "Maghrib" },
-            { label: "عشاء", key: "Isha" }
-        ];
-
-        for (let i = 1; i <= 3; i++) {
-            const date = new Date();
-            date.setDate(date.getDate() + i);
-            const formattedDate = date.toLocaleDateString("en-GB");
-
-            const entry = data.find(e => e.Date === formattedDate);
-
-            if (entry) {
-                const row = timings
-                    .filter(t => entry[t.key])
-                    .map(t => `${t.label}: ${entry[t.key]}`)
-                    .join(" | ");
-
-                const line = document.createElement("div");
-                line.className = "prayer-text";
-                line.innerText = `📅 ${formattedDate} → ${row}`;
-                container.appendChild(line);
-            }
-        }
-    } catch (err) {
-        console.error("Error loading upcoming prayer times:", err);
-    }
-}
-
-// Run once now
-fetchNextDaysPrayerTimes();
-
-// Refresh daily just after midnight
-const now = new Date();
-const nextMidnight = new Date();
-nextMidnight.setHours(24, 0, 5, 0);
-
-const msUntilMidnight = nextMidnight - now;
-
-setTimeout(() => {
-    fetchNextDaysPrayerTimes();
-    setInterval(fetchNextDaysPrayerTimes, 24 * 60 * 60 * 1000);
-}, msUntilMidnight);
-</script>
-
-
 </body>
 </html>
