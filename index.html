@@ -132,39 +132,36 @@ table td:nth-child(3) {
     margin: 8px 0 2px 0; 
 }
 #next-prayer { 
-    font-size: 5rem; 
+    font-size: 4rem; 
     font-weight: bold; 
     color: red; 
-    animation: colorChange 3s infinite; 
     text-align: center; 
     padding: 5px; 
     background-color: yellow; 
     border-radius: 6px; 
-    margin: 10px 10px; 
+    margin: 8px 8px; 
 }
 
 #logo { height: 120px; width: auto; }
 #bismillah-text { font-size: 4rem; font-weight: bold; font-family: 'Traditional Arabic', serif; }
 
 /* Info messages */
-#message1, #message2, #hijri-date, #message, #sunrise-time { 
+#hijri-date, #sunrise-time { 
     font-weight: bold; 
     text-align: center; 
     border-radius: 4px; 
     margin: 5px 0; 
-}
-
-#message1 { font-size: 2rem; color: black; animation: colorChange 3s infinite; }
-#message2 { font-size: 1.5rem; color: red; background-color: white; }
-#hijri-date, #message, #sunrise-time { font-size: 3rem; color: red; animation: colorChange 10s infinite; background-color: #bbdefb; }
+ font-size: 3rem; 
+ color: red; 
+ background-color: #bbdefb; }
 
 /* Verse/Hadith Section */
-.verse-hadith-qr {
+#quran-verse, #daily-hadith {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 3px;
     background: linear-gradient(145deg, #ffffff, #e0f7fa);
     padding: 18px;
     border-radius: 15px;
@@ -172,11 +169,9 @@ table td:nth-child(3) {
     margin-top: 5px;
 }
 
-.verse-hadith-qr .arabic { font-size: 3rem; font-weight: bold; color: #1565c0; text-align: center; }
-.verse-hadith-qr .english { font-size: 1.8rem; color: #424242; text-align: center; }
-.reference { font-size: 1.5rem; color: #757575; }
-
-.qr-code { width: 70px; height: auto; margin: 5px 0; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+.arabic { font-size: 3.5rem; font-weight: bold; color: #1565c0; text-align: center; }
+.english { font-size: 2rem; color: #424242; text-align: center; }
+.reference { font-size: 1rem; color: #757575; }
 
 /* Buttons row */
   .buttons-row {
@@ -192,7 +187,7 @@ table td:nth-child(3) {
     display: inline-block;
     width: 160px;
     max-width: 240px;
-    padding: 12px 22px;
+    padding: 10px 20px;
     margin: 6px 8px;
     font-size: 1.3rem;
     font-weight: bold;
@@ -239,17 +234,9 @@ table td:nth-child(3) {
     0% { transform: translateX(-100%) rotate(25deg); }
     100% { transform: translateX(100%) rotate(25deg); }
 }
-}
 
-/* Color animation */
-@keyframes colorChange {
-    0% { color: red; }
-    20% { color: black; }
-    40% { color: blue; }
-    60% { color: purple; }
-    70% { color: blue; }
-    100% { color: red; }
-}
+
+
 
 /* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
@@ -266,11 +253,11 @@ table th, table td { font-size: 2rem; padding: 8px; }
     line-height: 1.1; /* tighter spacing */}
 
     #logo { height: 20px; }
-.verse-hadith-qr { flex-direction: column; align-items: center; gap: 1px; margin-top: 4px;    padding: 6px;}
-    .verse-hadith-qr .arabic { font-size: 1rem; }
-    .verse-hadith-qr .english { font-size: .8rem; }
+#quran-verse, #hadith-verse { flex-direction: column; align-items: center; gap: 1px; margin-top: 4px;    padding: 6px;}
+    .arabic { font-size: 1rem; }
+     .english { font-size: .8rem; }
     .reference { font-size: .4rem; }
-    .qr-code { width: 15px; }
+   
 
     .buttons-row {
         flex-direction: column;  /* stack vertically */
@@ -328,14 +315,9 @@ table th, table td { font-size: 2rem; padding: 8px; }
             <a href="idhkar.html" class="pretty-btn">Idhkar</a>
             <a href="year.html" class="pretty-btn">Yearly Time</a>
         </div>
-        <div class="verse-hadith-qr">
-            <img src="qrcode_prayertime.png" alt="QR Code" class="qr-code">
-            <div class="texts">
                 <div id="quran-verse"></div>
                 <div id="daily-hadith"></div>
-            </div>
-        </div>
-    </div>
+           </div>
 </main>
 
 <script src="script.js"></script>
