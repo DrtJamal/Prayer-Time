@@ -290,7 +290,7 @@ table th {
       .verse-hadith-qr {
    display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: left;
         justify-content: flex-start;
         margin: 0;
         padding: 0;
@@ -365,10 +365,12 @@ table th {
   display: flex;
   align-items: flex-start; /* Align top of QR with top of text */
   gap: 15px;               /* Space between QR and text */
+      padding: 0;  /* Add some space around the text */
+
 }
 
 .qr-code {
-  width: 230px;    /* Adjust as needed */
+  width: 200px;    /* Adjust as needed */
   height: auto;
   flex-shrink: 0;  /* Prevent it from shrinking */
 }
@@ -416,13 +418,12 @@ table th {
         <span id="next-iqama"></span>
     </div>
     <p id="next-prayer">Time Remaining: --:--:--</p>
-     <div style="text-align:center; margin: 5px 0;">
-  <a href="https://drtjamal.github.io/Prayer-Time/dua.html" class="pretty-btn">Daily Dua</a>
-  <a href="https://drtjamal.github.io/Prayer-Time/quran.html" class="pretty-btn">Read Quran</a>
-  <a href="https://drtjamal.github.io/Prayer-Time/izkar-card.html" target="_blank" class="pretty-btn">Idhkar</a>
-  <a href="https://drtjamal.github.io/Prayer-Time/year.html" class="pretty-btn">Full Timetable</a>
+   <div style="text-align:center; margin: 5px 0;">
+  <a href="dua.html" class="pretty-btn">Daily Dua</a>
+  <a href="quran.html" class="pretty-btn">Read Quran</a>
+  <a href="idhkar.html" class="pretty-btn">Idhkar </a>
+  <a href="year.html" class="pretty-btn">Year Timetable</a>
 </div>
-
    <div class="verse-hadith-qr">
   <img src="qrcode_prayertime.png" alt="QR Code" class="qr-code">
   <div class="texts">
@@ -510,15 +511,11 @@ document.getElementById("quran-verse").innerHTML = `
   <div class="arabic">${verse.arabic}</div>
   <div class="english">${verse.english} <span class="reference">(${verse.surah} ${verse.ayah})</span></div>
 `;
-
 document.getElementById("daily-hadith").innerHTML = `
   <div class="arabic">${hadith.arabic}</div>
   <div class="english">${hadith.english} <span class="reference">(${hadith.reference})</span></div>
 `;
-
-
 </script>
-
      <script>
         setTimeout(function () {
             location.reload(true); // true forces reload from server
