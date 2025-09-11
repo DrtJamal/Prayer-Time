@@ -253,9 +253,14 @@ table td:nth-child(3) {
 
 /* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
-    main { flex-direction: column; }
+    html, body {
+        height: auto;          /* don't force full height */
+        overflow-y: auto;      /* enable vertical scrolling */
+        -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+    }
+    main { flex-direction: column;height: auto;  }
     .table-container, #right-container { width: 100%; height: auto; }
-table th, table td { font-size: 1.5rem; padding: 4px; }
+table th, table td { font-size: 2rem; padding: 8px; }
     #bismillah-text, #next-prayer, #current-time, #next-iqama, #date-display, #sunrise-time, #message1, #hijri-date, #message, #message2 {  font-size: 1rem; 
     margin: 2px 0;   /* reset margins properly */
     line-height: 1.2; /* tighter spacing */}
