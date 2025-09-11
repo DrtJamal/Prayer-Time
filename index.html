@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prayer Times</title>
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prayer Times</title>
+<style>
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -13,25 +13,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
-    overflow-x: hidden; /* Only hide horizontal scrolling */
+    height: 100vh;
+    overflow-x: hidden;
 }
 
-main {
+main, .container {
     display: flex;
+    width: 100%;
     height: 100%;
-    width: 100%;
 }
 
-.container {
-    display: flex;
-    width: 100%;
-    height: 100%; /* Stretch to full height of the viewport */
-}
-
+/* ===== TABLE CONTAINER ===== */
 .table-container {
-    width: 50%; /* Takes up half of the screen horizontally */
-    height: 100%; /* Stretch vertically */
+    width: 50%;
+    height: 100%;
     padding: 10px;
     box-sizing: border-box;
     display: flex;
@@ -39,353 +34,265 @@ main {
     align-items: center;
 }
 
+/* ===== TABLE BASE STYLING ===== */
 .table-container table {
     width: 100%;
+    height: 90%;
     table-layout: fixed;
-    border-collapse: collapse;
-    margin: 0;
-    height: 90%; /* Stretch to near full height */
+    border-collapse: separate;
+    border-spacing: 0 12px; /* space between rows */
 }
 
-table th, table td {
-    padding: 10px;
+/* ===== TABLE HEAD ===== */
+table th {
+    padding: 12px;
+    font-size: 5rem;
+    font-weight: bold;
     text-align: center;
-    font-size: 4rem; /* Adjusted font size */
-    font-weight: bold;
-}
-table td:nth-child(3) {
-            font-weight: bold; /* Makes the text bold */
-            color: #007bff; /* Change this to your desired color */
-        }
-table th { 
-    background-color: #d7b899;
-    color: black;
-}
-
-/* Restoring original row colors */
-.fajr-row {
-    background-color: greenyellow; /* Light green */
-}
-
-.dhuhr-row, .asr-row {
-    background-color: #ffe0b2; /* Light orange */
-}
-
-.maghrib-row {
-    background-color: #f8bbd0; /* Light pink */
-}
-
-.isha-row {
-    background-color: #bbdefb; /* Light blue */
-}
-
-/* Highlight styles */
-.highlight {
-    animation: blink 1s infinite;
-    font-weight: bold;
-    color: red;
-}
-
-#right-container {
-    width: 50%; /* Takes up the other half of the screen */
-    height: 100%; /* Stretch vertically */
-    display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    justify-content: center; /* Center items */
-    align-items: center;
-}
-
-        #date-display {
-    font-size: 3rem;
-    font-weight: bold;
-}
-
- #current-time {
-    font-size: 13rem; /* Increased size for clock */
-    margin-top: 3px;
-     margin-bottom: 25px;
-    font-weight: bold;
-    color: #000000; /* Bright color for clock text */
-    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8); /* Glow effect */
-    word-wrap: break-word;
-    line-height: 0.9; /* Remove extra space below the text */
- }
-#time-container {
-    display: flex;
-    align-items: center; /* Aligns both texts vertically in the center */
-}
-
- #next-iqama {
-    font-size: 30px;  /* Keep the text larger */
-    font-weight: bold;  /* Make the text bold */
-    color: white;  /* Initial color */
-        text-align: center;  /* Center the text */
-    padding: 3px;  /* Add some space around the text */
-    border-radius: 4px;  /* Round the corners */
-    line-height: 1; 
-    margin-top: 8px; 
-    margin-bottom: 2px;
-}
-        
-#next-prayer {
-    font-size: 80px;  /* Keep the text larger */
-    font-weight: bold;  /* Make the text bold */
-    color: red;  /* Initial color */
-    animation: colorChange 3s infinite;  /* Extended duration for smoother transitions */
-    text-align: center;  /* Center the text */
-    padding: 3px;  /* Add some space around the text */
-    background-color: yellow;  /* Add a background color to make it stand out more */
-    border-radius: 4px;  /* Round the corners */
-    line-height: 1; 
-    margin-top: 8px; 
-    margin-bottom: 2px;
-}
-
-        #logo {
-    height: 100px; /* Adjust size as needed */
-    width: auto; /* Maintain aspect ratio */
-}
-            
-#bismillah-text {
-    font-size: 50px;
-    font-weight: bold;
-    font-family: 'Traditional Arabic', serif;
-}
-  #message1  {
-    font-size: 25px;  /* Keep the text larger */
-    font-weight: bold;  /* Make the text bold */
-    color: black;  /* Initial color */
-    animation: colorChange 3s infinite;  /* Extended duration for smoother transitions */
-    text-align: center;  /* Center the text */
-    border-radius: 4px;  /* Round the corners */
-    line-height: 1; 
-    margin-top: 1px;
-    margin-bottom: 1px;
-}
-        #hijri-date, #message,  #sunrise-time  {
-    font-size: 50px;  /* Keep the text larger */
-    font-weight: bold;  /* Make the text bold */
-    color: red;  /* Initial color */
-    animation: colorChange 10s infinite;  /* Extended duration for smoother transitions */
-    text-align: center;  /* Center the text */
-    background-color: #bbdefb;  /* Add a background color to make it stand out more */
-    border-radius: 4px;  /* Round the corners */
-    line-height: 1; 
-    margin-top: 1px;
-    margin-bottom: 1px;
-}
-          #message2  {
-    font-size: 20px;  /* Keep the text larger */
-    font-weight: bold;  /* Make the text bold */
-    color: red;  /* Initial color */
-    text-align: center;  /* Center the text */
-    background-color: white;  /* Add a background color to make it stand out more */
-    border-radius: 4px;  /* Round the corners */
-    line-height: 1; 
-    margin-top: 1px;
-    margin-bottom: 1px;
-}
-
-
-@keyframes colorChange {
-    0% {
-        color: red;
-    }
-    20% {
-        color: black;
-    }
-    40% {
-        color: blue;
-    }
-    60% {
-        color: purple;
-    }
-      70% {
-        color: blue;}
-   
-    100% {
-        color: red;
-    }
-}
-         #quran-verse {
-    text-align: center;
-    font-family: "Arial", sans-serif;
-    margin-top: 3px;
-    padding: 10px;
-     }
-
-  .arabic {
-    font-size: 55px;
-    font-weight: bold;
-    color: blue;
-      background-color: white;
-    margin-bottom: 3px;
-    line-height: 1;
-  }
-
-  .english {
-    font-size: 25px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #d7b899, #c4a873);
     color: #000;
-    font-weight: 600;
-    margin-bottom: 2px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.25), inset 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+/* ===== TABLE CELLS AS LED CARDS ===== */
+table td {
+    padding: 15px;
+    font-size: 5rem;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    border-radius: 15px;
+    box-shadow:
+        0 6px 12px rgba(0,0,0,0.25),      /* outer shadow for 3D depth */
+        inset 0 -4px 8px rgba(255,255,255,0.4), /* top highlight */
+        inset 0 4px 8px rgba(0,0,0,0.15);      /* bottom shading */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: inherit; /* important to keep row colors */
+      animation: ledFlicker 2.5s infinite alternate;
+}
+
+/* ===== ROW COLORS WITH GRADIENT FOR LED EFFECT ===== */
+.fajr-row { background: linear-gradient(145deg, #a1e5a1, #3cb043); }      /* green LED */
+.dhuhr-row, .asr-row { background: linear-gradient(145deg, #fff9b0, #ffc107); } /* yellow LED */
+.maghrib-row { background: linear-gradient(145deg, #ffb6b9, #ff4d6d); }   /* pink/red LED */
+.isha-row { background: linear-gradient(145deg, #a0e7f5, #00bcd4); }      /* blue LED */
+
+/* ===== HOVER GLOW ===== */
+table tbody tr:hover td {
+    transform: translateY(-6px);
+    box-shadow:
+        0 12px 25px rgba(0,0,0,0.35),       /* depth */
+        0 0 20px rgba(255,255,255,0.2),     /* subtle white glow */
+        inset 0 -4px 10px rgba(255,255,255,0.6); /* inner shine */
+}
+/* ===== LED FLICKER ANIMATION ===== */
+@keyframes ledFlicker {
+    0%   { text-shadow: 0 0 6px rgba(255,255,255,0.7), 0 0 12px rgba(255,255,255,0.4); }
+    25%  { text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 16px rgba(255,255,255,0.6); }
+    50%  { text-shadow: 0 0 5px rgba(255,255,255,0.6), 0 0 10px rgba(255,255,255,0.3); }
+    75%  { text-shadow: 0 0 9px rgba(255,255,255,0.95), 0 0 20px rgba(255,255,255,0.7); }
+    100% { text-shadow: 0 0 7px rgba(255,255,255,0.8), 0 0 14px rgba(255,255,255,0.5); }
+}
+
+/* ===== STRONGER FLICKER FOR IQAMA COLUMN ===== */
+table td:nth-child(3) {
+    color: #007bff;
+    animation: ledFlicker 1.8s infinite alternate;
+}
+/* Right container */
+#right-container {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom right, #ffffff, #e0f7fa);
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto; /* just in case */
+}
+
+/* Time + date section */
+#date-display { font-size: 3rem; font-weight: bold; }
+#current-time { 
+    font-size: 12rem; 
+    margin: 5px 0 25px 0; 
+    font-weight: bold; 
+    color: #000; 
+    text-shadow: 2px 2px 5px rgba(255,255,255,0.8); 
+    line-height: 0.9; 
+}
+#next-iqama { 
+    font-size: 2rem; 
+    font-weight: bold; 
+    color: rgb(255, 155, 150); 
+    text-align: center; 
+    margin: 8px 0 2px 0; 
+}
+#next-prayer { 
+    font-size: 5rem; 
+    font-weight: bold; 
+    color: red; 
+    animation: colorChange 3s infinite; 
+    text-align: center; 
+    padding: 5px; 
+    background-color: yellow; 
+    border-radius: 6px; 
+    margin: 20px 20px; 
+}
+
+#logo { height: 120px; width: auto; }
+#bismillah-text { font-size: 4rem; font-weight: bold; font-family: 'Traditional Arabic', serif; }
+
+/* Info messages */
+#message1, #message2, #hijri-date, #message, #sunrise-time { 
+    font-weight: bold; 
+    text-align: center; 
+    border-radius: 4px; 
+    margin: 5px 0; 
+}
+
+#message1 { font-size: 2rem; color: black; animation: colorChange 3s infinite; }
+#message2 { font-size: 1.5rem; color: red; background-color: white; }
+#hijri-date, #message, #sunrise-time { font-size: 3rem; color: red; animation: colorChange 10s infinite; background-color: #bbdefb; }
+
+/* Verse/Hadith Section */
+.verse-hadith-qr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(145deg, #ffffff, #e0f7fa);
+    padding: 18px;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    margin-top: 5px;
+}
+
+.verse-hadith-qr .arabic { font-size: 3rem; font-weight: bold; color: #1565c0; text-align: center; }
+.verse-hadith-qr .english { font-size: 1.8rem; color: #424242; text-align: center; }
+.reference { font-size: 1.5rem; color: #757575; }
+
+.qr-code { width: 100px; height: auto; margin: 5px 0; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+
+/* Buttons row */
+  .buttons-row {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;    /* side by side */
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
   }
-    
-.reference {
-  font-size: 14px;
-  color: gray;
-  display: inline;
-  margin-left: 6px;
+
+.pretty-btn {
+    display: inline-block;
+    width: 180px;
+    max-width: 260px;
+    padding: 14px 24px;
+    margin: 8px 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    border-radius: 14px;
+    cursor: pointer;
+
+    /* Gradient + glossy look */
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 
+        0 6px 15px rgba(0,0,0,0.3),      /* outer shadow */
+        inset 0 2px 4px rgba(255,255,255,0.3), /* top glossy highlight */
+        inset 0 -3px 6px rgba(0,0,0,0.3);      /* bottom shading */
+
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Glow effect on hover */
+.pretty-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    background: linear-gradient(135deg, #2575fc, #6a11cb);
+    box-shadow: 
+        0 10px 25px rgba(0,0,0,0.4),
+        0 0 20px rgba(38,198,218,0.7);  /* glowing aura */
+}
+
+/* Optional subtle LED pulse */
+.pretty-btn::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
+    transform: rotate(25deg);
+    animation: shine 3s infinite linear;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) rotate(25deg); }
+    100% { transform: translateX(100%) rotate(25deg); }
+}
+}
+
+/* Color animation */
+@keyframes colorChange {
+    0% { color: red; }
+    20% { color: black; }
+    40% { color: blue; }
+    60% { color: purple; }
+    70% { color: blue; }
+    100% { color: red; }
 }
 
 /* Mobile responsiveness */
 @media only screen and (max-width: 768px) {
-    main {
-        flex-direction: column; /* Stack the table and next prayer vertically */
+    html, body {
+        height: auto;          /* don't force full height */
+        overflow-y: auto;      /* enable vertical scrolling */
+        -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
     }
+    main { flex-direction: column;height: auto;  }
+    .table-container, #right-container { width: 100%; height: auto; }
+table th, table td { font-size: 2rem; padding: 8px; }
+    #bismillah-text, #next-prayer, #current-time, #next-iqama, #date-display, #sunrise-time, #message1, #hijri-date, #message, #message2 {  font-size: 1rem; 
+    margin: 2px 0;   /* reset margins properly */
+    line-height: 1.2; /* tighter spacing */}
 
-.table-container, #right-container {
-        width: 100%; /* Take full width on mobile */
-        height: auto; /* Allow height to adapt naturally */
-    }
+    #logo { height: 20px; }
+.verse-hadith-qr { flex-direction: column; align-items: center; gap: 1px; margin-top: 4px;    padding: 6px;}
+    .verse-hadith-qr .arabic { font-size: 1rem; }
+    .verse-hadith-qr .english { font-size: .8rem; }
+    .reference { font-size: .4rem; }
+    .qr-code { width: 15px; }
 
-    table th, table td {
-        font-size: 2rem; /* Adjust font size for smaller screens */
-        padding: 8px; /* Adjust padding */
-    }
-
-    #current-time {
-        font-size: 1.5rem; /* Reduce clock font size on mobile */
-          margin: 1px 0;      /* reduce vertical gap further */
-    }
-
-    #next-prayer, #next-iqama , #date-display, #sunrise-time, #message1, #hijri-date, #message, #message2{
-        font-size: 1rem; /* Adjust font size for smaller screens */
-        margin-top: 2px; /* Add spacing for clarity */
-    }
-
-        #logo {
-    height: 20px; /* Adjust size as needed */
-    width: auto; /* Maintain aspect ratio */
-            }
-     #bismillah-text {
-            font-size: 9px; /* Smaller font size for mobile screens */
-        }
-    .arabic {
-    font-size: 8px;
-       margin: 0;                /* remove all margins */
-    line-height: 1.1;         /* compact lines */
+    .buttons-row {
+        flex-direction: column;  /* stack vertically */
+        align-items: center;
+        gap: 4px;
+        width: 100%;
+        margin: 0;   /* reset margins properly */
+            padding: 0;             /* prevent hidden padding gaps */
+    line-height: 1; /* tighter spacing */
   }
-
-  .english {
-    font-size: 6px;
-      margin-top: 0px; 
-       margin-bottom: 2px;
-  }
-   .reference {
-    font-size: 4px;
-    margin-left: 3px;
-       margin-top: 0px; 
-       margin-bottom: 2px;
-  }
-      .verse-hadith-qr {
-   display: flex;
-        flex-direction: column;
-        align-items: left;
-        justify-content: flex-start;
-        margin: 0;
-        padding: 0;
-        gap: 2px !important;   /* force small gap on mobile */
-  }
-
-  .qr-code {
-    display: block;
-        width: 50px;
-        max-width: 50px;
-        height: auto;
-        margin: 0 auto;
-   
-         }
-
-  .texts {
-    text-align: center;
-    margin: 0;
-        padding: 0;
-   }
-  .texts, .arabic, .english, .reference {
-    margin: 0;
-        padding: 0;
-        line-height: 1.1;
-     }
-.pretty-btn {
-    display: block;        /* force stacking */
-    width: 50%;            /* almost full width */
-    max-width: 400px;      /* not too wide */
-    margin: 6px auto;     /* center horizontally */
-  }
-
-
-}
-
-/* Default (PC/tablet) → side by side */
-.pretty-btn {
-  display: inline-block;
-  padding: 14px 24px;
-  margin: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #fff;
-  background: linear-gradient(135deg, #2e8b57, #3cb371);
-  border-radius: 12px;
-  text-decoration: none;
-  text-align: center;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  animation: pulse 1.8s infinite;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-/* Hover effect */
-.pretty-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(46, 139, 87, 0.8);
-}
-
-
-@keyframes pulse {
-  0%, 100% {
-    background: linear-gradient(135deg, #2e8b57, #3cb371);
-    box-shadow: 0 0 5px rgba(46, 139, 87, 0.6);
-  }
-  50% {
-    background: linear-gradient(135deg, #3cb371, #2e8b57);
-    box-shadow: 0 0 25px rgba(46, 139, 87, 1);
-  }
-}
-
-.verse-hadith-qr {
-  display: flex;
-  align-items: flex-start; /* Align top of QR with top of text */
-  gap: 15px;               /* Space between QR and text */
-      padding: 0;  /* Add some space around the text */
-
-}
-
-.qr-code {
-  width: 200px;    /* Adjust as needed */
-  height: auto;
-  flex-shrink: 0;  /* Prevent it from shrinking */
-}
-
-.texts {
-  flex: 1;          /* Take remaining space for verse + hadith */
-   text-align: center;
-}
-
-    </style>
     
+
+    .pretty-btn {
+        width: 70%;              /* nearly full width */
+        max-width: 200px;
+        font-size: .9rem;
+        margin: 0;              /* remove button self-margin */
+    }
+}
+</style>
 </head>
 <body>
-
-
 
 <main class="container">
     <div class="table-container">
@@ -400,44 +307,39 @@ table th {
             <tbody id="prayer-times-body"></tbody>
         </table>
     </div>
- <div id="right-container">
+    <div id="right-container">
         <div id="top-info" style="display: flex; align-items: center;">
-        <img id="logo" src="ciccbg.png" alt="Logo" >
-        <span id="bismillah-text">
-        بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم
-        </span>  </div>
-    <div>        
+            <img id="logo" src="ciccbg.png" alt="Logo" >
+            <span id="bismillah-text">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</span>
+        </div>
+        <div>        
             <span id="date-display"></span>
             <span id="hijri-date"></span>
+        </div>
+        <div id="current-time"></div>
+        <div>        
+            <span id="sunrise-time"></span>
+            <span id="next-iqama"></span>
+        </div>
+        <p id="next-prayer">Time Remaining: --:--:--</p>
+        <div style="text-align:center; margin: 5px 0;">
+            <a href="dua.html" class="pretty-btn">Daily Dua</a>
+            <a href="quran.html" class="pretty-btn">Read Quran</a>
+            <a href="idhkar.html" class="pretty-btn">Idhkar</a>
+            <a href="year.html" class="pretty-btn">Yearly Timetable</a>
+        </div>
+        <div class="verse-hadith-qr">
+            <img src="qrcode_prayertime.png" alt="QR Code" class="qr-code">
+            <div class="texts">
+                <div id="quran-verse"></div>
+                <div id="daily-hadith"></div>
+            </div>
+        </div>
     </div>
-        
-    <div id="current-time"></div> 
-                    
-    <div>        
-        <span id="sunrise-time"></span>
-        <span id="next-iqama"></span>
-    </div>
-    <p id="next-prayer">Time Remaining: --:--:--</p>
-   <div style="text-align:center; margin: 5px 0;">
-  <a href="dua.html" class="pretty-btn">Daily Dua</a>
-  <a href="quran.html" class="pretty-btn">Read Quran</a>
-  <a href="idhkar.html" class="pretty-btn">Idhkar </a>
-  <a href="year.html" class="pretty-btn">Year Timetable</a>
-</div>
-   <div class="verse-hadith-qr">
-  <img src="qrcode_prayertime.png" alt="QR Code" class="qr-code">
-  <div class="texts">
-    <div id="quran-verse"></div>
-    <div id="daily-hadith"></div>
-  </div>
-</div>
-
- </div>
 </main>
 
-
-    <script src="script.js"></script>
- <script>
+<script src="script.js"></script>
+<script>
   const verses = [
     { surah: "Al-Fatiha", ayah: 5, arabic: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", english: "It is You we worship and You we ask for help." },
     { surah: "Al-Baqarah", ayah: 45, arabic: "وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ", english: "Seek help through patience and prayer." },
@@ -503,23 +405,24 @@ table th {
     { arabic: "مَنْ يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", english: "Whoever relies upon Allah – He is sufficient for him.", reference: "Tirmidhi" }
   ];
 
-  const dayIndex = (new Date().getDate() - 1) % verses.length;
-  const verse = verses[dayIndex];
-  const hadith = hadiths[dayIndex];
+const dayIndex = (new Date().getDate() - 1) % verses.length;
+const verse = verses[dayIndex];
+const hadith = hadiths[dayIndex];
 
 document.getElementById("quran-verse").innerHTML = `
   <div class="arabic">${verse.arabic}</div>
   <div class="english">${verse.english} <span class="reference">(${verse.surah} ${verse.ayah})</span></div>
 `;
+
 document.getElementById("daily-hadith").innerHTML = `
   <div class="arabic">${hadith.arabic}</div>
   <div class="english">${hadith.english} <span class="reference">(${hadith.reference})</span></div>
 `;
+
+setTimeout(function () {
+    location.reload(true);
+}, 6 * 60 * 60 * 1000);
 </script>
-     <script>
-        setTimeout(function () {
-            location.reload(true); // true forces reload from server
-        }, 6 * 60 * 60 * 1000); // 6 hours in milliseconds
-    </script>
+
 </body>
 </html>
