@@ -126,7 +126,7 @@ function startCountdown() {
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
             nextIqamaElement.innerText = `Next Iqama: ${prayers[currentIqamaIndex].name} (${prayers[currentIqamaIndex].iqama})`;
-            nextPrayerElement.innerText = `Time to Jamat-e-${prayers[currentIqamaIndex].name} is: ${hours}:${minutes}:${seconds}`;
+            nextPrayerElement.innerText = `Time to ${prayers[currentIqamaIndex].name} is: ${hours}:${minutes}:${seconds}`;
         }
     }, 1000);
 }
