@@ -18,47 +18,40 @@
       box-sizing: border-box;
       text-align: center;
     }
-    .top-link {
-      align-self: flex-start;
-      margin: 10px;
-    }
-    .top-link a {
-      text-decoration: none;
-      color: #007bff;
-      font-weight: bold;
-      font-size: 16px;
-    }
-    .top-link a:hover {
-      color: #0056b3;
-    }
     h2 {
       margin: 10px 0;
       font-size: 1.5em;
     }
     .image-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-height: 75vh;  /* same as image max-height */
+  margin-bottom: 5px; /* gap below image */
+}
     img {
       max-width: 95%;
-      max-height: 75vh;   /* ✅ ensures it fits on screen */
-      object-fit: contain; /* ✅ keeps proportions */
+      max-height: 75vh;
+      object-fit: contain;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     .controls {
-      margin: 10px 0;
+      margin: 5px 0;
       display: flex;
       justify-content: center;
-      gap: 15px;
+      gap: 6px;
       flex-wrap: wrap;
     }
+    .controls div {
+  display: flex;
+  justify-content: center;
+  gap: 8px;            /* reduce horizontal space between buttons */
+}
     button {
-      padding: 12px 25px;
-      font-size: 18px;
+      padding: 8px 16px;
+      font-size: 16px;
       border: none;
       border-radius: 8px;
       background: #007bff;
@@ -77,55 +70,111 @@
   </style>
 </head>
 <body>
-  <!-- Back link -->
-  <div class="top-link">
-    <a href="https://drtjamal.github.io/Prayer-Time/index.html">⬅ Back to Prayer Time</a>
-  </div>
 
   <h2>Collection of Duas</h2>
 
-  <!-- Dua image in container -->
+  <!-- Dua image -->
   <div class="image-container">
-    <img id="duaImage" src="dua/dua1.jpeg" alt="Dua Image">
+    <img id="duaImage" src="" alt="Dua Image">
   </div>
 
   <!-- Controls -->
   <div class="controls">
+     <div>
     <button onclick="prevDua()">⬅ Previous</button>
     <button onclick="nextDua()">Next ➡</button>
+    </div>
+    <div>
+    <button onclick="downloadDua()">⬇ Download</button>
+    <button onclick="shareDua()">🔗 Share</button>
+    <button onclick="goBack()">🏠 Back</button>
+    </div>
   </div>
 
   <!-- Counter -->
-  <div class="counter" id="counter">Dua 1 of 100</div>
+  <div class="counter" id="counter">Loading...</div>
 
   <script>
-    let current = 1;
-    const total = 100; // total number of duas
+    let duaFiles = [];
+    let current = 0;
+
+    const localJSON = "dua-list.json"; 
+    const remoteJSON = "https://drtjamal.github.io/Prayer-Time/dua-list.json";
+
+    // Try fetching remote JSON first, fallback to local if offline
+    async function loadDuaList() {
+      try {
+        const res = await fetch(remoteJSON, {cache: "reload"});
+        if (!res.ok) throw new Error("Remote fetch failed");
+        const data = await res.json();
+        duaFiles = data.files;
+        localStorage.setItem("duaCache", JSON.stringify(duaFiles));
+        console.log("Loaded from GitHub ✅");
+      } catch (e) {
+        console.log("Using local cache/offline data");
+        const cache = localStorage.getItem("duaCache");
+        if (cache) {
+          duaFiles = JSON.parse(cache);
+        } else {
+          // ultimate fallback to local dua-list.json
+          const res = await fetch(localJSON);
+          const data = await res.json();
+          duaFiles = data.files;
+        }
+      }
+      showDua();
+    }
 
     function showDua() {
-      document.getElementById('duaImage').src = 'dua/dua' + current + '.jpeg';
-      document.getElementById('counter').innerText = 'Dua ' + current + ' of ' + total;
+      if (duaFiles.length === 0) return;
+      document.getElementById("duaImage").src = "dua/" + duaFiles[current];
+      document.getElementById("counter").innerText =
+        "Dua " + (current + 1) + " of " + duaFiles.length;
     }
 
     function nextDua() {
-      if (current < total) current++;
-      else current = 1; // loop back to start
+      if (duaFiles.length === 0) return;
+      current = (current + 1) % duaFiles.length;
       showDua();
     }
 
     function prevDua() {
-      if (current > 1) current--;
-      else current = total; // loop back to end
+      if (duaFiles.length === 0) return;
+      current = (current - 1 + duaFiles.length) % duaFiles.length;
       showDua();
     }
+
+    function downloadDua() {
+      if (duaFiles.length === 0) return;
+      const link = document.createElement("a");
+      link.href = "dua/" + duaFiles[current];
+      link.download = duaFiles[current];
+      link.click();
+    }
+    function goBack() {
+    window.location.href = "index.html";
+  }
+
+    async function shareDua() {
+      if (duaFiles.length === 0) return;
+      const file = "dua/" + duaFiles[current];
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Dua",
+            text: "Check out this dua",
+            url: file
+          });
+        } catch (err) {
+          alert("Sharing canceled or failed");
+        }
+      } else {
+        alert("Share not supported on this device");
+      }
+    }
+
+    loadDuaList();
   </script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
