@@ -4,7 +4,7 @@ const nextIqamaElement = document.getElementById("next-iqama");
 const nextPrayerElement = document.getElementById("next-prayer");
 
 let prayers = [
-    { name: "Fajr", class: "fajr-row" },
+    { name: "Fajr", iqamaOffset: 15, class: "fajr-row" },
     { name: "Dhuhr", class: "dhuhr-row" },
     { name: "Asr", class: "asr-row" },
     { name: "Maghrib", iqamaOffset: 5, class: "maghrib-row" },
