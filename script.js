@@ -8,7 +8,7 @@ let prayers = [
     { name: "Dhuhr", class: "dhuhr-row" },
     { name: "Asr", class: "asr-row" },
     { name: "Maghrib", iqamaOffset: 5, class: "maghrib-row" },
-    { name: "Isha", iqamaOffset: 3, class: "isha-row" }
+    { name: "Isha", iqamaOffset: 1, class: "isha-row" }
 ];
 
 let weeklyIqama = {}; // Will hold iqama times from JSON
