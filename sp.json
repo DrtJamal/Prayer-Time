@@ -1,0 +1,32 @@
+{
+  "Date": "25/10/2026",
+  "Weekday": "Sunday",
+  "Sunrise": "7:07",
+  "Prayers": [
+    {
+      "Name": "Fajr",
+      "Athan": "5:26",
+      "Iqama": "06:45"
+    },
+    {
+      "Name": "Dhuhr",
+      "Athan": "12:14",
+      "Iqama": "13:30"
+    },
+    {
+      "Name": "Asr",
+      "Athan": "14:43",
+      "Iqama": "16:15"
+    },
+    {
+      "Name": "Maghrib",
+      "Athan": "17:16",
+      "Iqama": "17:21"
+    },
+    {
+      "Name": "Isha",
+      "Athan": "18:51",
+      "Iqama": "20:15"
+    }
+  ]
+}
