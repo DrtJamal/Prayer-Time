@@ -10,7 +10,7 @@
     margin: 0; min-height: 100vh; font-family: Arial, sans-serif;
     background: #4CAF50; color: #111; display: flex; align-items: center;
     justify-content: center; padding: 18px;
-  }
+  
   main {
     width: min(1500px, 100%); display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -93,46 +93,75 @@
   </section>
 </main>
 
+
 <script>
-/*
-  EDIT THIS SECTION for each announcement.
-  Times must use 24-hour HH:MM format, e.g. "06:15".
-  Replace every "EDIT" below with the confirmed local time.
-*/
-const announcement = {
-  date: "25 October 2026",
-  weekday: "Sunday",
-  sunrise: "EDIT",
-  prayers: [
-    { name: "Fajr",    athan: "EDIT", iqama: "EDIT", className: "fajr-row" },
-    { name: "Dhuhr",   athan: "EDIT", iqama: "EDIT", className: "dhuhr-row" },
-    { name: "Asr",     athan: "EDIT", iqama: "EDIT", className: "asr-row" },
-    { name: "Maghrib", athan: "EDIT", iqama: "EDIT", className: "maghrib-row" },
-    { name: "Isha",    athan: "EDIT", iqama: "EDIT", className: "isha-row" }
-  ]
-};
+async function loadPrayerTimes() {
+    try {
+        const response = await fetch('./sp.json');
 
-document.getElementById("selected-date").textContent =
-  announcement.weekday + ", " + announcement.date;
+        if (!response.ok) {
+            throw new Error('Could not load sp.json: ' + response.status);
+        }
 
-document.getElementById("sunrise-time").textContent =
-  "🌅 Sunrise: " + (announcement.sunrise === "EDIT" ? "To be confirmed" : announcement.sunrise);
+        const data = await response.json();
 
-const tbody = document.getElementById("prayer-times-body");
-announcement.prayers.forEach(prayer => {
-  const row = document.createElement("tr");
-  row.className = prayer.className;
+        // Display the selected date
+        const dateParts = data.Date.split('/');
+        const date = new Date(
+            Number(dateParts[2]),
+            Number(dateParts[1]) - 1,
+            Number(dateParts[0])
+        );
 
-  const athan = prayer.athan === "EDIT" ? "—" : prayer.athan;
-  const iqama = prayer.iqama === "EDIT" ? "—" : prayer.iqama;
+        const weekday = data.Weekday ||
+            date.toLocaleDateString('en-GB', { weekday: 'long' });
 
-  [prayer.name, athan, iqama].forEach(value => {
-    const cell = document.createElement("td");
-    cell.textContent = value;
-    row.appendChild(cell);
-  });
-  tbody.appendChild(row);
-});
+        document.getElementById('selected-date').textContent =
+            weekday + ', ' + date.toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+
+        // Display sunrise
+        document.getElementById('sunrise-time').textContent =
+            '🌅 Sunrise: ' + (data.Sunrise || '—');
+
+        // Display prayer timings
+        const tbody = document.getElementById('prayer-times-body');
+        tbody.innerHTML = '';
+
+        const rowClasses = {
+            Fajr: 'fajr-row',
+            Dhuhr: 'dhuhr-row',
+            Asr: 'asr-row',
+            Maghrib: 'maghrib-row',
+            Isha: 'isha-row'
+        };
+
+        data.Prayers.forEach(prayer => {
+            const row = document.createElement('tr');
+            row.className = rowClasses[prayer.Name] || '';
+
+            [prayer.Name, prayer.Athan || '—', prayer.Iqama || '—']
+                .forEach(value => {
+                    const cell = document.createElement('td');
+                    cell.textContent = value;
+                    row.appendChild(cell);
+                });
+
+            tbody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error('Error loading prayer times:', error);
+        document.getElementById('sunrise-time').textContent =
+            'Unable to load prayer times. Check sp.json.';
+    }
+}
+
+loadPrayerTimes();
 </script>
+
 </body>
 </html>
