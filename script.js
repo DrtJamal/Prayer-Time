@@ -33,8 +33,15 @@ async function fetchPrayerTimes() {
         });
 
         const today = new Date();
-        const formattedDate = today.toLocaleDateString("en-GB"); // DD/MM/YYYY
-        const todayTiming = prayerData.find(entry => entry.Date === formattedDate);
+        const todayDay = String(today.getDate()).padStart(2, "0");
+        const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
+
+        const todayTiming = prayerData.find(entry => {
+            const [day, month] = entry.Date.split("/");
+            return day === todayDay && month === todayMonth;
+        });
+
+        const formattedDate = today.toLocaleDateString("en-GB");
 
         if (todayTiming) {
             populatePrayerTable(todayTiming);
