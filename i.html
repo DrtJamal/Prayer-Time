@@ -89,7 +89,20 @@
         font-weight: bold;
         color: red;
     }
+.current-prayer {
+    outline: 5px solid red;
+    outline-offset: -5px;
+    animation: borderBlink 1s infinite;
+}
 
+@keyframes borderBlink {
+    0%, 100% {
+        outline-color: red;
+    }
+    50% {
+        outline-color: transparent;
+    }
+}
     @keyframes blink {
         0%, 50% {
             opacity: 1;
@@ -169,6 +182,30 @@
     margin-top: 10px;
     background-color: white;
     word-wrap: break-word; /* Prevent text overflow */
+}
+#prohibited-time {
+    display: none;
+    background-color: red;
+    color: white;
+    font-size: 4rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    border: 6px solid yellow;
+    border-radius: 8px;
+    margin: 10px;
+    animation: prohibitedBlink 1s infinite;
+}
+
+@keyframes prohibitedBlink {
+    0%, 100% {
+        background-color: red;
+        border-color: yellow;
+    }
+    50% {
+        background-color: darkred;
+        border-color: white;
+    }
 }
 
 #next-iqama {
@@ -276,6 +313,7 @@
         <p id="hijri-date"></p>
         <div id="next-iqama"></div>  <!-- The next iqama time will be displayed here -->
         <div id="next-prayer"></div> <!-- Next Adhan section -->
+        <div id="prohibited-time"></div>
     <h1 style="margin-bottom: 0;">Jummah Khutbah start at 1315</h1>
         <p style="margin-top: 0;">
             CICC is a charity organization, Charity No. RCN 20200211.
@@ -283,7 +321,7 @@
 
     </div>
 </main>
-<script src="script.js"></script>
+<script src="script-test.js"></script>
 <script>
 setTimeout(function () {
     location.reload(true);
