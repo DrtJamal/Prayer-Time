@@ -15,16 +15,32 @@ const sunriseProhibitionMinutes = 15;
 const zawalProhibitionMinutes = 10;
 
 let weeklyIqama = {}; // Will hold iqama times from JSON
+let prayerDataCache = [];
+let currentDayTiming = null;
+let displayDayTiming = null;
 let currentIqamaIndex = null;
 let countdownInterval = null;
 let lastSunriseBeepDate = null;
 let lastZawalBeepDate = null;
+
+
+function getPrayerTimingForDate(prayerData, date) {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+
+    return prayerData.find(entry => {
+        const [entryDay, entryMonth] = entry.Date.split("/");
+        return entryDay === day && entryMonth === month;
+    });
+}
+
 
 async function fetchPrayerTimes() {
     try {
         // Fetch prayer times JSON
         const prayerResponse = await fetch('prayer-times.json');
         const prayerData = await prayerResponse.json();
+        prayerDataCache = prayerData;
 
         // Fetch weekly iqama JSON
         const iqamaResponse = await fetch('iqama.json');
@@ -42,20 +58,20 @@ async function fetchPrayerTimes() {
         const todayDay = String(today.getDate()).padStart(2, "0");
         const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
 
-        const todayTiming = prayerData.find(entry => {
-            const [day, month] = entry.Date.split("/");
-            return day === todayDay && month === todayMonth;
-        });
+        const todayTiming = getPrayerTimingForDate(prayerData, today);
+        currentDayTiming = todayTiming;
+        displayDayTiming = { ...todayTiming };
 
         const formattedDate = today.toLocaleDateString("en-GB");
 
 
         if (todayTiming) {
-            populatePrayerTable(todayTiming);
+            populatePrayerTable(displayDayTiming);
+            updateRollingTimings();
             startCountdown();
 
             document.getElementById("date-display").innerText = `📅 Date: ${formattedDate}`;
-            document.getElementById("sunrise-time").innerText = `🌅 Sunrise: ${todayTiming.Sunrise || "-"}`;
+            document.getElementById("sunrise-time").innerText = `🌅 Sunrise: ${displayDayTiming.Sunrise || "-"}`;
             updatePrayerHighlight();
         } else {
             console.error("Prayer times for today's date not found in JSON.");
@@ -84,7 +100,48 @@ function populatePrayerTable(timings) {
             <td>${iqamaTime}</td>
         `;
         prayerTimesBody.appendChild(row);
+  
     });
+}
+
+function updateRollingTimings() {
+    if (!currentDayTiming || !displayDayTiming || !prayerDataCache.length) return;
+
+    const now = new Date();
+    const minutesNow = now.getHours() * 60 + now.getMinutes();
+
+    const toMinutes = time => {
+        const [h, m] = time.split(":").map(Number);
+        return h * 60 + m;
+    };
+
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const tomorrowTiming = getPrayerTimingForDate(prayerDataCache, tomorrow);
+    if (!tomorrowTiming) return;
+
+    const roll = (name, className) => {
+        displayDayTiming[name] = tomorrowTiming[name];
+        const cell = document.querySelector(`.${className} .adhan-time`);
+        if (cell) cell.textContent = tomorrowTiming[name];
+    };
+
+    if (minutesNow >= toMinutes(currentDayTiming.Sunrise) + sunriseProhibitionMinutes) {
+        roll("Fajr", "fajr-row");
+        displayDayTiming.Sunrise = tomorrowTiming.Sunrise;
+        document.getElementById("sunrise-time").innerText =
+            `🌅 Sunrise: ${tomorrowTiming.Sunrise || "-"}`;
+    }
+
+    if (minutesNow >= toMinutes(currentDayTiming.Asr))
+        roll("Dhuhr", "dhuhr-row");
+
+    if (minutesNow >= toMinutes(currentDayTiming.Maghrib))
+        roll("Asr", "asr-row");
+
+    if (minutesNow >= toMinutes(currentDayTiming.Isha))
+        roll("Maghrib", "maghrib-row");
 }
 
 function getCurrentTime() {
@@ -189,48 +246,28 @@ function timeToMinutes(time) {
 }
 
 function updatePrayerHighlight() {
+    if (!currentDayTiming) return;
+
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-    // Remove the previous highlight
     document.querySelectorAll(".current-prayer").forEach(row => {
         row.classList.remove("current-prayer");
     });
 
-    // Get today's prayer times
-    const today = new Date();
-    const todayDay = String(today.getDate()).padStart(2, "0");
-    const todayMonth = String(today.getMonth() + 1).padStart(2, "0");
-
-    // We will use the prayer times already displayed in the table
     const rows = document.querySelectorAll("#prayer-times-body tr");
 
-    let prayerTimes = {};
-
-    rows.forEach(row => {
-        const prayerName = row.cells[0].innerText;
-        const adhanTime = row.cells[1].innerText;
-        prayerTimes[prayerName] = adhanTime;
-    });
-
-    // Sunrise time is displayed separately
-    const sunriseText = document.getElementById("sunrise-time").innerText;
-    const sunriseMatch = sunriseText.match(/(\d{1,2}:\d{2})/);
-    const sunriseTime = sunriseMatch ? sunriseMatch[1] : null;
-
-    // Convert times into minutes
-    const fajr = timeToMinutes(prayerTimes["Fajr"]);
-    const dhuhr = timeToMinutes(prayerTimes["Dhuhr"]);
-    const asr = timeToMinutes(prayerTimes["Asr"]);
-    const maghrib = timeToMinutes(prayerTimes["Maghrib"]);
-    const isha = timeToMinutes(prayerTimes["Isha"]);
-    const sunrise = timeToMinutes(sunriseTime);
+    const fajr = timeToMinutes(currentDayTiming.Fajr);
+    const dhuhr = timeToMinutes(currentDayTiming.Dhuhr);
+    const asr = timeToMinutes(currentDayTiming.Asr);
+    const maghrib = timeToMinutes(currentDayTiming.Maghrib);
+    const isha = timeToMinutes(currentDayTiming.Isha);
+    const sunrise = timeToMinutes(currentDayTiming.Sunrise);
 
     if ([fajr, dhuhr, asr, maghrib, isha, sunrise].some(t => t === null)) {
         return;
     }
 
-    // Determine the current prayer period
     let currentPrayer = null;
 
     if (currentMinutes >= fajr && currentMinutes < sunrise) {
@@ -248,19 +285,20 @@ function updatePrayerHighlight() {
         currentPrayer = "Isha";
     }
 
-    // Apply the highlight to the current prayer row
     if (currentPrayer) {
-        const currentRow = rows.length
-            ? Array.from(rows).find(row => row.cells[0].innerText === currentPrayer)
-            : null;
+        const currentRow = Array.from(rows).find(
+            row => row.cells[0].innerText === currentPrayer
+        );
 
         if (currentRow) {
             currentRow.classList.add("current-prayer");
         }
     }
 }
+
 setInterval(updatePrayerHighlight, 1000);
 setInterval(updateProhibitedTime, 1000);
+setInterval(updateRollingTimings, 60 * 1000);
 
 function showProhibitedTime(message, remainingSeconds = null) {
     prohibitedTimeElement.style.display = "block";
@@ -280,6 +318,8 @@ function showProhibitedTime(message, remainingSeconds = null) {
     }
 }
 function updateProhibitedTime() {
+    if (!currentDayTiming) return;
+
     const now = new Date();
 
     const currentSeconds =
@@ -290,38 +330,20 @@ function updateProhibitedTime() {
     const todayKey =
         `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
 
-    // Get Sunrise time
-    const sunriseText =
-        document.getElementById("sunrise-time").innerText;
-
-    const sunriseMatch = sunriseText.match(/(\d{1,2}:\d{2})/);
-
-    // Get Dhuhr Athan time from the prayer table
-    const rows = document.querySelectorAll("#prayer-times-body tr");
-
-    const dhuhrRow = Array.from(rows).find(
-        row => row.cells[0].innerText === "Dhuhr"
-    );
-
-    if (!sunriseMatch || !dhuhrRow) return;
-
-    const sunriseMinutes = timeToMinutes(sunriseMatch[1]);
-    const dhuhrMinutes = timeToMinutes(dhuhrRow.cells[1].innerText);
+    const sunriseMinutes = timeToMinutes(currentDayTiming.Sunrise);
+    const dhuhrMinutes = timeToMinutes(currentDayTiming.Dhuhr);
 
     if (sunriseMinutes === null || dhuhrMinutes === null) return;
 
-    // Calculate Sunrise prohibition period
     const sunriseStart = sunriseMinutes * 60;
     const sunriseEnd =
         (sunriseMinutes + sunriseProhibitionMinutes) * 60;
 
-    // Calculate Zawal prohibition period
     const zawalStart =
         (dhuhrMinutes - zawalProhibitionMinutes) * 60;
 
     const zawalEnd = dhuhrMinutes * 60;
 
-    // 1. Sunrise prohibition active
     if (currentSeconds >= sunriseStart &&
         currentSeconds < sunriseEnd) {
 
@@ -332,7 +354,6 @@ function updateProhibitedTime() {
         return;
     }
 
-    // 2. Sunrise prohibition expired
     if (currentSeconds >= sunriseEnd &&
         currentSeconds < sunriseEnd + 10) {
 
@@ -345,7 +366,6 @@ function updateProhibitedTime() {
         return;
     }
 
-    // 3. Zawal prohibition active
     if (currentSeconds >= zawalStart &&
         currentSeconds < zawalEnd) {
 
@@ -356,7 +376,6 @@ function updateProhibitedTime() {
         return;
     }
 
-    // 4. Zawal prohibition expired
     if (currentSeconds >= zawalEnd &&
         currentSeconds < zawalEnd + 10) {
 
@@ -365,12 +384,9 @@ function updateProhibitedTime() {
             lastZawalBeepDate = todayKey;
         }
 
-        showProhibitedTime(
-            "ZAWAL EXPIRED — DHUHR ATHAN NOW"
-        );
+        showProhibitedTime("ZAWAL EXPIRED — DHUHR ATHAN NOW");
         return;
     }
 
-    // 5. No prohibited period
     prohibitedTimeElement.style.display = "none";
 }
