@@ -33,7 +33,37 @@ function getPrayerTimingForDate(prayerData, date) {
         return entryDay === day && entryMonth === month;
     });
 }
+function updatePrayerForecast() {
+    const forecastBody = document.getElementById("forecast-body");
+    if (!forecastBody || !prayerDataCache.length) return;
 
+    forecastBody.innerHTML = "";
+
+    for (let i = 0; i < 3; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+
+        const timing = getPrayerTimingForDate(prayerDataCache, date);
+        if (!timing) continue;
+
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${day}/${month}</td>
+            <td>${timing.Fajr || "-"}</td>
+            <td>${timing.Sunrise || "-"}</td>
+            <td>${timing.Dhuhr || "-"}</td>
+            <td>${timing.Asr || "-"}</td>
+            <td>${timing.Maghrib || "-"}</td>
+            <td>${timing.Isha || "-"}</td>
+        `;
+
+        forecastBody.appendChild(row);
+    }
+}
 
 async function fetchPrayerTimes() {
     try {
@@ -41,6 +71,7 @@ async function fetchPrayerTimes() {
         const prayerResponse = await fetch('prayer-times.json');
         const prayerData = await prayerResponse.json();
         prayerDataCache = prayerData;
+        updatePrayerForecast();
 
         // Fetch weekly iqama JSON
         const iqamaResponse = await fetch('iqama.json');
@@ -390,3 +421,4 @@ function updateProhibitedTime() {
 
     prohibitedTimeElement.style.display = "none";
 }
+setInterval(updatePrayerForecast, 60 * 1000);
