@@ -135,6 +135,22 @@ function populatePrayerTable(timings) {
     });
 }
 
+function updateIqamaTimings() {
+    prayers.forEach(prayer => {
+
+        const iqamaTime = prayer.iqamaOffset
+            ? addMinutes(displayDayTiming[prayer.name], prayer.iqamaOffset)
+            : weeklyIqama[prayer.name] || "-";
+
+        prayer.iqama = iqamaTime;
+
+        const row = document.querySelector(`.${prayer.class}`);
+        if (row && row.cells[2]) {
+            row.cells[2].textContent = iqamaTime;
+        }
+    });
+}
+
 function updateRollingTimings() {
     if (!currentDayTiming || !displayDayTiming || !prayerDataCache.length) return;
 
@@ -152,10 +168,17 @@ function updateRollingTimings() {
     const tomorrowTiming = getPrayerTimingForDate(prayerDataCache, tomorrow);
     if (!tomorrowTiming) return;
 
+    let timingRolled = false;
+
     const roll = (name, className) => {
-        displayDayTiming[name] = tomorrowTiming[name];
-        const cell = document.querySelector(`.${className} .adhan-time`);
-        if (cell) cell.textContent = tomorrowTiming[name];
+        if (displayDayTiming[name] !== tomorrowTiming[name]) {
+            displayDayTiming[name] = tomorrowTiming[name];
+
+            const cell = document.querySelector(`.${className} .adhan-time`);
+            if (cell) cell.textContent = tomorrowTiming[name];
+
+            timingRolled = true;
+        }
     };
 
     if (minutesNow >= toMinutes(currentDayTiming.Sunrise) + sunriseProhibitionMinutes) {
@@ -173,6 +196,11 @@ function updateRollingTimings() {
 
     if (minutesNow >= toMinutes(currentDayTiming.Isha))
         roll("Maghrib", "maghrib-row");
+    
+    if (timingRolled) {
+        updateIqamaTimings();
+        startCountdown();
+    }
 }
 
 function getCurrentTime() {
