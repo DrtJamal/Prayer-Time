@@ -68,7 +68,7 @@ function updatePrayerForecast() {
 async function fetchPrayerTimes() {
     try {
         // Fetch prayer times JSON
-        const prayerResponse = await fetch('prayer-times.json');
+        const prayerResponse = await fetch('prayer-times-2027.json');
         const prayerData = await prayerResponse.json();
         prayerDataCache = prayerData;
         updatePrayerForecast();
