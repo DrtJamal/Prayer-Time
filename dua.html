@@ -67,6 +67,21 @@
       font-weight: bold;
       font-size: 16px;
     }
+
+    .jump-controls {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin: 5px 0 15px;
+}
+
+.jump-controls input {
+    width: 110px;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
   </style>
 </head>
 <body>
@@ -93,13 +108,30 @@
 
   <!-- Counter -->
   <div class="counter" id="counter">Loading...</div>
-
+<div class="jump-controls">
+    <input type="number" id="duaNumber"
+           placeholder="Dua number"
+           min="1">
+    <button onclick="jumpToDua()">Go</button>
+</div>
   <script>
     let duaFiles = [];
     let current = 0;
 
     const localJSON = "dua-list.json"; 
     const remoteJSON = "https://drtjamal.github.io/Prayer-Time/dua-list.json";
+function jumpToDua() {
+    const number = Number(document.getElementById("duaNumber").value);
+
+    if (!Number.isInteger(number) || number < 1 || number > duaFiles.length) {
+        alert(`Please enter a number between 1 and ${duaFiles.length}`);
+        return;
+    }
+
+    current = number - 1;
+    showDua();
+}
+
 
     // Try fetching remote JSON first, fallback to local if offline
     async function loadDuaList() {
